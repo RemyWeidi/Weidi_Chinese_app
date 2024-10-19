@@ -180,11 +180,625 @@
 
     <script>
         const sentences = [
-            {
-                english: "The company's development strategy needs to be aligned with global market changes to ensure long-term success and competitiveness in the international business environment.",
-                chinese: "公司 的 发展 战略 需要 与 全球 市场 的 变化 保持 一致 以 确保 长期 的 成功 和 在 国际 商业 环境 中 的 竞争力",
+
+        {
+                english: "He is confident about this project.",
+                chinese: "他 对 这个 项目 充满 信心",
             },
-            // Ajoutez ici les autres phrases
+            {
+                english: "Her grades have improved significantly compared to last year.",
+                chinese: "她 的 成绩 比 去年 有 了 明显 的 进步",
+            },
+            {
+                english: "We need to discuss this plan further.",
+                chinese: "我们 需要 进一步 商量 这个 计划",
+            },
+            {
+                english: "He is studying hard, preparing for the exam.",
+                chinese: "他 正在 努力 学习 准备 考试",
+            },
+            {
+                english: "She is a very responsible teacher.",
+                chinese: "她 是 一位 非常 有 责任心 的 老师",
+            },
+            {
+                english: "Even if faced with difficulties, you shouldn't give up.",
+                chinese: "即使 遇到 困难 也 不能 放弃",
+            },
+            {
+                english: "He runs every morning to stay healthy.",
+                chinese: "他 每天 早晨 跑步 以 保持 健康",
+            },
+            {
+                english: "He was very confident during the interview.",
+                chinese: "在 面试 中 他 表现 得 很 自信",
+            },
+            {
+                english: "The teacher is happy with the students' progress.",
+                chinese: "老师 对 学生 的 进步 感到 高兴",
+            },
+            {
+                english: "The city's transportation is very convenient.",
+                chinese: "这个 城市 的 交通 非常 方便",
+            },
+            {
+                english: "He has a strong interest in science and technology.",
+                chinese: "他 对 科学 技术 有着 浓厚 的 兴趣",
+            },
+            {
+                english: "The company is hiring new employees.",
+                chinese: "公司 正在 招聘 新 的 员工",
+            },
+            {
+                english: "He gave a detailed explanation of this issue.",
+                chinese: "他 对 这个 问题 做 了 详细 的 解释",
+            },
+            {
+                english: "We must overcome these difficulties.",
+                chinese: "我们 必须 克服 这些 困难",
+            },
+            {
+                english: "The content of this book is very rich and interesting.",
+                chinese: "这本 书 的 内容 非常 丰富 有趣",
+            },
+            {
+                english: "He is a very experienced doctor.",
+                chinese: "他 是 一位 非常 有 经验 的 医生",
+            },
+            {
+                english: "The teacher criticized him for not completing his homework.",
+                chinese: "老师 批评 了 他 不 完成 作业 的 行为",
+            },
+            {
+                english: "After years of hard work, they finally succeeded.",
+                chinese: "经过 几年 的 努力 他们 终于 成功 了",
+            },
+            {
+                english: "The success of this project cannot be achieved without team collaboration.",
+                chinese: "这个 项目 的 成功 离不开 团队 的 合作",
+            },
+            {
+                english: "His health has improved recently.",
+                chinese: "他 的 健康 状况 最近 有 所 改善",
+            },
+            {
+                english: "We need to find a better solution.",
+                chinese: "我们 需要 找到 更 好 的 解决 方案",
+            },
+            {
+                english: "We cannot back down in the face of challenges.",
+                chinese: "面对 挑战 我们 不能 退缩",
+            },
+            {
+                english: "He is a very patient person, especially with children.",
+                chinese: "他 是 个 很 有 耐心 的 人 特别 是 对 孩子",
+            },
+            {
+                english: "Their relationship is very harmonious.",
+                chinese: "他们 之间 的 关系 非常 融洽",
+            },
+            {
+                english: "She is an important leader in the company.",
+                chinese: "她 在 公司 里 是 一位 重要 的 领导者",
+            },
+            {
+                english: "Their collaboration went very smoothly.",
+                chinese: "他们 的 合作 非常 顺利",
+            },
+            {
+                english: "He spends two hours every day studying Chinese.",
+                chinese: "他 每天 花 两个 小时 学习 中文",
+            },
+            {
+                english: "This decision is crucial for the company's future development.",
+                chinese: "这个 决定 对 公司 未来 的 发展 至关重要",
+            },
+            {
+                english: "Her success is the result of her hard work.",
+                chinese: "她 的 成功 是 她 努力 的 结果",
+            },
+            {
+                english: "He has mastered this new technology.",
+                chinese: "他 已经 掌握 了 这项 新 技术",
+            },
+            {
+                english: "The company provides a good working environment for its employees.",
+                chinese: "公司 为 员工 提供 了 良好 的 工作 环境",
+            },
+            {
+                english: "He is preparing for next week's exam.",
+                chinese: "他 正在 为 下周 的 考试 做 准备",
+            },
+            {
+                english: "We must learn to face setbacks in life.",
+                chinese: "我们 要 学会 面对 生活 中 的 挫折",
+            },
+            {
+                english: "The cultural atmosphere of this city is very rich.",
+                chinese: "这个 城市 的 文化 氛围 非常 丰富",
+            },
+            {
+                english: "He exercises every day.",
+                chinese: "他 每天 都 坚持 锻炼 身体",
+            },
+            {
+                english: "His attitude towards work is very positive.",
+                chinese: "他 对 工作 的 态度 非常 积极",
+            },
+            {
+                english: "She overcame language barriers through hard work.",
+                chinese: "她 通过 努力 克服 了 语言 障碍",
+            },
+            {
+                english: "The company's sales increased by 30%.",
+                chinese: "公司 的 销售额 增长 了 30%",
+            },
+            {
+                english: "He is a very creative designer.",
+                chinese: "他 是 一位 非常 有 创造力 的 设计师",
+            },
+            {
+                english: "This project requires us to put in more effort.",
+                chinese: "这个 项目 需要 我们 付出 更 多 的 努力",
+            },
+            {
+                english: "He has a deep understanding of art.",
+                chinese: "他 对 艺术 有着 深刻 的 理解",
+            },
+            {
+                english: "Their friendship has withstood the test of time.",
+                chinese: "他们 的 友谊 经过 了 多年 的 考验",
+            },
+            {
+                english: "He is learning how to master new technology.",
+                chinese: "他 正在 学习 如何 掌握 新 技术",
+            },
+            {
+                english: "We need to make more effective use of our time.",
+                chinese: "我们 需要 更加 有效 地 利用 时间",
+            },
+            {
+                english: "Her passion for work has brought her many opportunities.",
+                chinese: "她 对 工作 的 热情 让 她 获得 了 很多 机会",
+            },
+            {
+                english: "He has shown a high sense of responsibility in his work.",
+                chinese: "他 在 工作 中 表现 出 了 高度 的 责任感",
+            },
+            {
+                english: "We should encourage students to actively participate in activities.",
+                chinese: "我们 应该 鼓励 学生 积极 参与 活动",
+            },
+            {
+                english: "His management style is very effective.",
+                chinese: "他 的 管理 方式 非常 有效",
+            },
+            {
+                english: "He completed the task in such a short time.",
+                chinese: "在 这么 短 的 时间 内 他 完成 了 任务",
+            },
+            {
+                english: "Their collaboration has achieved remarkable results.",
+                chinese: "他们 的 合作 取得 了 显著 的 成果",
+            },
+            {
+                english: "She is full of hope for the future.",
+                chinese: "她 对 未来 充满 了 希望",
+            },
+            {
+                english: "He spends time learning new things every day.",
+                chinese: "他 每天 都 会 花 时间 学习 新 的 东西",
+            },
+            {
+                english: "They made many suggestions for this plan.",
+                chinese: "他们 对 这个 计划 提出 了 许多 建议",
+            },
+            {
+                english: "He has a deep interest in music.",
+                chinese: "他 对 音乐 有着 深厚 的 兴趣",
+            },
+            {
+                english: "He is researching how to improve this process.",
+                chinese: "他 正在 研究 如何 改进 这个 流程",
+            },
+            {
+                english: "He never backs down in the face of challenges.",
+                chinese: "面对 挑战 他 从不 退缩",
+            },
+            {
+                english: "He is one of the most creative employees in the company.",
+                chinese: "他 是 公司 里 最 有 创造力 的 员工 之一",
+            },
+            {
+                english: "He gained a deeper understanding of the importance of teamwork.",
+                chinese: "他 对 团队 合作 的 重要性 有 了 更 深 的 理解",
+            },
+            {
+                english: "The quality of this company's products has been widely recognized.",
+                chinese: "这家 公司 的 产品 质量 得到 了 广泛 的 认可",
+            },
+            {
+                english: "She works hard, hoping to get a higher position.",
+                chinese: "她 努力 工作 希望 能够 获得 更 高 的 职位",
+            },
+            {
+                english: "He remained calm in the face of such a complicated situation.",
+                chinese: "面对 如此 复杂 的 情况 他 保持 了 冷静",
+            },
+            {
+                english: "We need to complete this project within the limited time.",
+                chinese: "我们 需要 在 有限 的 时间 内 完成 这个 项目",
+            },
+            {
+                english: "Her positive work attitude has been recognized by the management.",
+                chinese: "她 的 工作 态度 非常 积极 得到 了 领导 的 认可",
+            },
+            {
+                english: "Their research results contributed to the development of science.",
+                chinese: "他们 的 研究 成果 为 科学 的 发展 做出 了 贡献",
+            },
+            {
+                english: "The company decided to adopt a new strategy to respond to market changes.",
+                chinese: "公司 决定 采取 新 的 策略 来 应对 市场 变化",
+            },
+            {
+                english: "He demonstrated great creativity and efficiency at work.",
+                chinese: "他 在 工作 中 表现 出 极高 的 创造力 和 效率",
+            },
+            {
+                english: "We must find a way to overcome these difficulties.",
+                chinese: "我们 必须 找到 一种 方法 来 克服 这些 困难",
+            },
+            {
+                english: "Through continuous efforts, he finally achieved his dream.",
+                chinese: "通过 不断 的 努力 他 终于 实现 了 自己 的 梦想",
+            },
+            {
+                english: "She always shows courage and strength in the face of difficulties.",
+                chinese: "她 总是 在 困难 面前 表现 出 勇敢 和 坚强",
+            },
+            {
+                english: "They successfully completed this complex task through cooperation.",
+                chinese: "他们 通过 合作 成功 完成 了 这个 复杂 的 任务",
+            },
+            {
+                english: "In this company, everyone has the opportunity to showcase their talents.",
+                chinese: "在 这个 公司 里 每个 人 都 有 机会 展现 自己 的 才能",
+            },
+            {
+                english: "To achieve the goal, we need to put in more effort.",
+                chinese: "为了 达到 目标 我们 需要 付出 更 多 的 努力",
+            },
+            {
+                english: "He accumulated rich experience in his work, which is very helpful to him.",
+                chinese: "他 在 工作 中 积累 了 丰富 的 经验 这 对 他 很 有 帮助",
+            },
+            {
+                english: "To meet new challenges, the company decided to expand its business scope.",
+                chinese: "为了 应对 新 的 挑战 公司 决定 扩大 业务 范围",
+            },
+            {
+                english: "Their collaboration went very smoothly and achieved remarkable results.",
+                chinese: "他们 的 合作 非常 顺利 取得 了 显著 的 成果",
+            },
+            {
+                english: "He takes time every day to learn something new.",
+                chinese: "他 每天 都 会 抽出 时间 来 学习 一些 新 的 知识",
+            },
+            {
+                english: "The company is considering adopting new technologies to improve production efficiency.",
+                chinese: "公司 正在 考虑 采用 新 的 技术 来 提高 生产 效率",
+            },
+            {english: "After long-term efforts, he finally succeeded.",
+                chinese: "经过 长期 的 努力 他 终于 取得 了 成功",
+            },
+            {
+                english: "We must work together to complete this task.",
+                chinese: "为了 完成 这个 任务 我们 必须 齐心协力",
+            },
+            {
+                english: "She is passionate about her work and always does her best to complete it.",
+                chinese: "她 对 自己 的 工作 充满 了 热情 总是 尽 最大 努力 完成",
+            },
+            {
+                english: "This company has achieved success in the market through continuous innovation.",
+                chinese: "这家 公司 通过 不断 创新 在 市场 上 取得 了 成功",
+            },
+            {
+                english: "He spends several hours every day studying to prepare for the exam.",
+                chinese: "他 每天 花 几个 小时 学习 为 考试 做 准备",
+            },
+            {
+                english: "We need to continuously improve our skills to adapt to the fast-changing environment.",
+                chinese: "我们 需要 不断 提高 自己 的 能力 适应 快速 变化 的 环境",
+            },
+            {
+                english: "Through the team's joint efforts, we completed the project ahead of schedule.",
+                chinese: "通过 团队 的 共同 努力 我们 提前 完成 了 项目",
+            },
+            {
+                english: "He made many constructive suggestions for the company's future development.",
+                chinese: "他 对 公司 的 未来 发展 提出 了 很多 有 建设性 的 意见",
+            },
+            {
+                english: "To achieve the goal, we must develop a detailed plan.",
+                chinese: "为了 达到 目标 我们 必须 制定 详细 的 计划",
+            },
+            {
+                english: "She has been working hard to improve her skills and efficiency.",
+                chinese: "她 一直 在 努力 提高 自己 的 工作 能力 和 效率",
+            },
+            {
+                english: "Their research played an important role in the development of the industry.",
+                chinese: "他们 的 研究 对 整个 行业 的 发展 起到 了 重要 作用",
+            },
+            {
+                english: "The company decided to increase investment to speed up the development of new products.",
+                chinese: "公司 决定 增加 投资 以 加快 新 产品 的 开发",
+            },
+            {
+                english: "He made great contributions to the company's development.",
+                chinese: "他 为 公司 的 发展 做出 了 巨大 的 贡献",
+            },
+            {
+                english: "Faced with new challenges, he never backed down and always maintained a positive attitude.",
+                chinese: "面对 新 的 挑战 他 从未 退缩 始终 保持 积极 的 态度",
+            },
+            {
+                english: "She demonstrated a deep understanding of the issue in her presentation.",
+                chinese: "她 在 演讲 中 展示 了 对 这个 问题 的 深入 理解",
+            },
+            {
+                english: "To improve production efficiency, the company introduced advanced technology.",
+                chinese: "为了 提高 生产 效率 公司 引进 了 先进 的 技术",
+            },
+            {
+                english: "His innovative ideas have brought great business opportunities to the company.",
+                chinese: "他 的 创新 想法 为 公司 带来 了 巨大 的 商业 机会",
+            },
+            {
+                english: "She always handles everything with a very professional attitude.",
+                chinese: "她 总是 以 非常 专业 的 态度 处理 每 一件 事情",
+            },
+            {
+                english: "To ensure the success of the project, we must make thorough preparations.",
+                chinese: "为了 确保 项目 的 成功 我们 必须 进行 充分 的 准备",
+            },
+            {
+                english: "The success of this project depends on everyone's effort and contribution.",
+                chinese: "这个 项目 的 成功 离不开 每个 人 的 努力 和 贡献",
+            },
+            {
+                english: "She mastered new skills and knowledge through continuous learning.",
+                chinese: "她 通过 不断 的 学习 掌握 了 新 的 技术 和 知识",
+            },
+            {
+                english: "His management style helped the company make great progress in a short time.",
+                chinese: "他 的 管理 方式 帮助 公司 在 短 时间 内 取得 了 很 大 的 进步",
+            },
+            {
+                english: "To adapt to market changes, the company adjusted its product strategy.",
+                chinese: "为了 适应 市场 的 变化 公司 调整 了 产品 的 策略",
+            },
+            {
+                english: "His passion and creativity have brought new energy to the company.",
+                chinese: "他 对 工作 的 热情 和 创造力 给 公司 带来 了 新 的 活力",
+            },
+            {
+                english: "The company decided to take more effective measures to improve product quality.",
+                chinese: "公司 决定 采取 更 有效 的 措施 来 提高 产品 质量",
+            },
+            {
+                english: "Their cooperation laid a solid foundation for the success of the project.",
+                chinese: "他们 的 合作 为 项目 的 成功 奠定 了 坚实 的 基础",
+            },
+            {
+                english: "Through his efforts, he gained the recognition and support of the management.",
+                chinese: "他 通过 自己 的 努力 获得 了 领导 的 认可 和 支持",
+            },
+            {
+                english: "We need to keep working hard to face the challenges we may encounter in the future.",
+                chinese: "我们 需要 继续 努力 以 应对 未来 可能 遇到 的 挑战",
+            },
+            {
+                english: "The company plans to expand its business and enter the international market in the coming years.",
+                chinese: "公司 计划 在 未来 几年 内 扩大 业务 进入 国际 市场",
+            },
+            {
+                english: "He mastered very advanced technology through this training.",
+                chinese: "他 通过 这次 培训 掌握 了 非常 先进 的 技术",
+            },
+            {
+                english: "During the economic crisis, many companies face the risk of bankruptcy.",
+                chinese: "在 经济 危机 中 许多 企业 面临 倒闭 的 风险",
+            },
+            {
+                english: "The company is researching how to optimize production processes and improve efficiency.",
+                chinese: "公司 正在 研究 如何 优化 生产 流程 提高 效率",
+            },
+            {
+                english: "His management style has been recognized by all the employees.",
+                chinese: "他 的 管理 风格 得到 了 全体 员工 的 认可",
+            },
+            {
+                english: "This decision has a profound impact on the development of the entire industry.",
+                chinese: "这个 决定 对 整个 行业 的 发展 具有 深远 的 影响",
+            },
+            {
+                english: "To meet market demand, the company continuously launches new products.",
+                chinese: "为了 应对 市场 需求 公司 不断 推出 新 产品",
+            },
+            {
+                english: "Even the most complex problems, he can handle calmly.",
+                chinese: "即便 是 最 复杂 的 问题 他 也 能够 从容 应对",
+            },
+            {
+                english: "She has accumulated rich professional knowledge through continuous learning.",
+                chinese: "她 通过 不断 地 学习 积累 了 丰富 的 专业 知识",
+            },
+            {
+                english: "We must overcome these challenges to win in the competition.",
+                chinese: "我们 必须 克服 这些 挑战 才 能 在 竞争 中 胜出",
+            },
+            {
+                english: "His mastery of emerging technologies makes him a leader in the industry.",
+                chinese: "他 对于 新兴 技术 的 掌握 使 他 成为 行业 的 领导者",
+            },
+            {
+                english: "In such a complex environment, managers need to have flexible adaptability.",
+                chinese: "在 如此 复杂 的 环境 中 管理者 需要 具备 灵活 的 应变 能力",
+            },
+            {
+                english: "The company's expansion plan requires a lot of financial and resource support.",
+                chinese: "公司 的 扩展 计划 需要 大量 资金 和 资源 的 支持",
+            },
+            {
+                english: "We are working hard to integrate resources from various departments to improve team collaboration efficiency.",
+                chinese: "我们 正在 努力 整合 各 部门 的 资源 提升 团队 协作 效率",
+            },
+            {
+                english: "Faced with fierce global market competition, the company adopted innovative strategies.",
+                chinese: "面对 全球 市场 的 激烈 竞争 公司 采取 了 创新 策略",
+            },
+            {
+                english: "Their application of new technology provided strong momentum for the company's development.",
+                chinese: "他们 对 新 技术 的 应用 为 公司 的 发展 提供 了 强大 的 动力",
+            },
+            {
+                english: "His insight into emerging markets has brought huge profits to the company.",
+                chinese: "他 对 新兴 市场 的 洞察力 使 公司 获得 了 巨大 的 收益",
+            },
+            {
+                english: "Her performance in the project was outstanding, earning her the respect of the team.",
+                chinese: "她 在 项目 中 的 表现 非常 出色 赢得 了 团队 的 尊重",
+            },
+            {
+                english: "The success of this project is due to the joint efforts of all members.",
+                chinese: "这个 项目 的 成功 得益于 所有 成员 的 共同 努力",
+            },
+            {
+                english: "He quickly mastered multiple new skills in a short time.",
+                chinese: "他 在 短 时间 内 迅速 掌握 了 多项 新 技能",
+            },
+            {
+                english: "The company adopted a more flexible management model to adapt to market changes.",
+                chinese: "公司 采取 了 更加 灵活 的 管理 模式 来 适应 市场 变化",
+            },
+            {
+                english: "His advice played an important role in the company's strategic development.",
+                chinese: "他 的 建议 对 公司 的 战略 发展 起到 了 重要 作用",
+            },
+            {
+                english: "The success of this project depends on close cooperation between teams.",
+                chinese: "这个 项目 的 成功 取决于 团队 之间 的 紧密 合作",
+            },
+            {
+                english: "He demonstrated excellent analytical skills and creativity when solving problems.",
+                chinese: "他 在 解决 问题 时 表现 出 了 极高 的 分析 能力 和 创造力",
+            },
+            {
+                english: "In the face of fierce market competition, the company must continuously innovate.",
+                chinese: "面对 激烈 的 市场 竞争 公司 必须 不断 创新",
+            },
+            {
+                english: "The company needs to adjust its existing strategy to adapt to the new market environment.",
+                chinese: "公司 需要 调整 现有 的 策略 以 适应 新 的 市场 环境",
+            },
+            {
+                english: "He has broadened his career path through continuous learning.",
+                chinese: "他 通过 不断 学习 拓宽 了 自己 的 职业 发展 道路",
+            },
+            {
+                english: "To ensure product quality, the company has strengthened internal control processes.",
+                chinese: "为了 确保 产品 质量 公司 加强 了 内部 控制 流程",
+            },
+            {
+                english: "Management is studying how to address future economic challenges.",
+                chinese: "管理层 正在 研究 如何 应对 未来 的 经济 挑战",
+            },
+            {
+                english: "The company has developed detailed expansion plans and is preparing to enter new markets.",
+                chinese: "公司 已经 制定 了 详细 的 扩展 计划 准备 进入 新 的 市场",
+            },
+            {
+                english: "He made very valuable suggestions for the company's future development.",
+                chinese: "他 对 公司 的 未来 发展 提出 了 非常 有 价值 的 建议",
+            },
+            {
+                english: "The company has made significant progress in product innovation.",
+                chinese: "公司 在 产品 创新 方面 取得 了 显著 进展",
+            },
+            {
+                english: "We need to develop detailed plans to improve production efficiency.",
+                chinese: "我们 需要 制定 详细 的 计划 来 提高 生产 效率",
+            },
+            {
+                english: "He demonstrated excellent leadership and organizational skills in the project.",
+                chinese: "他 在 项目 中 表现 出 了 卓越 的 领导 才能 和 组织 能力",
+            },
+            {
+                english: "The company is studying how to improve employee job satisfaction.",
+                chinese: "公司 正在 研究 如何 提高 员工 的 工作 满意度",
+            },
+            {
+                english: "They ensured high product quality through strict management processes.",
+                chinese: "他们 通过 严格 的 管理 流程 确保 了 产品 的 高 质量",
+            },
+            {
+                english: "His solution to this complex problem was very effective.",
+                chinese: "他 对 这个 复杂 问题 的 解决 方案 非常 有效",
+            },
+            {
+                english: "The company is seeking new technology partners to drive innovation.",
+                chinese: "公司 正在 寻求 新 的 技术 合作 伙伴 以 推动 技术 创新",
+            },
+            {english: "Her team successfully resolved the difficulties in the project through joint efforts.",
+                chinese: "她 的 团队 通过 共同 努力 成功 解决 了 项目 中 的 困难",
+            },
+            {
+                english: "The company is raising funds for new product development to expand its market share.",
+                chinese: "公司 正在 为 新 产品 开发 筹集 资金 以 扩大 市场 份额",
+            },
+            {
+                english: "He remained very calm and confident when facing challenges.",
+                chinese: "他 在 面对 挑战 时 表现 得 非常 冷静 和 自信",
+            },
+            {
+                english: "The company's development strategy needs to be aligned with global market changes.",
+                chinese: "公司 的 发展 战略 需要 与 全球 市场 的 变化 保持 一致",
+            },
+            {
+                english: "He has a very keen insight into current market trends.",
+                chinese: "他 对 当前 市场 的 趋势 有着 非常 敏锐 的 洞察力",
+            },
+            {
+                english: "Through innovative thinking, the company gained a competitive advantage in the market.",
+                chinese: "通过 创新 思维 公司 在 市场 上 取得 了 竞争 优势",
+            },
+            {
+                english: "He made a huge contribution to the rapid development of the company.",
+                chinese: "他 为 公司 的 快速 发展 做出 了 巨大 的 贡献",
+            },
+            {
+                english: "The company has adopted new strategies to adapt to global economic changes.",
+                chinese: "公司 采取 了 新 策略 以 适应 全球 经济 的 变化",
+            },
+            {
+                english: "The company's training program for employees aims to improve their professional skills.",
+                chinese: "公司 对 员工 的 培训 计划 旨在 提高 他们 的 专业 技能",
+            },
+            {
+                english: "By optimizing production processes, the company improved overall production efficiency.",
+                chinese: "通过 优化 生产 流程 公司 提高 了 整体 生产 效率",
+            },
+            {
+                english: "His experience in innovation management has made him a leader in the industry.",
+                chinese: "他 在 创新 管理 方面 的 经验 使 他 成为 行业 的 佼佼者",
+            },
+            {
+                english: "The company hopes to enhance market competitiveness through technological innovation.",
+                chinese: "公司 希望 通过 技术 创新 来 增强 市场 竞争力",
+            }
         ];
 
         let currentSentence;
