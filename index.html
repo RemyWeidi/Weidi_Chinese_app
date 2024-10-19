@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre le chinois par les phrases</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #app, #home {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        #english-sentence {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        #chinese-words, #user-sentence {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            min-height: 50px;
+            padding: 10px;
+            position: relative;
+        }
+        #user-sentence {
+            border: 2px dashed #ccc;
+        }
+        .word {
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            min-height: 40px;
+            position: relative;
+        }
+        .word.dragging {
+            opacity: 0.5;
+        }
+        button, select {
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+        }
+        #hint-button {
+            background-color: #3498db;
+        }
+        #return-home-button {
+            background-color: #e74c3c;
+        }
+        select {
+            background-color: #2c3e50;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #correct-sentence {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        #score-popup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        #final-score {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        #final-score h2 {
+            margin-top: 0;
+        }
+        #timer, #question-counter {
+            background-color: #34495e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="home">
+        <h1>Apprendre le chinois par les phrases</h1>
+        <h2>Choisissez votre mode d'exercice :</h2>
+        <select id="mode-select">
+            <option value="questions">Nombre de questions</option>
+            <option value="time">Durée de temps</option>
+        </select>
+        <div id="questions-options" style="display: none;">
+            <h3>Nombre de questions :</h3>
+            <select id="questions-select">
+                <option value="5">5 questions</option>
+                <option value="10">10 questions</option>
+                <option value="15">15 questions</option>
+                <option value="25">25 questions</option>
+            </select>
+        </div>
+        <div id="time-options" style="display: none;">
+            <h3>Durée de l'exercice :</h3>
+            <select id="time-select">
+                <option value="30">30 secondes</option>
+                <option value="60">1 minute</option>
+                <option value="120">2 minutes</option>
+                <option value="300">5 minutes</option>
+                <option value="600">10 minutes</option>
+            </select>
+        </div>
+        <button id="start-button">Commencer l'exercice</button>
+    </div>
+
+    <div id="app" style="display: none;">
+        <div id="timer"></div>
+        <div id="question-counter"></div>
+        <div id="english-sentence"></div>
+        <div id="chinese-words"></div>
+        <div id="user-sentence"></div>
+        <button id="submit-button">Valider</button>
+        <button id="hint-button">Indice</button>
+        <button id="return-home-button">Retour à l'accueil</button>
+        <div id="result"></div>
+        <div id="correct-sentence"></div>
+    </div>
+
+    <div id="score-popup"></div>
+    <div id="final-score"></div>
+
+    <script>
+        const sentences = [
+            {
+                english: "The company's development strategy needs to be aligned with global market changes to ensure long-term success and competitiveness in the international business environment.",
+                chinese: "公司 的 发展 战略 需要 与 全球 市场 的 变化 保持 一致 以 确保 长期 的 成功 和 在 国际 商业 环境 中 的 竞争力",
+            },
+            // Ajoutez ici les autres phrases
+        ];
+
+        let currentSentence;
+        let draggedElement = null;
+        let score = 0;
+        let consecutiveCorrectAnswers = 0;
+        let hintIndex = 0;
+        let hintUsed = false;
+        let questionCount = 0;
+        let timeLeft = 0;
+        let timerInterval;
+        let mode = 'questions';
+        let limit = 5;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayNewSentence() {
+            currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+            document.getElementById('english-sentence').textContent = currentSentence.english;
+            
+            const shuffledWords = shuffleArray(currentSentence.chinese.split(' '));
+            const chineseWordsContainer = document.getElementById('chinese-words');
+            const userSentenceContainer = document.getElementById('user-sentence');
+            
+            chineseWordsContainer.innerHTML = '';
+            userSentenceContainer.innerHTML = '';
+            
+            shuffledWords.forEach(word => {
+                const wordElement = createWordElement(word);
+                chineseWordsContainer.appendChild(wordElement);
+            });
+
+            document.getElementById('result').textContent = '';
+            document.getElementById('correct-sentence').textContent = '';
+            document.getElementById('submit-button').textContent = 'Valider';
+            document.getElementById('submit-button').removeEventListener('click', nextQuestion);
+            document.getElementById('submit-button').addEventListener('click', submitAnswer);
+            hintIndex = 0;
+            hintUsed = false;
+            questionCount++;
+            updateCounter();
+        }
+
+        function createWordElement(word) {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word';
+            wordElement.textContent = word;
+            wordElement.draggable = true;
+            wordElement.addEventListener('dragstart', drag);
+            wordElement.addEventListener('dragend', dragEnd);
+            wordElement.addEventListener('touchstart', touchStart, {passive: true});
+            wordElement.addEventListener('touchmove', touchMove, {passive: false});
+            wordElement.addEventListener('touchend', touchEnd);
+            wordElement.addEventListener('click', moveWord);
+            return wordElement;
+        }
+
+        function drag(event) {
+            draggedElement = event.target;
+            event.dataTransfer.setData('text/plain', event.target.textContent);
+            setTimeout(() => event.target.classList.add('dragging'), 0);
+        }
+
+        function dragEnd(event) {
+            event.target.classList.remove('dragging');
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function getDragAfterElement(container, x, y) {
+            const draggableElements = [...container.querySelectorAll('.word:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - (box.left + box.width / 2);
+
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            if (!draggedElement) return;
+
+            const container = event.currentTarget;
+            const afterElement = getDragAfterElement(container, event.clientX, event.clientY);
+
+            if (afterElement) {
+                container.insertBefore(draggedElement, afterElement);
+            } else {
+                container.appendChild(draggedElement);
+            }
+
+            draggedElement.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        let touchStartX, touchStartY;
+
+        function touchStart(event) {
+            const touch = event.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            draggedElement = event.target;
+            setTimeout(() => event.target.classList.add('dragging'), 0);
+        }
+
+        function touchMove(event) {
+            if (!draggedElement) return;
+            event.preventDefault();
+
+            const touch = event.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+
+            draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        }
+
+        function touchEnd(event) {
+            if (!draggedElement) return;
+
+            const touch = event.changedTouches[0];
+            const container = document.elementFromPoint(touch.clientX, touch.clientY).closest('#chinese-words, #user-sentence');
+
+            if (container) {
+                const afterElement = getDragAfterElement(container, touch.clientX, touch.clientY);
+
+                if (afterElement) {
+                    container.insertBefore(draggedElement, afterElement);
+                } else {
+                    container.appendChild(draggedElement);
+                }
+            }
+
+            draggedElement.style.transform = '';
+            draggedElement.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function moveWord(event) {
+            const word = event.target;
+            const sourceContainer = word.parentElement;
+            const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
+            
+            targetContainer.appendChild(word);
+        }
+
+        function submitAnswer() {
+            const userSentence = Array.from(document.getElementById('user-sentence').children)
+                .map(word => word.textContent)
+                .join(' ');
+            
+            const resultElement = document.getElementById('result');
+            const correctSentenceElement = document.getElementById('correct-sentence');
+            
+            if (userSentence === currentSentence.chinese) {
+                resultElement.textContent = 'Bonne réponse!';
+                updateScore(true);
+            } else {
+                resultElement.textContent = 'Mauvaise réponse.';
+                updateScore(false);
+            }
+            
+            correctSentenceElement.textContent = currentSentence.chinese;
+            
+            document.getElementById('submit-button').textContent = 'Question suivante';
+            document.getElementById('submit-button').removeEventListener('click', submitAnswer);
+            document.getElementById('submit-button').addEventListener('click', nextQuestion);
+        }
+
+        function updateScore(isCorrect) {
+            let points = 0;
+            if (hintUsed) {
+                points = 0;
+                consecutiveCorrectAnswers = 0;
+            } else if (isCorrect) {
+                consecutiveCorrectAnswers++;
+                points = 5;
+                if (consecutiveCorrectAnswers > 1) {
+                    points += Math.min(consecutiveCorrectAnswers - 1, 5);  // Bonus plafonné à 5 points
+                }
+                // Bonus supplémentaire pour les longues séries
+                if (consecutiveCorrectAnswers > 6) {
+                    points += Math.floor((consecutiveCorrectAnswers - 6) / 2);
+                }
+            } else {
+                points = 0;
+                consecutiveCorrectAnswers = 0;
+            }
+            
+            score += points;
+
+            const scorePopup = document.getElementById('score-popup');
+            scorePopup.textContent = `+${points} points! Score total : ${score}`;
+            scorePopup.style.display = 'block';
+            scorePopup.style.backgroundColor = isCorrect ? '#2ecc71' : '#e74c3c';
+            setTimeout(() => {
+                scorePopup.style.display = 'none';
+            }, 2000);
+        }
+
+        function showHint() {
+            if (hintIndex >= currentSentence.chinese.split(' ').length) {
+                return;
+            }
+
+            const correctWords = currentSentence.chinese.split(' ');
+            const hintWord = correctWords[hintIndex];
+            
+            const userSentenceContainer = document.getElementById('user-sentence');
+            const chineseWordsContainer = document.getElementById('chinese-words');
+            const wordElement = Array.from(chineseWordsContainer.children).find(el => el.textContent === hintWord);
+            
+            if (wordElement) {
+                userSentenceContainer.appendChild(wordElement);
+            }
+            
+            hintIndex++;
+            hintUsed = true;
+        }
+
+        function nextQuestion() {
+            if ((mode === 'questions' && questionCount < limit) || (mode === 'time' && timeLeft > 0)) {
+                displayNewSentence();
+            } else {
+                endSession();
+            }
+        }
+
+        function endSession() {
+            clearInterval(timerInterval);
+            const finalScoreElement = document.getElementById('final-score');
+            finalScoreElement.innerHTML = `
+                <h2>Session terminée!</h2>
+                <p>Votre score final est : ${score}</p>
+                <button onclick="restartGame()">Rejouer</button>
+            `;
+            finalScoreElement.style.display = 'block';
+            document.getElementById('app').style.display = 'none';
+        }
+
+        function restartGame() {
+            document.getElementById('final-score').style.display = 'none';
+            document.getElementById('home').style.display = 'block';
+            score = 0;
+            consecutiveCorrectAnswers = 0;
+            questionCount = 0;
+        }
+
+        function startGame() {
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            mode = document.getElementById('mode-select').value;
+            if (mode === 'questions') {
+                limit = parseInt(document.getElementById('questions-select').value);
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('question-counter').style.display = 'block';
+            } else {
+                timeLeft = parseInt(document.getElementById('time-select').value);
+                document.getElementById('timer').style.display = 'block';
+                document.getElementById('question-counter').style.display = 'none';
+                startTimer();
+            }
+            displayNewSentence();
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endSession();
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        function updateCounter() {
+            if (mode === 'questions') {
+                const counterElement = document.getElementById('question-counter');
+                counterElement.textContent = `Question ${questionCount} / ${limit}`;
+            }
+        }
+
+        function returnHome() {
+            clearInterval(timerInterval);
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('home').style.display = 'block';
+            score = 0;
+            consecutiveCorrectAnswers = 0;
+            questionCount = 0;
+        }
+
+        // Événements pour la page d'accueil
+        document.getElementById('mode-select').addEventListener('change', (e) => {
+            if (e.target.value === 'questions') {
+                document.getElementById('questions-options').style.display = 'block';
+                document.getElementById('time-options').style.display = 'none';
+            } else {
+                document.getElementById('questions-options').style.display = 'none';
+                document.getElementById('time-options').style.display = 'block';
+            }
+        });
+
+        document.getElementById('start-button').addEventListener('click', startGame);
+
+        // Événements pour le jeu
+        document.getElementById('chinese-words').addEventListener('dragover', allowDrop);
+        document.getElementById('chinese-words').addEventListener('drop', drop);
+        document.getElementById('user-sentence').addEventListener('dragover', allowDrop);
+        document.getElementById('user-sentence').addEventListener('drop', drop);
+        document.getElementById('submit-button').addEventListener('click', submitAnswer);
+        document.getElementById('hint-button').addEventListener('click', showHint);
+        document.getElementById('return-home-button').addEventListener('click', returnHome);
+
+        // Initialisation
+        document.getElementById('mode-select').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
