@@ -102,6 +102,7 @@
             padding: 1rem;
             position: relative;
             border-radius: 10px;
+            width: calc(100% - 2rem);
         }
         #user-sentence {
             border: 2px dashed var(--primary-color);
@@ -138,18 +139,21 @@
         }
         .word.dragging {
             opacity: 0.5;
+            z-index: 1000;
+            pointer-events: none;
         }
         #result {
-            margin-top: 1.5rem;
+            margin-top: 0.5rem;
             font-size: 1.2rem;
             font-weight: 600;
+            text-align: center;
         }
         #correct-sentence {
             font-family: 'Noto Sans SC', sans-serif;
-            font-weight: 400;
+            font-weight: 700;
             font-size: 1.5rem;
-            margin-top: 1rem;
-            color: var(--primary-color);
+            margin-top: 0.5rem;
+            text-align: center;
         }
         #score-popup {
             position: fixed;
@@ -164,17 +168,32 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         #final-score {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--primary-color);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 2rem;
-            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        #final-score h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        #final-score .mode {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        #final-score .score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
         }
         #timer, #question-counter {
             background-color: var(--primary-color);
@@ -185,6 +204,11 @@
             font-weight: 500;
             margin-bottom: 1rem;
             display: inline-block;
+        }
+        #english-sentence {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
         @media (max-width: 600px) {
             #home, #app {
@@ -197,6 +221,7 @@
     <div id="home">
         <h1 class="app-title">Weidi Chinese App</h1>
         <div class="content">
+            <h3>Mode de jeu</h3>
             <select id="mode-select">
                 <option value="questions">Nombre de questions</option>
                 <option value="time">Durée de temps</option>
@@ -241,7 +266,6 @@
     </div>
 
     <div id="score-popup"></div>
-    <div id="final-score"></div>
 
     <script>
         const sentences = [
@@ -862,7 +886,7 @@
             {
                 english: "The company hopes to enhance market competitiveness through technological innovation.",
                 chinese: "公司 希望 通过 技术 创新 来 增强 市场 竞争力",
-            }
+            },
         ];
 
         let currentSentence;
@@ -972,11 +996,14 @@
         let touchStartX, touchStartY;
 
         function touchStart(event) {
+            event.preventDefault();
             const touch = event.touches[0];
             touchStartX = touch.clientX;
             touchStartY = touch.clientY;
             draggedElement = event.target;
-            setTimeout(() => event.target.classList.add('dragging'), 0);
+            draggedElement.classList.add('dragging');
+            draggedElement.style.position = 'fixed';
+            draggedElement.style.zIndex = '1000';
         }
 
         function touchMove(event) {
@@ -987,25 +1014,39 @@
             const deltaX = touch.clientX - touchStartX;
             const deltaY = touch.clientY - touchStartY;
 
-            draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+            draggedElement.style.left = touch.clientX - draggedElement.offsetWidth / 2 + 'px';
+            draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
         }
 
         function touchEnd(event) {
             if (!draggedElement) return;
 
             const touch = event.changedTouches[0];
-            const container = document.elementFromPoint(touch.clientX, touch.clientY).closest('#chinese-words, #user-sentence');
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+            const container = dropTarget.closest('#chinese-words, #user-sentence');
 
             if (container) {
-                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY).closest('.word') || container;
-                if (dropTarget === container) {
-                    container.appendChild(draggedElement);
+                const closestWord = Array.from(container.children).reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = touch.clientY - (box.top + box.height / 2);
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+
+                if (closestWord) {
+                    container.insertBefore(draggedElement, closestWord);
                 } else {
-                    container.insertBefore(draggedElement, dropTarget);
+                    container.appendChild(draggedElement);
                 }
             }
 
-            draggedElement.style.transform = '';
+            draggedElement.style.position = '';
+            draggedElement.style.left = '';
+            draggedElement.style.top = '';
+            draggedElement.style.zIndex = '';
             draggedElement.classList.remove('dragging');
             draggedElement = null;
         }
@@ -1021,14 +1062,16 @@
             if (userSentence === currentSentence.chinese) {
                 resultElement.textContent = 'Bonne réponse !';
                 resultElement.style.color = 'var(--secondary-color)';
+                correctSentenceElement.style.color = 'var(--secondary-color)';
                 updateScore(true);
             } else {
                 resultElement.textContent = 'Mauvaise réponse.';
                 resultElement.style.color = 'var(--accent-color)';
+                correctSentenceElement.style.color = 'var(--accent-color)';
                 updateScore(false);
             }
             
-            correctSentenceElement.textContent = currentSentence.chinese;
+            correctSentenceElement.textContent = currentSentence.chinese.replace(/ /g, '');
             
             document.getElementById('submit-button').textContent = 'Question suivante';
             document.getElementById('submit-button').removeEventListener('click', submitAnswer);
@@ -1096,18 +1139,30 @@
 
         function endSession() {
             clearInterval(timerInterval);
-            const finalScoreElement = document.getElementById('final-score');
+            const appElement = document.getElementById('app');
+            const finalScoreElement = document.createElement('div');
+            finalScoreElement.id = 'final-score';
             finalScoreElement.innerHTML = `
-                <h2>Session terminée !</h2>
-                <p>Votre score final est : ${score}</p>
+                <h2>Score</h2>
+                <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
+                <p class="score">${score}</p>
                 <button onclick="restartGame()">Rejouer</button>
             `;
-            finalScoreElement.style.display = 'block';
-            document.getElementById('app').style.display = 'none';
+            appElement.appendChild(finalScoreElement);
+        }
+
+        function getTimeString(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes} minute${minutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? remainingSeconds + ' seconde' + (remainingSeconds > 1 ? 's' : '') : ''}`;
         }
 
         function restartGame() {
-            document.getElementById('final-score').style.display = 'none';
+            const finalScoreElement = document.getElementById('final-score');
+            if (finalScoreElement) {
+                finalScoreElement.remove();
+            }
+            document.getElementById('app').style.display = 'none';
             document.getElementById('home').style.display = 'block';
             score = 0;
             consecutiveCorrectAnswers = 0;
