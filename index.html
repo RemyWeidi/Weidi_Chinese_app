@@ -85,10 +85,10 @@
         #submit-button:hover {
             background-color: #45b167;
         }
-        #hint-button {
+        #hint-button, #reset-button {
             background-color: #4a90e2;
         }
-        #hint-button:hover {
+        #hint-button:hover, #reset-button:hover {
             background-color: #3a7bc8;
         }
         #chinese-words, #user-sentence {
@@ -117,7 +117,7 @@
             user-select: none;
             font-family: 'Noto Sans SC', sans-serif;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 1.2rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -214,6 +214,9 @@
             #home, #app {
                 width: 95%;
             }
+            #chinese-words .word {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -258,6 +261,7 @@
             <div id="chinese-words"></div>
             <div id="user-sentence"></div>
             <button id="submit-button">Valider</button>
+            <button id="reset-button">Reset</button>
             <button id="hint-button">Indice</button>
             <button id="return-home-button">Retour à l'accueil</button>
             <div id="result"></div>
@@ -1028,16 +1032,16 @@
             event.preventDefault();
 
             const touch = event.touches[0];
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
+            const deltaX = (touch.clientX - touchStartX) * 1.5; // Augmentation de la sensibilité
+            const deltaY = (touch.clientY - touchStartY) * 1.5; // Augmentation de la sensibilité
 
             draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
-            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY - 20); // Correction du décalage
             const containerBelow = elementBelow?.closest('#chinese-words, #user-sentence');
             
             if (containerBelow) {
-                const afterElement = getDragAfterElement(containerBelow, touch.clientX, touch.clientY);
+                const afterElement = getDragAfterElement(containerBelow, touch.clientX, touch.clientY - 20);
                 const placeholder = document.createElement('div');
                 placeholder.classList.add('word', 'placeholder');
                 placeholder.style.opacity = '0.3';
@@ -1061,7 +1065,7 @@
             if (!draggedElement) return;
 
             const touch = event.changedTouches[0];
-            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY - 20); // Correction du décalage
             const containerBelow = elementBelow?.closest('#chinese-words, #user-sentence');
 
             if (containerBelow) {
@@ -1186,6 +1190,20 @@
             document.getElementById('hint-button').disabled = false;
         }
 
+        function resetExercise() {
+            const userSentenceContainer = document.getElementById('user-sentence');
+            const chineseWordsContainer = document.getElementById('chinese-words');
+            
+            while (userSentenceContainer.firstChild) {
+                chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
+            }
+
+            // Mélanger à nouveau les mots dans la zone d'origine
+            const words = Array.from(chineseWordsContainer.children);
+            shuffleArray(words);
+            words.forEach(word => chineseWordsContainer.appendChild(word));
+        }
+
         function nextQuestion() {
             if ((mode === 'questions' && questionCount < limit) || (mode === 'time' && timeLeft > 0)) {
                 displayNewSentence();
@@ -1293,6 +1311,7 @@
         document.getElementById('user-sentence').addEventListener('dragover', allowDrop);
         document.getElementById('user-sentence').addEventListener('drop', drop);
         document.getElementById('submit-button').addEventListener('click', submitAnswer);
+        document.getElementById('reset-button').addEventListener('click', resetExercise);
         document.getElementById('hint-button').addEventListener('click', showHint);
         document.getElementById('return-home-button').addEventListener('click', returnHome);
 
@@ -1300,4 +1319,3 @@
         document.getElementById('mode-select').dispatchEvent(new Event('change'));
     </script>
 </body>
-</html>
