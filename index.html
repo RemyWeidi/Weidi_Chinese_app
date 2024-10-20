@@ -994,12 +994,15 @@
         }
 
         let touchStartX, touchStartY;
+        let initialTouchX, initialTouchY;
 
         function touchStart(event) {
             event.preventDefault();
             const touch = event.touches[0];
             touchStartX = touch.clientX;
             touchStartY = touch.clientY;
+            initialTouchX = touch.clientX;
+            initialTouchY = touch.clientY;
             draggedElement = event.target;
             draggedElement.classList.add('dragging');
             draggedElement.style.position = 'fixed';
@@ -1016,28 +1019,34 @@
 
             draggedElement.style.left = touch.clientX - draggedElement.offsetWidth / 2 + 'px';
             draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
+
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
         }
 
         function touchEnd(event) {
             if (!draggedElement) return;
 
             const touch = event.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-            const container = dropTarget.closest('#chinese-words, #user-sentence');
+            const container = document.elementFromPoint(touch.clientX, touch.clientY).closest('#chinese-words, #user-sentence');
 
             if (container) {
+                const rect = container.getBoundingClientRect();
+                const relativeY = touch.clientY - rect.top;
+
                 const closestWord = Array.from(container.children).reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = touch.clientY - (box.top + box.height / 2);
-                    if (offset < 0 && offset > closest.offset) {
+                    const childRect = child.getBoundingClientRect();
+                    const childMiddleY = childRect.top + childRect.height / 2 - rect.top;
+                    const offset = relativeY - childMiddleY;
+                    if (Math.abs(offset) < Math.abs(closest.offset)) {
                         return { offset: offset, element: child };
                     } else {
                         return closest;
                     }
-                }, { offset: Number.NEGATIVE_INFINITY }).element;
+                }, { offset: Infinity, element: null });
 
-                if (closestWord) {
-                    container.insertBefore(draggedElement, closestWord);
+                if (closestWord.element && closestWord.offset < 0) {
+                    container.insertBefore(draggedElement, closestWord.element);
                 } else {
                     container.appendChild(draggedElement);
                 }
@@ -1048,7 +1057,23 @@
             draggedElement.style.top = '';
             draggedElement.style.zIndex = '';
             draggedElement.classList.remove('dragging');
+
+            // Si le déplacement était minime, considérez-le comme un clic
+            if (Math.abs(touch.clientX - initialTouchX) < 5 && Math.abs(touch.clientY - initialTouchY) < 5) {
+                handleWordClick({ target: draggedElement });
+            }
+
             draggedElement = null;
+        }
+
+        function handleWordClick(event) {
+            const word = event.target;
+            const sourceContainer = word.parentElement;
+            const targetContainer = (sourceContainer.id === 'chinese-words') 
+                ? document.getElementById('user-sentence') 
+                : document.getElementById('chinese-words');
+            
+            targetContainer.appendChild(word);
         }
 
         function submitAnswer() {
