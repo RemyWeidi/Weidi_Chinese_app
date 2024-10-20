@@ -117,7 +117,7 @@
             user-select: none;
             font-family: 'Noto Sans SC', sans-serif;
             font-weight: 500;
-            font-size: 1.2rem;
+            font-size: 1rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -129,9 +129,9 @@
         }
         #user-sentence .word {
             background-color: var(--primary-color);
-            font-size: 1rem;
-            padding: 0.4rem 0.8rem;
-            min-height: 30px;
+            font-size: 1.4rem;
+            padding: 0.6rem 1rem;
+            min-height: 40px;
         }
         .word:hover {
             transform: translateY(-2px);
@@ -971,16 +971,6 @@
 
         function allowDrop(event) {
             event.preventDefault();
-            const container = event.currentTarget;
-            const afterElement = getDragAfterElement(container, event.clientX, event.clientY);
-            const draggable = document.querySelector('.dragging');
-            if (draggable !== null) {
-                if (afterElement == null) {
-                    container.appendChild(draggable);
-                } else {
-                    container.insertBefore(draggable, afterElement);
-                }
-            }
         }
 
         function getDragAfterElement(container, x, y) {
@@ -988,13 +978,11 @@
             
             return draggableElements.reduce((closest, child) => {
                 const box = child.getBoundingClientRect();
-                const offsetY = y - box.top - box.height / 2;
                 const offsetX = x - box.left - box.width / 2;
+                const offsetY = y - box.top - box.height / 2;
                 
-                if (offsetY < 0 && offsetY > closest.offset) {
-                    return { offset: offsetY, element: child };
-                } else if (offsetY >= 0 && offsetY < box.height && Math.abs(offsetX) < closest.offset) {
-                    return { offset: Math.abs(offsetX), element: child };
+                if (Math.abs(offsetY) < box.height / 2 && offsetX < 0 && offsetX > closest.offset) {
+                    return { offset: offsetX, element: child };
                 } else {
                     return closest;
                 }
@@ -1003,7 +991,14 @@
 
         function drop(event) {
             event.preventDefault();
+            const container = event.currentTarget;
+            const afterElement = getDragAfterElement(container, event.clientX, event.clientY);
             if (draggedElement) {
+                if (afterElement == null) {
+                    container.appendChild(draggedElement);
+                } else {
+                    container.insertBefore(draggedElement, afterElement);
+                }
                 draggedElement.classList.remove('dragging');
                 draggedElement = null;
             }
@@ -1023,6 +1018,9 @@
             draggedElement.classList.add('dragging');
             draggedElement.style.position = 'fixed';
             draggedElement.style.zIndex = '1000';
+            draggedElement.style.pointerEvents = 'none';
+            draggedElement.style.width = draggedElement.offsetWidth + 'px';
+            draggedElement.style.height = draggedElement.offsetHeight + 'px';
         }
 
         function touchMove(event) {
@@ -1030,37 +1028,70 @@
             event.preventDefault();
 
             const touch = event.touches[0];
-            draggedElement.style.left = touch.clientX - draggedElement.offsetWidth / 2 + 'px';
-            draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+
+            draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
             const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-            const containerBelow = elementBelow.closest('#chinese-words, #user-sentence');
+            const containerBelow = elementBelow?.closest('#chinese-words, #user-sentence');
             
             if (containerBelow) {
                 const afterElement = getDragAfterElement(containerBelow, touch.clientX, touch.clientY);
+                const placeholder = document.createElement('div');
+                placeholder.classList.add('word', 'placeholder');
+                placeholder.style.opacity = '0.3';
+                placeholder.style.width = draggedElement.style.width;
+                placeholder.style.height = draggedElement.style.height;
+
                 if (afterElement == null) {
-                    containerBelow.appendChild(draggedElement);
+                    containerBelow.appendChild(placeholder);
                 } else {
-                    containerBelow.insertBefore(draggedElement, afterElement);
+                    containerBelow.insertBefore(placeholder, afterElement);
                 }
+
+                // Remove any existing placeholders except the one we just added
+                containerBelow.querySelectorAll('.placeholder').forEach(el => {
+                    if (el !== placeholder) el.remove();
+                });
             }
         }
 
         function touchEnd(event) {
             if (!draggedElement) return;
 
+            const touch = event.changedTouches[0];
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const containerBelow = elementBelow?.closest('#chinese-words, #user-sentence');
+
+            if (containerBelow) {
+                const placeholder = containerBelow.querySelector('.placeholder');
+                if (placeholder) {
+                    containerBelow.insertBefore(draggedElement, placeholder);
+                    placeholder.remove();
+                } else {
+                    containerBelow.appendChild(draggedElement);
+                }
+            }
+
             draggedElement.style.position = '';
             draggedElement.style.left = '';
             draggedElement.style.top = '';
             draggedElement.style.zIndex = '';
+            draggedElement.style.transform = '';
+            draggedElement.style.pointerEvents = '';
+            draggedElement.style.width = '';
+            draggedElement.style.height = '';
             draggedElement.classList.remove('dragging');
 
-            const touch = event.changedTouches[0];
             if (Math.abs(touch.clientX - initialTouchX) < 5 && Math.abs(touch.clientY - initialTouchY) < 5) {
                 handleWordClick({ target: draggedElement });
             }
 
             draggedElement = null;
+
+            // Remove any remaining placeholders
+            document.querySelectorAll('.placeholder').forEach(el => el.remove());
         }
 
         function submitAnswer() {
@@ -1083,7 +1114,7 @@
                 updateScore(false);
             }
             
-            correctSentenceElement.textContent = currentSentence.chinese.replace(/ /g, '');
+            correctSentenceElement.textContent = currentSentence.chinese;
             
             document.getElementById('submit-button').textContent = 'Question suivante';
             document.getElementById('submit-button').removeEventListener('click', submitAnswer);
