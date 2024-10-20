@@ -94,8 +94,8 @@
         #chinese-words, #user-sentence {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start;
+            align-items: flex-start;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
             min-height: 60px;
@@ -930,8 +930,7 @@
             document.getElementById('submit-button').textContent = 'Valider';
             document.getElementById('submit-button').removeEventListener('click', nextQuestion);
             document.getElementById('submit-button').addEventListener('click', submitAnswer);
-            hintIndex = 0;
-            hintUsed = false;
+            resetHint();
             questionCount++;
             updateCounter();
         }
@@ -973,7 +972,7 @@
         function allowDrop(event) {
             event.preventDefault();
             const container = event.currentTarget;
-            const afterElement = getDragAfterElement(container, event.clientY);
+            const afterElement = getDragAfterElement(container, event.clientX, event.clientY);
             const draggable = document.querySelector('.dragging');
             if (draggable !== null) {
                 if (afterElement == null) {
@@ -984,14 +983,18 @@
             }
         }
 
-        function getDragAfterElement(container, y) {
+        function getDragAfterElement(container, x, y) {
             const draggableElements = [...container.querySelectorAll('.word:not(.dragging)')];
             
             return draggableElements.reduce((closest, child) => {
                 const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
+                const offsetY = y - box.top - box.height / 2;
+                const offsetX = x - box.left - box.width / 2;
+                
+                if (offsetY < 0 && offsetY > closest.offset) {
+                    return { offset: offsetY, element: child };
+                } else if (offsetY >= 0 && offsetY < box.height && Math.abs(offsetX) < closest.offset) {
+                    return { offset: Math.abs(offsetX), element: child };
                 } else {
                     return closest;
                 }
@@ -1027,233 +1030,243 @@
             event.preventDefault();
 
             const touch = event.touches[0];
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-
             draggedElement.style.left = touch.clientX - draggedElement.offsetWidth / 2 + 'px';
-        draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
+            draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
 
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const containerBelow = elementBelow.closest('#chinese-words, #user-sentence');
+            
+            if (containerBelow) {
+                const afterElement = getDragAfterElement(containerBelow, touch.clientX, touch.clientY);
+                if (afterElement == null) {
+                    containerBelow.appendChild(draggedElement);
+                } else {
+                    containerBelow.insertBefore(draggedElement, afterElement);
+                }
+            }
+        }
 
-        const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-        const containerBelow = elementBelow.closest('#chinese-words, #user-sentence');
-        
-        if (containerBelow) {
-            const afterElement = getDragAfterElement(containerBelow, touch.clientY);
-            if (afterElement == null) {
-                containerBelow.appendChild(draggedElement);
+        function touchEnd(event) {
+            if (!draggedElement) return;
+
+            draggedElement.style.position = '';
+            draggedElement.style.left = '';
+            draggedElement.style.top = '';
+            draggedElement.style.zIndex = '';
+            draggedElement.classList.remove('dragging');
+
+            const touch = event.changedTouches[0];
+            if (Math.abs(touch.clientX - initialTouchX) < 5 && Math.abs(touch.clientY - initialTouchY) < 5) {
+                handleWordClick({ target: draggedElement });
+            }
+
+            draggedElement = null;
+        }
+
+        function submitAnswer() {
+            const userSentence = Array.from(document.getElementById('user-sentence').children)
+                .map(word => word.textContent)
+                .join(' ');
+            
+            const resultElement = document.getElementById('result');
+            const correctSentenceElement = document.getElementById('correct-sentence');
+            
+            if (userSentence === currentSentence.chinese) {
+                resultElement.textContent = 'Bonne réponse !';
+                resultElement.style.color = 'var(--secondary-color)';
+                correctSentenceElement.style.color = 'var(--secondary-color)';
+                updateScore(true);
             } else {
-                containerBelow.insertBefore(draggedElement, afterElement);
+                resultElement.textContent = 'Mauvaise réponse.';
+                resultElement.style.color = 'var(--accent-color)';
+                correctSentenceElement.style.color = 'var(--accent-color)';
+                updateScore(false);
+            }
+            
+            correctSentenceElement.textContent = currentSentence.chinese.replace(/ /g, '');
+            
+            document.getElementById('submit-button').textContent = 'Question suivante';
+            document.getElementById('submit-button').removeEventListener('click', submitAnswer);
+            document.getElementById('submit-button').addEventListener('click', nextQuestion);
+        }
+
+        function updateScore(isCorrect) {
+            let points = 0;
+            if (hintUsed) {
+                points = 0;
+                consecutiveCorrectAnswers = 0;
+            } else if (isCorrect) {
+                consecutiveCorrectAnswers++;
+                points = 5;
+                if (consecutiveCorrectAnswers > 1) {
+                    points += Math.min(consecutiveCorrectAnswers - 1, 5);  // Bonus plafonné à 5 points
+                }
+                // Bonus supplémentaire pour les longues séries
+                if (consecutiveCorrectAnswers > 6) {
+                    points += Math.floor((consecutiveCorrectAnswers - 6) / 2);
+                }
+            } else {
+                points = 0;
+                consecutiveCorrectAnswers = 0;
+            }
+            
+            score += points;
+
+            const scorePopup = document.getElementById('score-popup');
+            scorePopup.textContent = `+${points} points ! Score total : ${score}`;
+            scorePopup.style.display = 'block';
+            scorePopup.style.backgroundColor = isCorrect ? 'var(--secondary-color)' : 'var(--accent-color)';
+            setTimeout(() => {
+                scorePopup.style.display = 'none';
+            }, 2000);
+        }
+
+        function showHint() {
+            const userSentenceContainer = document.getElementById('user-sentence');
+            const chineseWordsContainer = document.getElementById('chinese-words');
+            
+            // Réinitialiser la zone de réponse
+            while (userSentenceContainer.firstChild) {
+                chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
+            }
+
+            const correctWords = currentSentence.chinese.split(' ');
+            
+            for (let i = 0; i <= hintIndex; i++) {
+                const hintWord = correctWords[i];
+                const wordElement = Array.from(chineseWordsContainer.children).find(el => el.textContent === hintWord);
+                
+                if (wordElement) {
+                    userSentenceContainer.appendChild(wordElement);
+                }
+            }
+            
+            hintIndex++;
+            hintUsed = true;
+
+            if (hintIndex >= correctWords.length) {
+                document.getElementById('hint-button').disabled = true;
             }
         }
-    }
 
-    function touchEnd(event) {
-        if (!draggedElement) return;
-
-        draggedElement.style.position = '';
-        draggedElement.style.left = '';
-        draggedElement.style.top = '';
-        draggedElement.style.zIndex = '';
-        draggedElement.classList.remove('dragging');
-
-        const touch = event.changedTouches[0];
-        if (Math.abs(touch.clientX - initialTouchX) < 5 && Math.abs(touch.clientY - initialTouchY) < 5) {
-            handleWordClick({ target: draggedElement });
+        function resetHint() {
+            hintIndex = 0;
+            hintUsed = false;
+            document.getElementById('hint-button').disabled = false;
         }
 
-        draggedElement = null;
-    }
-
-    function submitAnswer() {
-        const userSentence = Array.from(document.getElementById('user-sentence').children)
-            .map(word => word.textContent)
-            .join(' ');
-        
-        const resultElement = document.getElementById('result');
-        const correctSentenceElement = document.getElementById('correct-sentence');
-        
-        if (userSentence === currentSentence.chinese) {
-            resultElement.textContent = 'Bonne réponse !';
-            resultElement.style.color = 'var(--secondary-color)';
-            correctSentenceElement.style.color = 'var(--secondary-color)';
-            updateScore(true);
-        } else {
-            resultElement.textContent = 'Mauvaise réponse.';
-            resultElement.style.color = 'var(--accent-color)';
-            correctSentenceElement.style.color = 'var(--accent-color)';
-            updateScore(false);
-        }
-        
-        correctSentenceElement.textContent = currentSentence.chinese.replace(/ /g, '');
-        
-        document.getElementById('submit-button').textContent = 'Question suivante';
-        document.getElementById('submit-button').removeEventListener('click', submitAnswer);
-        document.getElementById('submit-button').addEventListener('click', nextQuestion);
-    }
-
-    function updateScore(isCorrect) {
-        let points = 0;
-        if (hintUsed) {
-            points = 0;
-            consecutiveCorrectAnswers = 0;
-        } else if (isCorrect) {
-            consecutiveCorrectAnswers++;
-            points = 5;
-            if (consecutiveCorrectAnswers > 1) {
-                points += Math.min(consecutiveCorrectAnswers - 1, 5);  // Bonus plafonné à 5 points
-            }
-            // Bonus supplémentaire pour les longues séries
-            if (consecutiveCorrectAnswers > 6) {
-                points += Math.floor((consecutiveCorrectAnswers - 6) / 2);
-            }
-        } else {
-            points = 0;
-            consecutiveCorrectAnswers = 0;
-        }
-        
-        score += points;
-
-        const scorePopup = document.getElementById('score-popup');
-        scorePopup.textContent = `+${points} points ! Score total : ${score}`;
-        scorePopup.style.display = 'block';
-        scorePopup.style.backgroundColor = isCorrect ? 'var(--secondary-color)' : 'var(--accent-color)';
-        setTimeout(() => {
-            scorePopup.style.display = 'none';
-        }, 2000);
-    }
-
-    function showHint() {
-        if (hintIndex >= currentSentence.chinese.split(' ').length) {
-            return;
-        }
-
-        const correctWords = currentSentence.chinese.split(' ');
-        const hintWord = correctWords[hintIndex];
-        
-        const userSentenceContainer = document.getElementById('user-sentence');
-        const chineseWordsContainer = document.getElementById('chinese-words');
-        const wordElement = Array.from(chineseWordsContainer.children).find(el => el.textContent === hintWord);
-        
-        if (wordElement) {
-            userSentenceContainer.appendChild(wordElement);
-        }
-        
-        hintIndex++;
-        hintUsed = true;
-    }
-
-    function nextQuestion() {
-        if ((mode === 'questions' && questionCount < limit) || (mode === 'time' && timeLeft > 0)) {
-            displayNewSentence();
-        } else {
-            endSession();
-        }
-    }
-
-    function endSession() {
-        clearInterval(timerInterval);
-        const appElement = document.getElementById('app');
-        const finalScoreElement = document.createElement('div');
-        finalScoreElement.id = 'final-score';
-        finalScoreElement.innerHTML = `
-            <h2>Score</h2>
-            <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
-            <p class="score">${score}</p>
-            <button onclick="restartGame()">Rejouer</button>
-        `;
-        appElement.appendChild(finalScoreElement);
-    }
-
-    function getTimeString(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        return `${minutes} minute${minutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? remainingSeconds + ' seconde' + (remainingSeconds > 1 ? 's' : '') : ''}`;
-    }
-
-    function restartGame() {
-        const finalScoreElement = document.getElementById('final-score');
-        if (finalScoreElement) {
-            finalScoreElement.remove();
-        }
-        document.getElementById('app').style.display = 'none';
-        document.getElementById('home').style.display = 'block';
-        score = 0;
-        consecutiveCorrectAnswers = 0;
-        questionCount = 0;
-    }
-
-    function startGame() {
-        document.getElementById('home').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        mode = document.getElementById('mode-select').value;
-        if (mode === 'questions') {
-            limit = parseInt(document.getElementById('questions-select').value);
-            document.getElementById('timer').style.display = 'none';
-            document.getElementById('question-counter').style.display = 'inline-block';
-        } else {
-            timeLeft = parseInt(document.getElementById('time-select').value);
-            document.getElementById('timer').style.display = 'inline-block';
-            document.getElementById('question-counter').style.display = 'none';
-            startTimer();
-        }
-        displayNewSentence();
-    }
-
-    function startTimer() {
-        const timerElement = document.getElementById('timer');
-        timerInterval = setInterval(() => {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerElement.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
+        function nextQuestion() {
+            if ((mode === 'questions' && questionCount < limit) || (mode === 'time' && timeLeft > 0)) {
+                displayNewSentence();
+            } else {
                 endSession();
-            } else {
-                timeLeft--;
             }
-        }, 1000);
-    }
-
-    function updateCounter() {
-        if (mode === 'questions') {
-            const counterElement = document.getElementById('question-counter');
-            counterElement.textContent = `Question ${questionCount} / ${limit}`;
         }
-    }
 
-    function returnHome() {
-        clearInterval(timerInterval);
-        document.getElementById('app').style.display = 'none';
-        document.getElementById('home').style.display = 'block';
-        score = 0;
-        consecutiveCorrectAnswers = 0;
-        questionCount = 0;
-    }
-
-    // Événements pour la page d'accueil
-    document.getElementById('mode-select').addEventListener('change', (e) => {
-        if (e.target.value === 'questions') {
-            document.getElementById('questions-options').style.display = 'block';
-            document.getElementById('time-options').style.display = 'none';
-        } else {
-            document.getElementById('questions-options').style.display = 'none';
-            document.getElementById('time-options').style.display = 'block';
+        function endSession() {
+            clearInterval(timerInterval);
+            const appElement = document.getElementById('app');
+            const finalScoreElement = document.createElement('div');
+            finalScoreElement.id = 'final-score';
+            finalScoreElement.innerHTML = `
+                <h2>Score</h2>
+                <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
+                <p class="score">${score}</p>
+                <button onclick="restartGame()">Rejouer</button>
+            `;
+            appElement.appendChild(finalScoreElement);
         }
-    });
 
-    document.getElementById('start-button').addEventListener('click', startGame);
+        function getTimeString(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes} minute${minutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? remainingSeconds + ' seconde' + (remainingSeconds > 1 ? 's' : '') : ''}`;
+        }
 
-    // Événements pour le jeu
-    document.getElementById('chinese-words').addEventListener('dragover', allowDrop);
-    document.getElementById('chinese-words').addEventListener('drop', drop);
-    document.getElementById('user-sentence').addEventListener('dragover', allowDrop);
-    document.getElementById('user-sentence').addEventListener('drop', drop);
-    document.getElementById('submit-button').addEventListener('click', submitAnswer);
-    document.getElementById('hint-button').addEventListener('click', showHint);
-    document.getElementById('return-home-button').addEventListener('click', returnHome);
+        function restartGame() {
+            const finalScoreElement = document.getElementById('final-score');
+            if (finalScoreElement) {
+                finalScoreElement.remove();
+            }
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('home').style.display = 'block';
+            score = 0;
+            consecutiveCorrectAnswers = 0;
+            questionCount = 0;
+        }
 
-    // Initialisation
-    document.getElementById('mode-select').dispatchEvent(new Event('change'));
-</script>
+        function startGame() {
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            mode = document.getElementById('mode-select').value;
+            if (mode === 'questions') {
+                limit = parseInt(document.getElementById('questions-select').value);
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('question-counter').style.display = 'inline-block';
+            } else {
+                timeLeft = parseInt(document.getElementById('time-select').value);
+                document.getElementById('timer').style.display = 'inline-block';
+                document.getElementById('question-counter').style.display = 'none';
+                startTimer();
+            }
+            displayNewSentence();
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endSession();
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        function updateCounter() {
+            if (mode === 'questions') {
+                const counterElement = document.getElementById('question-counter');
+                counterElement.textContent = `Question ${questionCount} / ${limit}`;
+            }
+        }
+
+        function returnHome() {
+            clearInterval(timerInterval);
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('home').style.display = 'block';
+            score = 0;
+            consecutiveCorrectAnswers = 0;
+            questionCount = 0;
+        }
+
+        // Événements pour la page d'accueil
+        document.getElementById('mode-select').addEventListener('change', (e) => {
+            if (e.target.value === 'questions') {
+                document.getElementById('questions-options').style.display = 'block';
+                document.getElementById('time-options').style.display = 'none';
+            } else {
+                document.getElementById('questions-options').style.display = 'none';
+                document.getElementById('time-options').style.display = 'block';
+            }
+        });
+
+        document.getElementById('start-button').addEventListener('click', startGame);
+
+        // Événements pour le jeu
+        document.getElementById('chinese-words').addEventListener('dragover', allowDrop);
+        document.getElementById('chinese-words').addEventListener('drop', drop);
+        document.getElementById('user-sentence').addEventListener('dragover', allowDrop);
+        document.getElementById('user-sentence').addEventListener('drop', drop);
+        document.getElementById('submit-button').addEventListener('click', submitAnswer);
+        document.getElementById('hint-button').addEventListener('click', showHint);
+        document.getElementById('return-home-button').addEventListener('click', returnHome);
+
+        // Initialisation
+        document.getElementById('mode-select').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
