@@ -511,22 +511,9 @@ function touchEnd(event) {
 function handleClick(wordElement) {
     const sourceContainer = wordElement.parentElement;
     const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
-    
-    // Animer le déplacement du mot
-    const sourceRect = wordElement.getBoundingClientRect();
-    const targetRect = targetContainer.getBoundingClientRect();
-    
-    const deltaX = targetRect.left - sourceRect.left + (targetRect.width / 2 - sourceRect.width / 2);
-    const deltaY = targetRect.top - sourceRect.top + (targetRect.height / 2 - sourceRect.height / 2);
-    
-    wordElement.style.transition = 'transform 0.3s ease-out';
-    wordElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-    
-    setTimeout(() => {
-        wordElement.style.transition = '';
-        wordElement.style.transform = '';
-        targetContainer.appendChild(wordElement);
-    }, 300);
+   
+    // Déplacer le mot immédiatement sans animation
+    targetContainer.appendChild(wordElement);
 }
 
 function getDropPosition(container, x, y) {
