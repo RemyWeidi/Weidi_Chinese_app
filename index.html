@@ -431,18 +431,17 @@ updateCounter();
 }
 
 function createWordElement(word) {
-    const wordElement = document.createElement('div');
-    wordElement.className = 'word';
-    wordElement.textContent = word;
-    wordElement.draggable = true;
-    wordElement.addEventListener('dragstart', drag);
-    wordElement.addEventListener('dragend', dragEnd);
-    wordElement.addEventListener('touchstart', touchStart, {passive: false});
-    wordElement.addEventListener('touchmove', touchMove, {passive: false});
-    wordElement.addEventListener('touchend', touchEnd);
-    wordElement.addEventListener('click', handleClick);
-    return wordElement;
-}
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word';
+            wordElement.textContent = word;
+            wordElement.draggable = true;
+            wordElement.addEventListener('dragstart', drag);
+            wordElement.addEventListener('dragend', dragEnd);
+            wordElement.addEventListener('touchstart', touchStart, {passive: false});
+            wordElement.addEventListener('touchmove', touchMove, {passive: false});
+            wordElement.addEventListener('touchend', touchEnd);
+            return wordElement;
+        }
 
 function handleClick(event) {
     const clickedWord = event.target;
@@ -559,42 +558,51 @@ function touchStart(event) {
 }
 
 function touchMove(event) {
-    if (!draggedElement) return;
-    event.preventDefault();
+            if (!draggedElement) return;
+            event.preventDefault();
 
-    const touch = event.touches[0];
-    const moveX = touch.clientX - touchStartX;
-    const moveY = touch.clientY - touchStartY;
+            const touch = event.touches[0];
+            const moveX = touch.clientX - touchStartX;
+            const moveY = touch.clientY - touchStartY;
 
-    touchMoved = true;
-    draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    updateDropPlaceholder(touch.clientX, touch.clientY);
-}
-
-function touchEnd(event) {
-    if (!draggedElement) return;
-
-    const touch = event.changedTouches[0];
-    const container = document.elementFromPoint(touch.clientX, touch.clientY).closest('#chinese-words, #user-sentence');
-    
-    if (container && touchMoved) {
-        const dropPosition = getDropPosition(container, touch.clientX, touch.clientY);
-        if (dropPosition.element) {
-            container.insertBefore(draggedElement, dropPosition.element);
-        } else {
-            container.appendChild(draggedElement);
+            if (Math.abs(moveX) > 5 || Math.abs(moveY) > 5) {
+                touchMoved = true;
+                draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                updateDropPlaceholder(touch.clientX, touch.clientY);
+            }
         }
-    } else if (!touchMoved) {
-        handleClick(event);
-    }
 
-    draggedElement.style.transition = 'all 0.3s ease';
-    draggedElement.style.transform = '';
-    draggedElement.style.zIndex = '';
-    draggedElement = null;
+        function touchEnd(event) {
+            if (!draggedElement) return;
 
-    removeDropPlaceholder();
-}
+            const touch = event.changedTouches[0];
+            const touchEndTime = new Date().getTime();
+            const touchDuration = touchEndTime - touchStartTime;
+
+            if (!touchMoved && touchDuration < 200) {
+                // C'est un clic rapide
+                handleClick(draggedElement);
+            } else if (touchMoved) {
+                // C'est un glisser-déposer
+                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                const container = dropTarget.closest('#chinese-words, #user-sentence');
+                
+                if (container) {
+                    const dropPosition = getDropPosition(container, touch.clientX, touch.clientY);
+                    if (dropPosition.element) {
+                        container.insertBefore(draggedElement, dropPosition.element);
+                    } else {
+                        container.appendChild(draggedElement);
+                    }
+                }
+            }
+
+            draggedElement.style.transition = 'all 0.3s ease';
+            draggedElement.style.transform = '';
+            draggedElement.style.zIndex = '';
+            draggedElement = null;
+            removeDropPlaceholder();
+        }
 
 function submitAnswer() {
     let userSentence;
@@ -626,6 +634,116 @@ function submitAnswer() {
     document.getElementById('submit-button').removeEventListener('click', submitAnswer);
     document.getElementById('submit-button').addEventListener('click', nextQuestion);
 }
+
+function getDropPosition(container, x, y) {
+            const words = [...container.querySelectorAll('.word:not(.dragging):not(.word-placeholder)')];
+            const containerRect = container.getBoundingClientRect();
+            
+            let closestWord = null;
+            let closestDistance = Infinity;
+            let insertAfter = false;
+
+            words.forEach((word) => {
+                const rect = word.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+
+                if (distance < closestDistance) {
+                    closestWord = word;
+                    closestDistance = distance;
+                    insertAfter = (x > centerX && y > rect.top && y < rect.bottom) || 
+                                  (y > centerY && x > rect.left && x < rect.right);
+                }
+            });
+
+            if (closestWord) {
+                return { element: insertAfter ? closestWord.nextSibling : closestWord };
+            } else {
+                // Si aucun mot n'est proche, insérer à la fin
+                return { element: null };
+            }
+        }
+
+        function updateDropPlaceholder(x, y) {
+            removeDropPlaceholder();
+            const containers = [document.getElementById('chinese-words'), document.getElementById('user-sentence')];
+            let targetContainer = null;
+            let dropPosition = null;
+
+            for (const container of containers) {
+                const rect = container.getBoundingClientRect();
+                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                    targetContainer = container;
+                    dropPosition = getDropPosition(container, x, y);
+                    break;
+                }
+            }
+
+            if (targetContainer && dropPosition) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'word word-placeholder';
+                placeholder.style.width = `${draggedElement.offsetWidth}px`;
+                placeholder.style.height = `${draggedElement.offsetHeight}px`;
+                placeholder.style.backgroundColor = 'transparent';
+                placeholder.style.border = '2px dashed #4a90e2';
+                
+                if (dropPosition.element) {
+                    targetContainer.insertBefore(placeholder, dropPosition.element);
+                } else {
+                    targetContainer.appendChild(placeholder);
+                }
+            }
+        }
+
+        function removeDropPlaceholder() {
+            const placeholder = document.querySelector('.word-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+        }
+
+        function handleClick(wordElement) {
+            const sourceContainer = wordElement.parentElement;
+            const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
+            
+            targetContainer.appendChild(wordElement);
+        }
+
+        function drag(event) {
+            draggedElement = event.target;
+            event.dataTransfer.setData('text/plain', event.target.textContent);
+            setTimeout(() => {
+                event.target.classList.add('dragging');
+                updateDropPlaceholder(event.clientX, event.clientY);
+            }, 0);
+        }
+
+        function dragEnd(event) {
+            event.target.classList.remove('dragging');
+            removeDropPlaceholder();
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            updateDropPlaceholder(event.clientX, event.clientY);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const container = event.currentTarget;
+            const dropPosition = getDropPosition(container, event.clientX, event.clientY);
+            
+            if (draggedElement) {
+                if (dropPosition.element) {
+                    container.insertBefore(draggedElement, dropPosition.element);
+                } else {
+                    container.appendChild(draggedElement);
+                }
+                draggedElement.classList.remove('dragging');
+            }
+            removeDropPlaceholder();
+        }
 
 function updateScore(isCorrect) {
     let points = 0;
