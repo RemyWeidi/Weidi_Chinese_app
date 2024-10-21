@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weidi Chinese App</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js" type="module"></script>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -442,12 +442,74 @@ function createWordElement(word) {
     wordElement.draggable = true;
     wordElement.addEventListener('dragstart', drag);
     wordElement.addEventListener('dragend', dragEnd);
+    wordElement.addEventListener('touchstart', touchStart, {passive: false});
+    wordElement.addEventListener('touchmove', touchMove, {passive: false});
+    wordElement.addEventListener('touchend', touchEnd);
     // Utilisez la fonction handleClick directement ici
     wordElement.addEventListener('click', handleClick);
     wordElement.addEventListener('click', function() { handleClick(this); });
     return wordElement;
 }
 
+function touchStart(event) {
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = new Date().getTime();
+    draggedElement = event.target;
+    touchMoved = false;
+    event.preventDefault();
+    
+    draggedElement.style.transition = 'none';
+    draggedElement.style.zIndex = '1000';
+}
+
+function touchMove(event) {
+    if (!draggedElement) return;
+    event.preventDefault();
+
+    const touch = event.touches[0];
+    const moveX = touch.clientX - touchStartX;
+    const moveY = touch.clientY - touchStartY;
+
+    if (Math.abs(moveX) > 5 || Math.abs(moveY) > 5) {
+        touchMoved = true;
+        draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        updateDropPlaceholder(touch.clientX, touch.clientY);
+    }
+}
+
+function touchEnd(event) {
+    if (!draggedElement) return;
+
+    const touch = event.changedTouches[0];
+    const touchEndTime = new Date().getTime();
+    const touchDuration = touchEndTime - touchStartTime;
+
+    if (!touchMoved && touchDuration < 200) {
+        // C'est un clic rapide
+        handleClick(draggedElement);
+    } else if (touchMoved) {
+        // C'est un glisser-déposer
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        const container = dropTarget.closest('#chinese-words, #user-sentence');
+        
+        if (container) {
+            const dropPosition = getDropPosition(container, touch.clientX, touch.clientY);
+            if (dropPosition.element) {
+                container.insertBefore(draggedElement, dropPosition.element);
+            } else {
+                container.appendChild(draggedElement);
+            }
+        }
+    }
+
+    draggedElement.style.transition = 'all 0.3s ease';
+    draggedElement.style.transform = '';
+    draggedElement.style.zIndex = '';
+    draggedElement = null;
+    removeDropPlaceholder();
+}
 
 function handleClick(wordElement) {
     const sourceContainer = wordElement.parentElement;
@@ -790,29 +852,6 @@ document.getElementById('return-home-button').addEventListener('click', returnHo
 
 // Initialisation
 document.getElementById('mode-select').dispatchEvent(new Event('change'));
-document.addEventListener('DOMContentLoaded', function() {
-    new Sortable(document.getElementById('chinese-words'), {
-        group: 'shared',
-        animation: 150,
-        onEnd: function(evt) {
-            if (evt.from !== evt.to) {
-                // L'élément a été déplacé d'un conteneur à l'autre
-                handleClick(evt.item);
-            }
-        }
-    });
-
-    new Sortable(document.getElementById('user-sentence'), {
-        group: 'shared',
-        animation: 150,
-        onEnd: function(evt) {
-            if (evt.from !== evt.to) {
-                // L'élément a été déplacé d'un conteneur à l'autre
-                handleClick(evt.item);
-            }
-        }
-    });
-});
 </script>
 </body>
 </html>
