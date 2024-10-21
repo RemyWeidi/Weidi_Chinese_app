@@ -115,7 +115,7 @@
             justify-content: center;
             align-content: flex-start;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             min-height: 60px;
             padding: 1rem;
             position: relative;
@@ -158,9 +158,15 @@
             opacity: 0.5;
             z-index: 1000;
         }
+        #result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
         #result {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             font-size: 1.2rem;
             font-weight: 600;
             text-align: center;
@@ -169,10 +175,7 @@
             font-family: 'Noto Sans SC', sans-serif;
             font-weight: 500;
             font-size: 1.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
             text-align: center;
-            word-spacing: 0.5em;
         }
         #score-popup {
             position: fixed;
@@ -302,8 +305,10 @@
             <div id="english-sentence"></div>
             <div id="chinese-words"></div>
             <div id="user-sentence"></div>
-            <div id="result"></div>
-            <div id="correct-sentence"></div>
+            <div id="result-container">
+                <div id="result"></div>
+                <div id="correct-sentence"></div>
+            </div>
             <input type="text" id="user-input" placeholder="Entrez votre réponse ici" style="display: none;">
             <button id="submit-button">Valider</button>
             <button id="reset-button">Reset</button>
@@ -971,7 +976,7 @@
             userInput.value = '';
 
             if (difficulty === 'normal') {
-                const shuffledWords = shuffleArray(currentSentence.chinese.split(' '));
+                const shuffledWords = shuffleArray(currentSentence.chinese.split(''));
                 shuffledWords.forEach(word => {
                     const wordElement = createWordElement(word);
                     chineseWordsContainer.appendChild(wordElement);
@@ -980,7 +985,7 @@
                 chineseWordsContainer.style.display = 'flex';
                 userInput.style.display = 'none';
             } else if (difficulty === 'difficult') {
-                const shuffledChars = shuffleArray(currentSentence.chinese.replace(/\s/g, '').split(''));
+                const shuffledChars = shuffleArray(currentSentence.chinese.split(''));
                 shuffledChars.forEach(char => {
                     const charElement = createWordElement(char);
                     chineseWordsContainer.appendChild(charElement);
@@ -1014,6 +1019,7 @@
             wordElement.addEventListener('touchstart', touchStart, {passive: false});
             wordElement.addEventListener('touchmove', touchMove, {passive: false});
             wordElement.addEventListener('touchend', touchEnd);
+            wordElement.addEventListener('click', handleWordClick);
             return wordElement;
         }
 
@@ -1070,14 +1076,15 @@
 
             words.forEach((word) => {
                 const rect = word.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                const distance = Math.sqrt(
+                    Math.pow(x - (rect.left + rect.width / 2), 2) +
+                    Math.pow(y - (rect.top + rect.height / 2), 2)
+                );
 
                 if (distance < closestDistance) {
                     closestWord = word;
                     closestDistance = distance;
-                    insertAfter = x > centerX && y > centerY;
+                    insertAfter = x > rect.left + rect.width / 2;
                 }
             });
 
@@ -1184,25 +1191,24 @@
             } else {
                 userSentence = Array.from(document.getElementById('user-sentence').children)
                     .map(word => word.textContent)
-                    .join(difficulty === 'normal' ? ' ' : '');
+                    .join('');
             }
             
             const resultElement = document.getElementById('result');
             const correctSentenceElement = document.getElementById('correct-sentence');
             
-            if (userSentence === currentSentence.chinese.replace(/\s/g, '')) {
+            if (userSentence === currentSentence.chinese) {
                 resultElement.textContent = 'Bonne réponse !';
                 resultElement.style.color = 'var(--secondary-color)';
-                correctSentenceElement.style.color = 'var(--secondary-color)';
                 updateScore(true);
             } else {
                 resultElement.textContent = 'Mauvaise réponse.';
                 resultElement.style.color = 'var(--accent-color)';
-                correctSentenceElement.style.color = 'var(--accent-color)';
                 updateScore(false);
             }
             
             correctSentenceElement.textContent = currentSentence.chinese;
+            correctSentenceElement.style.color = 'var(--text-color)';
             
             document.getElementById('submit-button').textContent = 'Question suivante';
             document.getElementById('submit-button').removeEventListener('click', submitAnswer);
@@ -1245,14 +1251,14 @@
             const userInput = document.getElementById('user-input');
             
             if (difficulty === 'expert') {
-                const words = currentSentence.chinese.split(' ');
+                const words = currentSentence.chinese.split('');
                 userInput.value = words.slice(0, hintIndex + 1).join('');
             } else {
                 while (userSentenceContainer.firstChild) {
                     chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
                 }
 
-                const correctWords = currentSentence.chinese.split(difficulty === 'normal' ? ' ' : '');
+                const correctWords = currentSentence.chinese.split('');
                 
                 for (let i = 0; i <= hintIndex; i++) {
                     const hintWord = correctWords[i];
@@ -1267,7 +1273,7 @@
             hintIndex++;
             hintUsed = true;
 
-            if (hintIndex >= currentSentence.chinese.split(difficulty === 'normal' ? ' ' : '').length) {
+            if (hintIndex >= currentSentence.chinese.length) {
                 document.getElementById('hint-button').disabled = true;
             }
         }
