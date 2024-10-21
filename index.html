@@ -444,7 +444,9 @@ function createWordElement(word) {
     wordElement.addEventListener('touchstart', touchStart, {passive: false});
     wordElement.addEventListener('touchmove', touchMove, {passive: false});
     wordElement.addEventListener('touchend', touchEnd);
+    // Utilisez la fonction handleClick directement ici
     wordElement.addEventListener('click', handleClick);
+    wordElement.addEventListener('click', function() { handleClick(this); });
     return wordElement;
 }
 
