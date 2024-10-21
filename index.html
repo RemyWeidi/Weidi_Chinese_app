@@ -1127,12 +1127,10 @@
             touchMoved = false;
             event.preventDefault();
             
-            setTimeout(() => {
-                if (!touchMoved) {
-                    draggedElement.classList.add('dragging');
-                    updateDropPlaceholder(touch.clientX, touch.clientY);
-                }
-            }, 100);
+            draggedElement.style.transition = 'none';
+            draggedElement.style.zIndex = '1000';
+            
+            updateDropPlaceholder(touch.clientX, touch.clientY);
         }
 
         function touchMove(event) {
@@ -1143,17 +1141,16 @@
             const moveX = touch.clientX - touchStartX;
             const moveY = touch.clientY - touchStartY;
 
-            if (Math.abs(moveX) > 10 || Math.abs(moveY) > 10) {
-                touchMoved = true;
-                draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                draggedElement.style.zIndex = 1000;
+            touchMoved = true;
+            draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
 
-                updateDropPlaceholder(touch.clientX, touch.clientY);
-            }
+            updateDropPlaceholder(touch.clientX, touch.clientY);
         }
 
         function touchEnd(event) {
             if (!draggedElement) return;
+
+            draggedElement.style.transition = 'all 0.3s ease';
 
             if (!touchMoved) {
                 handleWordClick(event);
@@ -1173,7 +1170,6 @@
 
             draggedElement.style.transform = '';
             draggedElement.style.zIndex = '';
-            draggedElement.classList.remove('dragging');
             draggedElement = null;
 
             removeDropPlaceholder();
