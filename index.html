@@ -69,6 +69,7 @@
             font-size: 1rem;
             text-align: center;
             text-align-last: center;
+            display: block;
         }
         select {
             background-color: var(--background-color);
@@ -321,45 +322,1933 @@
 
     <script>
         const sentences = [
-            {
-                english: "He is confident about this project.",
-                chinese: "他对这个项目充满信心",
+        {
+                english: "Thanks to everybody’s help, we finished the job on time",
+                chinese: "亏得大家帮忙, 我们才按时把这活儿干完",
             },
-            {
-                english: "Her grades have improved significantly compared to last year.",
-                chinese: "她的成绩比去年有了明显的进步",
+{
+                english: "Because of bad weather, the plane didn’t take off on time",
+                chinese: "因为天气的关系, 飞机不能按时起飞",
             },
-            {
-                english: "We need to discuss this plan further.",
-                chinese: "我们需要进一步商量这个计划",
+{
+                english: "We must work harder to meet the deadline",
+                chinese: "要按时完成, 我们得抓紧一些",
             },
-            {
-                english: "He is studying hard, preparing for the exam.",
-                chinese: "他正在努力学习准备考试",
+{
+                english: "They've been giving broad hints about what to expect",
+                chinese: "他们一直在明确暗示会发生什么",
             },
-            {
-                english: "She is a very responsible teacher.",
-                chinese: "她是一位非常有责任心的老师",
+{
+                english: "I hadn't really digested the news that the letter contained",
+                chinese: "我还没有真正理解信中包含的消息",
             },
-            {
-                english: "Even if faced with difficulties, you shouldn't give up.",
-                chinese: "即使遇到困难也不能放弃",
+{
+                english: "The map shows the rest of the western region, encompassing nine states",
+                chinese: "地图显示了西部地区的其余部分, 共包含９个州",
             },
-            {
-                english: "He runs every morning to stay healthy.",
-                chinese: "他每天早晨跑步以保持健康",
+{
+                english: "The rent is 400 yuan a month, including water and electricity",
+                chinese: "房租每月四百元, 水电费包括在内",
             },
-            {
-                english: "He was very confident during the interview.",
-                chinese: "在面试中他表现得很自信",
+{
+                english: "The document was highly classified and circulated to a very limited group of people",
+                chinese: "这份文件高度保密, 只在很小的范围内传阅",
             },
-            {
-                english: "The teacher is happy with the students' progress.",
-                chinese: "老师对学生的进步感到高兴",
+{
+                english: "I'm telling you this in the strictest confidence",
+                chinese: "我现在告诉你的这件事情必须绝对保密",
             },
-            {
-                english: "The city's transportation is very convenient.",
-                chinese: "这个城市的交通非常方便",
+{
+                english: "He becomes more and more conservative as he gets older",
+                chinese: "他年纪越来越大,就变得越来越保守",
+            },
+{
+                english: "His group was forced to turn back and take an alternate route",
+                chinese: "他的小组被迫返回并选择另一条路线",
+            },
+{
+                english: "She avoids meeting her ex-boyfriend",
+                chinese: "她避免和以前的男朋友见面",
+            },
+{
+                english: "Natural disasters cannot be avoided",
+                chinese: "自然灾害是无法避免的",
+            },
+{
+                english: "When the result was announced his face said it all",
+                chinese: "结果宣布的时候, 他脸上的表情说明了一切",
+            },
+{
+                english: "He made great progress in his studies and the teacher praised him in class",
+                chinese: "他学习进步很大, 老师在班上表扬了他",
+            },
+{
+                english: "Her compositions are often commended by the teacher",
+                chinese: "她的作文经常得到老师的表扬",
+            },
+{
+                english: "When teachers assign homework, students usually feel an obligation to do it",
+                chinese: "老师布置家庭作业时, 学生们通常都觉得必须完成",
+            },
+{
+                english: "Working on the film was an amazing experience",
+                chinese: "参与这部电影的制作是一次了不起的经历",
+            },
+{
+                english: "The engineer demonstrated the operation to the people",
+                chinese: "工程师把操作过程演示给大家看",
+            },
+{
+                english: "She's currently undergoing psychological tests",
+                chinese: "她目前正在接受心理测试",
+            },
+{
+                english: "You must thoroughly change your bad habits",
+                chinese: "要彻底改掉你的坏习惯",
+            },
+{
+                english: "We need a radical reform of our prison system",
+                chinese: "我们需要彻底改革监狱体制",
+            },
+{
+                english: "The whole issue was thoroughly aired at the meeting",
+                chinese: "整个问题在会上被彻底公开",
+            },
+{
+                english: "We did OK in the third quarter, but got blown away in the last",
+                chinese: "我们在第三节打得还行, 但在最后一节被彻底打败了",
+            },
+{
+                english: "She turned him down cold",
+                chinese: "她彻底拒绝了他",
+            },
+{
+                english: "It's a complete disaster",
+                chinese: "这是一场彻底的灾难",
+            },
+{
+                english: "We must kill this rumour once and for all",
+                chinese: "我们必须彻底终止这一谣言",
+            },
+{
+                english: "I interpreted the silence as consent",
+                chinese: "我把这沉默理解为同意",
+            },
+{
+                english: "There was a long interval of silence",
+                chinese: "有一段长时间的沉默",
+            },
+{
+                english: "I like to travel light, without the encumbrance of a heavy suitcase",
+                chinese: "我喜欢轻装上路, 没有沉重行李箱的拖累",
+            },
+{
+                english: "We want the maximum number of people to attend to help us cover our costs",
+                chinese: "我们希望有尽量多的人参加, 以帮我们承担费用",
+            },
+{
+                english: "Everybody agreed that the plan was far from perfect",
+                chinese: "大家都承认这个规划还很不完善",
+            },
+{
+                english: "So far from admitting his own mistake, he falsely accused his critic",
+                chinese: "他自己错了不承认, 反而倒打一耙",
+            },
+{
+                english: "We can't afford another scandal in the firm",
+                chinese: "公司可不能再出丑闻了, 我们承受不起",
+            },
+{
+                english: "Each side was exceedingly well prepared",
+                chinese: "各方都做了极为充分的准备",
+            },
+{
+                english: "He has come up with some fantastic, inventive ideas",
+                chinese: "他提出了一些出色的、富有创意的想法",
+            },
+{
+                english: "We've invited some famous people to our conference",
+                chinese: "我们邀请了一些知名人士出席会议",
+            },
+{
+                english: "She was badly upset by the sad news",
+                chinese: "不幸的消息给了她很大的刺激",
+            },
+{
+                english: "Carelessness is the main cause of work accidents",
+                chinese: "麻痹粗心是产生事故的主要原因",
+            },
+{
+                english: "These businesses stimulate the creation of local jobs",
+                chinese: "这些企业促进了当地的就业",
+            },
+{
+                english: "We must take immediate and effective measures",
+                chinese: "我们必须迅速采取有效措施",
+            },
+{
+                english: "Women often receive unfair treatment in society",
+                chinese: "妇女在社会上常常受到不公正的待遇",
+            },
+{
+                english: "We guarantee prompt delivery of goods",
+                chinese: "我们担保送货迅速",
+            },
+{
+                english: "Who'll be our Chinese teacher this year?",
+                chinese: "今年谁担任我们的中文老师?",
+            },
+{
+                english: "She was so ingenuous that she was cheated",
+                chinese: "她太单纯, 以至于上当受骗",
+            },
+{
+                english: "He got tired of the sameness of the work in the office",
+                chinese: "他对办公室的单调工作感到厌烦",
+            },
+{
+                english: "He won’t go out alone for fear of being mugged",
+                chinese: "他不敢单独外出, 怕有人劫道",
+            },
+{
+                english: "Poor posture can cause neck ache, headaches and breathing problems",
+                chinese: "姿势不当会导致颈部疼痛、头痛和呼吸困难",
+            },
+{
+                english: "This has also led to a concentration of wealth in a small number of hands",
+                chinese: "这也导致了财富集中在少数人手里",
+            },
+{
+                english: "Natural disasters have obviously contributed to the continent's economic crisis",
+                chinese: "自然灾害显然是导致该大陆爆发经济危机的原因之一",
+            },
+{
+                english: "Jealousy causes distress and painful emotions",
+                chinese: "嫉妒会导致苦恼和痛苦",
+            },
+{
+                english: "Lots of small businesses have crashed in the last few months",
+                chinese: "过去几个月大量小公司破产倒闭",
+            },
+{
+                english: "There was a note of triumph in her voice",
+                chinese: "她说话的语气得意扬扬的",
+            },
+{
+                english: "We registered the baby's birth today",
+                chinese: "我们今天给宝宝作了出生登记",
+            },
+{
+                english: "I just got angry and started shouting at her",
+                chinese: "我的确发了脾气, 对她大声喊了起来",
+            },
+{
+                english: "No matter what he says, I will not change my mind",
+                chinese: "任凭他怎么说, 我都不动摇",
+            },
+{
+                english: "He is a man of distinct character",
+                chinese: "他是一个性情独特的人",
+            },
+{
+                english: "He was standing all alone in the middle of the hall",
+                chinese: "他独自一人站在大厅中央",
+            },
+{
+                english: "I spent my childhood in my hometown",
+                chinese: "我在故乡度过了孩提时代",
+            },
+{
+                english: "My boyfriend and I had a romantic night",
+                chinese: "我和男朋友度过了一个浪漫的晚上",
+            },
+{
+                english: "He had a happy childhood in the country",
+                chinese: "他在农村度过了快乐的童年",
+            },
+{
+                english: "The two families joined up for the rest of the holiday",
+                chinese: "两个家庭一起度过了余下的假期",
+            },
+{
+                english: "She had made their childhood so joyous and carefree",
+                chinese: "她让他们度过了一个快乐无比、无忧无虑的童年",
+            },
+{
+                english: "If you compare and contrast Chinese and English, you will find many interesting issues",
+                chinese: "你对比一下中文和英文, 就会发现很多有趣的问题",
+            },
+{
+                english: "I don't know how to cope with such a situation",
+                chinese: "我不知道怎么样对付这种情况",
+            },
+{
+                english: "It is indeed difficult to deal with such unreasonable people",
+                chinese: "这种不讲道理的人, 实在难对付",
+            },
+{
+                english: "I have no complaints regarding his work",
+                chinese: "对于他的工作我没有意见",
+            },
+{
+                english: "How did she react to your suggestion?",
+                chinese: "她对于你的建议有什么反应？",
+            },
+{
+                english: "What is your opinion on this problem?",
+                chinese: "对于这个问题, 你怎么看?",
+            },
+{
+                english: "Learning Chinese is very helpful towards understanding the Chinese people and Chinese culture",
+                chinese: "学习中文对于了解中国人和中国文化很有帮助",
+            },
+{
+                english: "The cinema has little attraction for me",
+                chinese: "电影对于我没什么吸引力",
+            },
+{
+                english: "I feel so angry about the whole issue",
+                chinese: "对于整件事我感到非常愤怒",
+            },
+{
+                english: "His works have been translated into a dozen foreign languages",
+                chinese: "他的著作被翻译为十多种语言",
+            },
+{
+                english: "You often feel sick in the morning when you are pregnant",
+                chinese: "要是怀孕了,早上常会有恶心的感觉",
+            },
+{
+                english: "They'll never be able to make full use of their brains",
+                chinese: "他们永远都无法充分发挥自己的聪明才智",
+            },
+{
+                english: "Please turn your books to page 20",
+                chinese: "请把书翻到二十页",
+            },
+{
+                english: "The storm is getting stronger rather than weaker",
+                chinese: "暴风雨没有减弱反而增强了",
+            },
+{
+                english: "The reports do not accurately reflect the bank's position",
+                chinese: "报告没有准确地反映银行的立场",
+            },
+{
+                english: "The houses are arranged around a central courtyard",
+                chinese: "房子分布在中央庭院的周围",
+            },
+{
+                english: "the clearest possible map of criminal activity",
+                chinese: "最清楚的犯罪活动分布图",
+            },
+{
+                english: "A disturbance in the street distracted my attention",
+                chinese: "街上的一阵骚乱分散了我的注意力",
+            },
+{
+                english: "Living things are generally categorized into animals and plants",
+                chinese: "生物一般分为动物和植物两大类",
+            },
+{
+                english: "As the storm approached, the birds were seeking shelter",
+                chinese: "暴风雨要来了, 鸟儿纷纷躲藏起来",
+            },
+{
+                english: "The girl was well dressed, as usual, though in a more conservative style",
+                chinese: "和平时一样, 这个女孩衣着讲究, 只是风格更为传统",
+            },
+{
+                english: "I won’t go unless you go with me",
+                chinese: "除非你跟我去, 否则我不去",
+            },
+{
+                english: "You must pay the electricity bill in ten days or face an electricity cutoff",
+                chinese: "你们一定要在十天内付清电费, 否则要断电",
+            },
+{
+                english: "The quality of this product does not meet the requirements",
+                chinese: "这种产品的质量不符合要求",
+            },
+{
+                english: "His behavior does not fit his post",
+                chinese: "他的行为不符合他的职位",
+            },
+{
+                english: "I've committed much time to this project",
+                chinese: "我已经为这个项目付出了很多时间",
+            },
+{
+                english: "We should improve our relationship with our neighbors",
+                chinese: "我们要改善和邻居的关系",
+            },
+{
+                english: "Everybody wants to improve their living conditions",
+                chinese: "人人都想改善生活条件",
+            },
+{
+                english: "I encourage you to improve your relationship with her",
+                chinese: "我劝你改善和她的关系",
+            },
+{
+                english: "The exercise will improve strength and endurance",
+                chinese: "这种锻炼会改善体力, 增加耐力",
+            },
+{
+                english: "Can you summarize this report in about 500 Chinese characters?",
+                chinese: "你能不能把这份报告概括成五百个字左右的短文?",
+            },
+{
+                english: "He’s particularly interested in computers",
+                chinese: "他对计算机格外感兴趣",
+            },
+{
+                english: "The suit made him look especially smart",
+                chinese: "他穿上西装显得格外精神",
+            },
+{
+                english: "The dining area is separated from the kitchen by a screen",
+                chinese: "吃饭的地方和厨房用屏风隔开",
+            },
+{
+                english: "They served breakfast all day and sold it cheap",
+                chinese: "他们全天供应早餐而且卖得很便宜",
+            },
+{
+                english: "His aim is to buy a new car at the end of the year",
+                chinese: "他的目标是年底前购买新车",
+            },
+{
+                english: "Some commercials try to deceive the public into buying inferior goods",
+                chinese: "有些电视广告试图欺骗公众购买劣质商品",
+            },
+{
+                english: "I accepted his offer of a permanent job",
+                chinese: "我接受了他提供的一份固定工作",
+            },
+{
+                english: "The factory had to close down for lack of orders",
+                chinese: "那家工厂因无人订货而被迫关闭",
+            },
+{
+                english: "The meaning of this word varies with different contexts",
+                chinese: "这个词用在不同场合有不同的含义",
+            },
+{
+                english: "This spring water is rich in minerals",
+                chinese: "这里的泉水含有多种矿物质",
+            },
+{
+                english: "In study memorization should not be stressed at the expense of comprehension",
+                chinese: "学习只偏重记忆而忽视理解是不行的",
+            },
+{
+                english: "She's feeling rather neglected",
+                chinese: "她觉得自己有些被忽视了",
+            },
+{
+                english: "Steve longed for the good old days",
+                chinese: "史蒂夫怀念往昔的美好岁月",
+            },
+{
+                english: "I doubt if he was telling the truth",
+                chinese: "我怀疑他说的话是不是真的",
+            },
+{
+                english: "I had a kind of suspicion that he was cheating",
+                chinese: "我有点儿怀疑他在欺骗",
+            },
+{
+                english: "Her innocence is beyond all doubt",
+                chinese: "她的清白完全不需要怀疑",
+            },
+{
+                english: "I never disbelieved their story",
+                chinese: "我从没怀疑过他们的说法",
+            },
+{
+                english: "I doubt whether that will actually happen",
+                chinese: "我怀疑那事是否真的会发生",
+            },
+{
+                english: "I suspect he is having an affair with that woman",
+                chinese: "我怀疑他和那个女人有婚外恋",
+            },
+{
+                english: "He expected me to do something to ameliorate his depression",
+                chinese: "他期待我做点什么来缓解他的抑郁情绪",
+            },
+{
+                english: "Yoga helps to relax me and manage stress",
+                chinese: "练瑜伽让我得到放松, 缓解压力",
+            },
+{
+                english: "There are techniques that can help to reduce stress",
+                chinese: "有一些技巧能帮助缓解压力",
+            },
+{
+                english: "I've received too many letters and I'm not able to reply to them one by one",
+                chinese: "来信太多, 我不能逐一回复",
+            },
+{
+                english: "My friend's reply was courteous but firm",
+                chinese: "我朋友的回复很客气但很坚决",
+            },
+{
+                english: "The mayor sees to it that he replies to every letter promptly",
+                chinese: "市长确保及时回复每一封信",
+            },
+{
+                english: "I have nothing else to report",
+                chinese: "我没有其他要汇报的了",
+            },
+{
+                english: "People can obtain a great deal of information from the Internet",
+                chinese: "人们可以从英特网获取大量信息",
+            },
+{
+                english: "We now give patients access to their medical records",
+                chinese: "我们现在为病人提供获取自己的医疗记录的权利",
+            },
+{
+                english: "People are encouraged to acquire new skills and experiment with untested methods",
+                chinese: "人们受到鼓励去获取新技能、尝试新办法",
+            },
+{
+                english: "He has been very busy lately and has hardly had a single good night’s rest",
+                chinese: "他最近太忙, 几乎没睡过一个囫囵觉",
+            },
+{
+                english: "My hometown had changed so much that I could hardly recognize it",
+                chinese: "故乡变化太大, 我几乎认不出来了",
+            },
+{
+                english: "They resuscitated a man who had almost drowned",
+                chinese: "他们把一个几乎淹死了的人救活了",
+            },
+{
+                english: "I have very little leisure time in this job",
+                chinese: "我干这个工作几乎没有清闲的时候",
+            },
+{
+                english: "The reproduction is almost as good as the original",
+                chinese: "这件复制品几乎与原作无异",
+            },
+{
+                english: "Almost everyone in this country speaks some English",
+                chinese: "这个国家的人几乎都会说一点英语",
+            },
+{
+                english: "She spends nearly all her salary on new clothes",
+                chinese: "她的工资几乎全用来买新衣服",
+            },
+{
+                english: "In China almost every town has an ancient tower",
+                chinese: "在中国几乎每一个城市都有一座古塔",
+            },
+{
+                english: "The first few weeks after I arrived, it rained almost every day",
+                chinese: "我刚来的头几个星期, 几乎天天下雨",
+            },
+{
+                english: "What kind of setup do you work for?",
+                chinese: "你在什么机构上班？",
+            },
+{
+                english: "Such an accumulation of knowledge cannot be ignored",
+                chinese: "这样的知识积累不可忽视",
+            },
+{
+                english: "He was very excited, and took a long time to calm down",
+                chinese: "他很激动, 心情久久不能平静",
+            },
+{
+                english: "In a quick glance I noticed her agitation",
+                chinese: "就在这一瞥之间, 我看出了她非常激动",
+            },
+{
+                english: "Two minutes before the end of the match he scored a goal How exciting!",
+                chinese: "比赛结束前两分钟, 他踢进一球, 真是激动人心!",
+            },
+{
+                english: "He is so hot-tempered and excitable, like a bottle of soda water exploding",
+                chinese: "他是如此暴躁并且易激动, 就像一瓶突然喷射的苏打水",
+            },
+{
+                english: "He got the job through stiff competition",
+                chinese: "他通过激烈的竞争才得到这份工作",
+            },
+{
+                english: "Mum will get angry if I don’t pass the exam",
+                chinese: "我如果考试不及格, 妈妈要气恼的",
+            },
+{
+                english: "I regret to inform you that you failed the exam",
+                chinese: "我遗憾地告诉你, 你考试没及格",
+            },
+{
+                english: "How are you going to explain to your parents about your not passing the exam?",
+                chinese: "考试不及格, 你怎么向你父母交代?",
+            },
+{
+                english: "The new version of the software is extremely convenient to use",
+                chinese: "新版的软件使用起来极其方便",
+            },
+{
+                english: "Customers are extremely unhappy with such service",
+                chinese: "顾客对这样的服务态度极其不满",
+            },
+{
+                english: "The weather was at its worst; bitterly cold, with leaden skies that gave minimum visibility",
+                chinese: "天气极其恶劣寒冷刺骨, 天色晦暗, 能见度极低",
+            },
+{
+                english: "There are indications that the talks will resume soon",
+                chinese: "有迹象表明会谈即将恢复",
+            },
+{
+                english: "She could hardly contain her excitement as the day of her holiday approached",
+                chinese: "假日即将到来, 她兴奋得不能自已",
+            },
+{
+                english: "He carefully figured out what time the first train would pass by",
+                chinese: "他细心掐算第一列火车即将通过的时刻",
+            },
+{
+                english: "We are extremely glad to learn that he will soon complete his studies abroad and return home",
+                chinese: "听说他即将学成归国, 欣喜万分",
+            },
+{
+                english: "The end of the world may be nigh, but do we really care?",
+                chinese: "世界末日或许即将来临, 但我们真的在乎吗？",
+            },
+{
+                english: "She is very excited about her forthcoming wedding",
+                chinese: "她为即将举行的婚礼而十分激动",
+            },
+{
+                english: "He got up late and rushed to school without eating any breakfast",
+                chinese: "他起晚了, 没吃早饭就急忙去了学校",
+            },
+{
+                english: "The call was for 6 o'clock so the actors should be there by 5",
+                chinese: "六点集合, 所以演员五点就需到达",
+            },
+{
+                english: "All mention of that episode has been obliterated from their history books",
+                chinese: "所有有关那次事件的记载都从他们的历史书里删去了",
+            },
+{
+                english: "He violated school discipline and was reprimanded",
+                chinese: "他违反学校纪律, 受到了批评",
+            },
+{
+                english: "The principal convened a teachers' meeting to discuss the issue of student discipline",
+                chinese: "校长召开全体教师会议, 讨论学生纪律问题",
+            },
+{
+                english: "The performance showed great technical accomplishment",
+                chinese: "表演展现了技巧方面的很高造诣",
+            },
+{
+                english: "He handled a difficult situation with great skill and address",
+                chinese: "他曾以高超的技巧和圆通应对困境",
+            },
+{
+                english: "Now that you know you are wrong, you should mend your ways without delay",
+                chinese: "既然知道错了, 就要及早回头",
+            },
+{
+                english: "Now that you have expressed your determination, you should act",
+                chinese: "你既然表示了决心, 就应该见之于行动",
+            },
+{
+                english: "Since they had a fair warning, they have no reason to complain",
+                chinese: "既然事前提醒过他们, 他们就没什么可埋怨的",
+            },
+{
+                english: "As you are not ready, we must go without you",
+                chinese: "既然你没准备好, 我们只能先走了",
+            },
+{
+                english: "If you thought that wasn’t fair, why didn’t you speak up?",
+                chinese: "既然你认为那不公平, 为什么不痛痛快快地说出来呢？",
+            },
+{
+                english: "Since you dislike your boyfriend so much, just dump him!",
+                chinese: "你既然这么讨厌男朋友, 干脆不要他了!",
+            },
+{
+                english: "If you can join us, I shall be very glad indeed",
+                chinese: "如果你能加入我们的行列, 那我真太高兴了",
+            },
+{
+                english: "Try including fresh orange segments when cooking",
+                chinese: "烹煮时试着加入一些新鲜的橘瓣",
+            },
+{
+                english: "If you had only one wish, what would you wish for?",
+                chinese: "假如只有一个愿望, 你的愿望是什么？",
+            },
+{
+                english: "The software will detect and remove viruses",
+                chinese: "这款软件可以检测并清除病毒",
+            },
+{
+                english: "In the past three years, the student population of this school has been reduced by twenty percent",
+                chinese: "在过去三年中, 这个学校的学生人数减少了百分之二十",
+            },
+{
+                english: "The number of speakers of this language is on the decline",
+                chinese: "说这种语言的人数在不断减少",
+            },
+{
+                english: "The reduction of forest areas causes great damage to the environment",
+                chinese: "森林面积的减少给环境造成很大危害",
+            },
+{
+                english: "The government has decreased its support for small business",
+                chinese: "政府减少了对小企业的支持",
+            },
+{
+                english: "Police statistics show that violent crime is on the decrease",
+                chinese: "警方的统计数据显示, 暴力犯罪在减少",
+            },
+{
+                english: "Some groups have decreased their cigarette consumption",
+                chinese: "一些人群减少了烟草消费",
+            },
+{
+                english: "Poverty had declined during his presidency",
+                chinese: "在他担任主席期间, 贫困人口减少了",
+            },
+{
+                english: "In desperation I joined a physical exercise class",
+                chinese: "我实在没办法了, 只好参加了一个健身班",
+            },
+{
+                english: "The fishing boat gradually moved away from the seacoast",
+                chinese: "渔船渐渐地离开了海岸",
+            },
+{
+                english: "Some old customs are gradually disappearing",
+                chinese: "有些旧风俗正在渐渐消失",
+            },
+{
+                english: "He's always been fussy about food and clothing",
+                chinese: "他向来讲究吃和穿",
+            },
+{
+                english: "I' m very choosy about my whisky",
+                chinese: "我对威士忌酒十分讲究",
+            },
+{
+                english: "I often exchange ideas with my colleagues",
+                chinese: "我和同事经常交换意见",
+            },
+{
+                english: "She gave him free English lessons in exchange for piano lessons",
+                chinese: "她免费教他英文, 来交换他的钢琴课",
+            },
+{
+                english: "He's not in my circle, but I still hear about him",
+                chinese: "他不在我的交际圈子里, 但我还是能得知他的情况",
+            },
+{
+                english: "Best of all, it's a sociable activity that the whole family can enjoy together",
+                chinese: "最好的是, 那是个交际性活动, 全家可以一起参与",
+            },
+{
+                english: "The old professor associates with many young friends",
+                chinese: "这位老教授交结了很多年轻朋友",
+            },
+{
+                english: "The lesson from that incident is painful",
+                chinese: "那件事的教训是惨痛的",
+            },
+{
+                english: "Making mistakes doesn't matter, what's important is to learn your lesson",
+                chinese: "犯错误不要紧, 重要的是接受教训",
+            },
+{
+                english: "Let this experience be a lesson to you",
+                chinese: "让这段经历作为一个教训吧",
+            },
+{
+                english: "Why is he threatening to teach you a lesson?",
+                chinese: "为什么他威胁说要教训你一顿?",
+            },
+{
+                english: "They entered upon the most dangerous part of the journey",
+                chinese: "他们开始了旅行中最危险的阶段",
+            },
+{
+                english: "The teenage period is crucial in learning about the opposite sex",
+                chinese: "青少年时期是了解异性的关键阶段",
+            },
+{
+                english: "She spent the first part of her honeymoon in hospital",
+                chinese: "她在医院度过了蜜月的第一阶段",
+            },
+{
+                english: "I'm past the stage of wanting a fulfilling job",
+                chinese: "我已经过了想要一份有成就感的工作的阶段了",
+            },
+{
+                english: "If you save a little money routinely, after several years you may have a substantial sum of money",
+                chinese: "你平时节省一点钱, 几年下来就可能有一大笔钱",
+            },
+{
+                english: "Please familiarize yourself with the structure of our organization",
+                chinese: "请熟悉一下我们组织的结构",
+            },
+{
+                english: "Don’t jump to conclusions",
+                chinese: "不要仓促下结论",
+            },
+{
+                english: "You should check the facts before drawing a conclusion",
+                chinese: "你应该先调查事实, 再作结论",
+            },
+{
+                english: "To avoid misunderstanding, let me explain once again",
+                chinese: "让我再来解释一下, 免得引起误会",
+            },
+{
+                english: "How do you explain this?",
+                chinese: "这件事你怎样解释？",
+            },
+{
+                english: "We should arrive at our destination as soon as possible",
+                chinese: "我们要尽快到达目的地",
+            },
+{
+                english: "Leave here as soon as possible to avoid more trouble",
+                chinese: "尽快离开这里, 免得夜长梦多",
+            },
+{
+                english: "We must catch up with developed countries as soon as possible",
+                chinese: "我们要尽快追上发达国家",
+            },
+{
+                english: "This problem must be solved as soon as possible; otherwise it will jeopardize the entire project",
+                chinese: "这个问题必须尽快解决, 否则会危害整个工程",
+            },
+{
+                english: "Now that I've promised to help him, I can only do my best",
+                chinese: "既然答应帮助他, 只有尽力而为了",
+            },
+{
+                english: "I believe it is time to ban the advertising of tobacco altogether",
+                chinese: "我认为到了彻底禁止烟草广告的时候了",
+            },
+{
+                english: "The old man is still full of energy",
+                chinese: "老人依然精力充沛",
+            },
+{
+                english: "We've thrown all our time and energy into this project",
+                chinese: "我们在这个项目上倾注了所有精力和时间",
+            },
+{
+                english: "My father is getting old and is not so energetic as before",
+                chinese: "我父亲年纪大了, 精力不如以前了",
+            },
+{
+                english: "I never realized that he was so pitifully ignorant",
+                chinese: "他竟然无知到这样可怜的程度！",
+            },
+{
+                english: "She was so careless she missed a question in the exam",
+                chinese: "她太粗心了, 考试的时候竟然漏了一道题目",
+            },
+{
+                english: "The film has a lot of sex in it",
+                chinese: "这部电影色情镜头太多",
+            },
+{
+                english: "What on earth are you up to? You’re being so mysterious",
+                chinese: "你究竟在搞什么鬼？这么神秘兮兮",
+            },
+{
+                english: "So who is actually going to the meeting tomorrow?",
+                chinese: "明天的会究竟谁去参加？",
+            },
+{
+                english: "After all, he is very experienced, so he should be put in charge of the job",
+                chinese: "他究竟经验丰富, 让他负责这项工作最合适",
+            },
+{
+                english: "What actually happened is in dispute",
+                chinese: "人们对究竟发生了什么有争议",
+            },
+{
+                english: "Why on earth would anyone buy such an expensive car?",
+                chinese: "究竟为什么会有人买这么贵的汽车？",
+            },
+{
+                english: "Some places on earth are simply not fit for human habitation",
+                chinese: "地球上有些地方简直不适合人类居住",
+            },
+{
+                english: "What qualifications are needed for this job?",
+                chinese: "做这项工作需要具备什么条件？",
+            },
+{
+                english: "Don’t look down on this little dictionary It really solves our problems",
+                chinese: "别看不起这本小字典, 它真能解决问题",
+            },
+{
+                english: "I despise such dishonest people",
+                chinese: "我看不起这种不老实的人",
+            },
+{
+                english: "She was sensitive to bad reviews, even from people she did not reckon",
+                chinese: "她对负面评论很敏感, 即使这些评论来自那些她看不起的人",
+            },
+{
+                english: "In my opinion, she dealt with the matter perfectly fairly and reasonably",
+                chinese: "在我看来, 她这样处理真是天公地道",
+            },
+{
+                english: "There isn't much in the fridge Looks like we'll have to dine out",
+                chinese: "冰箱里没有什么东西, 看来得出去吃晚饭了",
+            },
+{
+                english: "My father's elder brother is only two years older than he, but looks much older",
+                chinese: "伯父只比爸爸大两岁, 但是看来比爸爸老得多",
+            },
+{
+                english: "She dressed up beautifully today, she probably has a date",
+                chinese: "她今天打扮得这么漂亮, 看来有约会",
+            },
+{
+                english: "The old man is lonely, and never has few visitors",
+                chinese: "老人很孤单, 很少有人来看望",
+            },
+{
+                english: "I pay a visit to my high school teacher every New Year's Day",
+                chinese: "我每年过年都要看望中学时的老师",
+            },
+{
+                english: "Think it over before you go so that you won’t regret it later",
+                chinese: "你要先考虑好再去, 免得吃后悔药",
+            },
+{
+                english: "Last weekend he asked his girlfriend to marry him, but she said she needed to think it over before replying",
+                chinese: "他上个周末向女朋友求婚, 女朋友说要考虑考虑再回答",
+            },
+{
+                english: "His suggestion was not adopted; it was not even considered",
+                chinese: "他的建议没有被采用, 甚至没有被考虑",
+            },
+{
+                english: "Before buying a new car, think about the additional costs",
+                chinese: "在买新车以前, 要考虑额外的费用",
+            },
+{
+                english: "The universities will admit more students this year",
+                chinese: "今年各大学要扩大招生",
+            },
+{
+                english: "It’s too late to go there by train Let’s go by air",
+                chinese: "坐火车去已来不及了, 还是乘飞机吧",
+            },
+{
+                english: "It’ll be too late to start preparing dinner after your guests have arrived",
+                chinese: "客人到了旋做就来不及了",
+            },
+{
+                english: "I haven’t had time yet to make a list of everyone’s questions",
+                chinese: "大家提的问题我还没来得及归总",
+            },
+{
+                english: "You should tell us about that matter honestly",
+                chinese: "你应该老老实实告诉我们那件事儿",
+            },
+{
+                english: "What type of car do you own?",
+                chinese: "你的汽车是什么类型的？",
+            },
+{
+                english: "He is very ill, and needs someone to watch over him all the time",
+                chinese: "他的病很重, 身边离不开人",
+            },
+{
+                english: "His speech evoked an immediate response",
+                chinese: "他的讲话立即引起反响",
+            },
+{
+                english: "When you see anything suspicious, report it to the police immediately",
+                chinese: "看到可疑情况, 立即报告警察",
+            },
+{
+                english: "This child came out first in all the subjects How wonderful!",
+                chinese: "这个孩子门门功课第一名, 真了不起!",
+            },
+{
+                english: "He is very arrogant, always thinking himself terrific",
+                chinese: "他很不虚心, 总是认为自己了不起",
+            },
+{
+                english: "The director hired some temporary actors",
+                chinese: "导演雇了一些临时演员",
+            },
+{
+                english: "This legend has circulated for centuries",
+                chinese: "这个传说流传了几个世纪",
+            },
+{
+                english: "These students were admitted after strict screening processes",
+                chinese: "这些学生都是经过严格筛选才被录取的",
+            },
+{
+                english: "It's your turn to bathe the baby",
+                chinese: "轮到你给宝宝洗澡了",
+            },
+{
+                english: "They took turns staying with their sick mother",
+                chinese: "他们轮流陪生病的母亲",
+            },
+{
+                english: "That guy is very unreasonable and there’s no discussing with him",
+                chinese: "他这个人很霸道, 你没法儿跟他说",
+            },
+{
+                english: "The government is closely observing the situation",
+                chinese: "政府正在密切注视着局势的发展",
+            },
+{
+                english: "The siblings in this family are very close to each other",
+                chinese: "这家人家的兄弟姐妹关系很密切",
+            },
+{
+                english: "A patient should cooperate closely with his doctor so as to achieve a speedy recovery",
+                chinese: "病人要和医生密切配合, 才能早日恢复健康",
+            },
+{
+                english: "We are facing a lot of difficulties indeed, but we are sure they can be overcome",
+                chinese: "固然我们面临着很多困难, 但我们相信它们是能够克服的",
+            },
+{
+                english: "The two men are facing trial on terrorism charges",
+                chinese: "那两个人被指控有恐怖主义行径, 正面临审判",
+            },
+{
+                english: "He described her as a woman of charm, accomplishment and beauty",
+                chinese: "他把她描述为一个迷人、优雅、美丽的女人",
+            },
+{
+                english: "In her letter she gives a description of the beautiful landscape there",
+                chinese: "她在信中描写了那里的美丽风景",
+            },
+{
+                english: "My father liked to assemble airplane models when he was a high school student",
+                chinese: "我父亲在中学的时候喜欢装飞机模型",
+            },
+{
+                english: "He reached the height of his popularity in the thirties, and was all but forgotten after the war",
+                chinese: "三十年代他红得发紫, 战后就默默无闻了",
+            },
+{
+                english: "You should not look down upon him In fact, he is quite capable",
+                chinese: "你不该门缝里看人, 他其实很能干",
+            },
+{
+                english: "What can you do with your high aims but low abilities?",
+                chinese: "你这么眼高手低, 能干什么呢?",
+            },
+{
+                english: "She is not just a pretty face; she is also an able administrator",
+                chinese: "她不仅漂亮, 而且还是一位能干的行政管理人员",
+            },
+{
+                english: "This dictionary is arranged in alphabetical order",
+                chinese: "这本字典按字母次序排列",
+            },
+{
+                english: "Secretaries will all have training in the use of a new computer software",
+                chinese: "秘书们都要参加新电脑软件使用的培训",
+            },
+{
+                english: "We need to improve the quality of the product",
+                chinese: "我们需要提高产品质量",
+            },
+{
+                english: "This product is of excellent quality and is therefore rather expensive",
+                chinese: "这种产品质量极好, 因此价格比较高",
+            },
+{
+                english: "It is generally acknowledged that products of that company are of excellent quality",
+                chinese: "普遍认为, 那家公司的产品质量优越",
+            },
+{
+                english: "It is windless The sea is perfectly calm",
+                chinese: "没有一点风, 大海十分平静",
+            },
+{
+                english: "Our urgent task is to understand the market situation",
+                chinese: "我们的迫切任务是了解市场情况",
+            },
+{
+                english: "We must keep the business from bankruptcy",
+                chinese: "我们一定要防止公司破产",
+            },
+{
+                english: "I am also looking forward to getting more acquainted with immigration law",
+                chinese: "我也期待能对移民法有更多的了解",
+            },
+{
+                english: "While in hospital, he read a lot of novels",
+                chinese: "他在住院期间读了很多小说",
+            },
+{
+                english: "I hope you’ll have a pleasant stay in China",
+                chinese: "祝你在中国逗留期间过得愉快",
+            },
+{
+                english: "He accused his wife of committing adultery while he was away",
+                chinese: "他指责妻子在自己外出期间与人通奸",
+            },
+{
+                english: "Take what you want and throw the rest away",
+                chinese: "把你所要的拿走, 其余的丢掉",
+            },
+{
+                english: "This river is shallow You can wade across it",
+                chinese: "这条河很浅, 可以走过去",
+            },
+{
+                english: "The children were playing at the shallow end of the pool",
+                chinese: "孩子们在游泳池浅水的一头玩水",
+            },
+{
+                english: "He wasn’t born yesterday and can’t be easily fooled",
+                chinese: "他老练得很, 不会轻易上当的",
+            },
+{
+                english: "He always keeps a clear mind when confronted by major events",
+                chinese: "在重大的事件面前, 他始终都很清醒",
+            },
+{
+                english: "The scene would always be engraved on her memory",
+                chinese: "这番情景将永远镂刻在她的心中",
+            },
+{
+                english: "He recognized the humor in that unpleasant situation",
+                chinese: "他从那个不愉快的情景中体会到幽默",
+            },
+{
+                english: "The general trend of history is unalterable",
+                chinese: "历史发展的总趋势是不可改变的",
+            },
+{
+                english: "No one can change the general trend of world history",
+                chinese: "世界历史的总趋势任何人也改变不了",
+            },
+{
+                english: "Which country sets the fashion trends now?",
+                chinese: "现在哪个国家领导时尚趋势？",
+            },
+{
+                english: "We accredit the invention of paper to China",
+                chinese: "我们确认纸是中国发明的",
+            },
+{
+                english: "The forest fire raged three days and nights",
+                chinese: "森林大火燃烧了三天三夜",
+            },
+{
+                english: "After graduating from college, he proceeded to apply to a graduate school in the US",
+                chinese: "大学毕业后, 他进而申请去美国留学",
+            },
+{
+                english: "They discussed the mysterious events that followed it",
+                chinese: "他们讨论了随后发生的那些神秘事件",
+            },
+{
+                english: "He not only ignored the criticism of the others but went so far as to be sarcastic",
+                chinese: "他对大家的批评置若罔闻, 甚至反唇相讥",
+            },
+{
+                english: "Then he started to embellish the story and even to fabricate",
+                chinese: "接着, 他就添枝加叶, 甚至公开扯谎",
+            },
+{
+                english: "He was so busy that he didn’t even go to bed for several nights",
+                chinese: "他忙得甚至好几夜没睡觉",
+            },
+{
+                english: "We should hear out different, even opposing, opinions",
+                chinese: "不同的意见, 甚至相反的意见都要听",
+            },
+{
+                english: "She has been to many places in China, even to Tibet",
+                chinese: "她到过中国很多地方, 甚至西藏也去过",
+            },
+{
+                english: "This set of work clothes does not look beautiful, but it is very practical",
+                chinese: "这套工作服穿着不好看, 但是十分实用",
+            },
+{
+                english: "The streets in this city are like a maze",
+                chinese: "这个城市的街道像迷宫似的",
+            },
+{
+                english: "If you had prepared better, you wouldn’t be in such an awkward position now",
+                chinese: "如果你事先做好准备, 也不至于那么被动",
+            },
+{
+                english: "I’m annoyed with him simply because he didn’t notify me beforehand",
+                chinese: "我不气别的, 气他事先不通知我一声",
+            },
+{
+                english: "Please tell us if you will come to the party",
+                chinese: "你是否来参加聚会请通知我们一声",
+            },
+{
+                english: "I wonder if you've made the right decision",
+                chinese: "我怀疑你的决定是否正确",
+            },
+{
+                english: "I want to withdraw a statement I made earlier",
+                chinese: "我想收回我早些时候发表的一个声明",
+            },
+{
+                english: "A large amount of data has been obtained from the test, which is a big achievement",
+                chinese: "这次试验取得了大量数据, 收获很大",
+            },
+{
+                english: "The factory gained much profit from manufacturing the new products",
+                chinese: "工厂从生产新产品中收益不少",
+            },
+{
+                english: "Every room of the hotel offers a comfortable, relaxed ambience",
+                chinese: "这家旅馆的每间客房都给人一种舒适轻松的氛围",
+            },
+{
+                english: "The overall ambience of the room is cosy",
+                chinese: "房间整体的感觉是温暖舒适",
+            },
+{
+                english: "Summer temperatures are appreciably more comfortable there",
+                chinese: "那里夏季的气温明显更舒适",
+            },
+{
+                english: "They lived a peaceful and comfortable life in the countryside",
+                chinese: "他们在乡间过着平静而舒适的生活",
+            },
+{
+                english: "The more you practise, the more skillful you’ll become",
+                chinese: "练习的次数越多, 熟练的程度越高",
+            },
+{
+                english: "The workers are unskilled so the project has not been finished in time",
+                chinese: "工人不熟练, 因而工程未能按时完成",
+            },
+{
+                english: "The baby fell asleep in its mother’s arms",
+                chinese: "小孩儿在妈妈的怀里睡着了",
+            },
+{
+                english: "Hurry up At some point the weather is going to change",
+                chinese: "赶紧干吧, 说不定哪会儿天气要变",
+            },
+{
+                english: "He has knocked 10 seconds off the world record",
+                chinese: "他将世界纪录缩短了１０秒",
+            },
+{
+                english: "Only under special circumstances can you take this step",
+                chinese: "你只有在特殊情况下才能采取这一措施",
+            },
+{
+                english: "I wrote down some of the features of the car",
+                chinese: "我记下了那辆车的一些特征",
+            },
+{
+                english: "His dominant trait is fearlessness",
+                chinese: "他的主要性格特征是勇敢无畏",
+            },
+{
+                english: "The common feature of great sportsmen is their commitment",
+                chinese: "大运动员的共同特征是对事业的投入",
+            },
+{
+                english: "We are not obligated to provide you with this service, sir",
+                chinese: "先生, 我们没有义务为您提供这种服务",
+            },
+{
+                english: "This company provides farmers with all kinds of high quality seeds",
+                chinese: "这家公司向农民提供各类优质种子",
+            },
+{
+                english: "We are trying to accommodate the students who do not have a computer",
+                chinese: "我们设法为没有电脑的学生提供方便",
+            },
+{
+                english: "Luckily he reminded me; otherwise I’d have forgotten all about it",
+                chinese: "亏他提醒了我, 要不我早忘了",
+            },
+{
+                english: "She's nervous about something, in case you didn't notice",
+                chinese: "她正为了什么事紧张呢, 我就是提醒你一下, 免得你没看出来",
+            },
+{
+                english: "Hearing the child's naïve words, the old man burst into laughter",
+                chinese: "听了孩子天真的话, 老人哈哈大笑起来",
+            },
+{
+                english: "Talking with innocent children is an enjoyment",
+                chinese: "和天真的孩子说话, 是一种享受",
+            },
+{
+                english: "How could you believe such advertisements? You're too naïve!",
+                chinese: "你怎么会相信这种广告? 太天真了!",
+            },
+{
+                english: "Sometimes when there are too many things to choose from, it's difficult to decide",
+                chinese: "有时候可以挑选的东西太多, 很难决定",
+            },
+{
+                english: "You're free to choose the holiday destination—Paris or Venice",
+                chinese: "你可以随意挑选度假地—巴黎, 或者威尼斯",
+            },
+{
+                english: "John was sent home for bad behaviour in class",
+                chinese: "约翰因为上课调皮捣蛋被赶回了家",
+            },
+{
+                english: "Children may behave badly because they have been abused or neglected",
+                chinese: "孩子调皮捣蛋, 也许是因为被虐待或遭漠视",
+            },
+{
+                english: "The new job is a challenge to him",
+                chinese: "这份新工作是对他的一次挑战",
+            },
+{
+                english: "Whoever passes here will stop to admire the scenery",
+                chinese: "但凡过客, 无不停下脚步欣赏这里的风景",
+            },
+{
+                english: "We've almost run out of gas We'll have to stop for gas at the next gas station",
+                chinese: "我们的汽油快用完了, 到前面的加油站要停下加油",
+            },
+{
+                english: "It's a red light in front The car must stop",
+                chinese: "前面是红灯, 车子要停下来",
+            },
+{
+                english: "I sympathize with the mother who lost her son in the traffic accident",
+                chinese: "我很同情这位在交通事故中失去儿子的母亲",
+            },
+{
+                english: "Please count the number of people attending the meeting",
+                chinese: "你来统计到会的人数",
+            },
+{
+                english: "These countries have already formed a common market",
+                chinese: "这些国家已经形成一个统一的市场",
+            },
+{
+                english: "I haven't had such fun for a long time",
+                chinese: "我好久没玩得这么痛快了",
+            },
+{
+                english: "We had a terrific time last Sunday",
+                chinese: "上星期日我们玩得真痛快",
+            },
+{
+                english: "She enthusiastically threw herself into her work",
+                chinese: "她满腔热情地投入工作",
+            },
+{
+                english: "He put in three years writing this book",
+                chinese: "他在这本书上投入了三年的劳动",
+            },
+{
+                english: "They put lots of money into their children's education",
+                chinese: "他们在孩子的教育上投入很多钱",
+            },
+{
+                english: "I'll write to the government about the poor quality of your product",
+                chinese: "我要向政府去投诉你们的劣质产品",
+            },
+{
+                english: "The bus company has received lots of complaints about the buses not being punctual",
+                chinese: "公共汽车公司收到很多投诉, 说汽车不准时",
+            },
+{
+                english: "The plastic capsule was entirely transparent",
+                chinese: "这个圆塑料盒是全透明的",
+            },
+{
+                english: "The boss gave orders during his business trip",
+                chinese: "老板在出差途中发话过来",
+            },
+{
+                english: "To farmers, the most important resource is land",
+                chinese: "对农民来说, 最重要的资源是土地",
+            },
+{
+                english: "The local government wants to requisition this piece of land",
+                chinese: "当地政府要征用这块土地",
+            },
+{
+                english: "We may reasonably conclude that the meeting has been postponed",
+                chinese: "我们有理由断定, 会议推迟了",
+            },
+{
+                english: "The date of the tourist group departure will be postponed for three days",
+                chinese: "旅行团出发的日期要推迟三天",
+            },
+{
+                english: "We must promote local products",
+                chinese: "我们要大力推销本地产品",
+            },
+{
+                english: "Our store pushes a different item each week",
+                chinese: "我们店每周推销一种商品",
+            },
+{
+                english: "Keep an eye on him, because we’ll get into trouble if anything happens",
+                chinese: "你好好看住他, 万一有个差池, 你我都不好办",
+            },
+{
+                english: "What if anything should happen to the child?",
+                chinese: "万一这孩子出了差错怎么办？",
+            },
+{
+                english: "If I book an air ticket now, can I cancel it in case of emergency?",
+                chinese: "我现在订机票, 万一有事能退吗?",
+            },
+{
+                english: "Sunlight is very important for sustaining life",
+                chinese: "阳光对于维持生命很重要",
+            },
+{
+                english: "In this world, things don’t always turn out the way you want",
+                chinese: "天底下的事未必都那么称心如意",
+            },
+{
+                english: "Don't make any rash decisions about your future",
+                chinese: "对你的未来不要轻率作决定",
+            },
+{
+                english: "The city is at the juncture of two main rail lines",
+                chinese: "这个城市位于两条铁路主干线的汇合处",
+            },
+{
+                english: "The flight was very uncomfortable because of turbulence",
+                chinese: "由于湍流的影响, 飞机不稳定, 令人很不舒服",
+            },
+{
+                english: "Please give my regards to your wife and children",
+                chinese: "请替我问候你的太太以及你的孩子",
+            },
+{
+                english: "You won’t know real happiness if you don’t put in a lot of hard work",
+                chinese: "不付出辛勤的劳动就无法体会真正的幸福",
+            },
+{
+                english: "I can't persuade him to my point of view",
+                chinese: "我无法说服他接受我的观点",
+            },
+{
+                english: "The heat is unbearable in parts of Texas",
+                chinese: "在得克萨斯州有些地方, 高温天气使人无法忍受",
+            },
+{
+                english: "I can't get this machine to work properly today",
+                chinese: "我今天无法使这台机器正常工作",
+            },
+{
+                english: "I can't express fully how grateful I am for your help",
+                chinese: "我无法充分表达对你的帮助的谢意",
+            },
+{
+                english: "Words cannot describe the beauty of the lake",
+                chinese: "言词无法描写这个湖泊的美丽",
+            },
+{
+                english: "Children are by nature very curious, and they often ask questions which adults find difficult to answer",
+                chinese: "儿童本性就是好奇的, 他们常常问一些成人无法回答的问题",
+            },
+{
+                english: "I can't tell whether their offer to cooperate is sincere or not",
+                chinese: "我无法判断, 他们提出合作是不是真心",
+            },
+{
+                english: "The jungle was so dense that the explorers could hardly pass",
+                chinese: "丛林很密, 探险者几乎无法通过",
+            },
+{
+                english: "On that occasion I was not able to have a serious conversation with him",
+                chinese: "在那种场合我无法和他认真地交谈",
+            },
+{
+                english: "It's a mystery to me why she was in the woods that night",
+                chinese: "她那天夜里在树林里干什么, 我无法解释",
+            },
+{
+                english: "I don't think her income could support her lifestyle",
+                chinese: "我想她的收入无法支撑她的生活方式",
+            },
+{
+                english: "He wouldn't listen regardless of how people explained the situation",
+                chinese: "无论怎么说他也不听",
+            },
+{
+                english: "You must lend me some money no matter what",
+                chinese: "你无论如何借我点儿钱",
+            },
+{
+                english: "After numerous experiments, the scientists finally succeeded",
+                chinese: "经过无数次的试验, 科学家们终于成功了",
+            },
+{
+                english: "It doesn't matter whether he approves or not—I've made up my mind anyway",
+                chinese: "他同意不同意, 无所谓; 反正我已经决定",
+            },
+{
+                english: "You should clear up the misunderstanding between you",
+                chinese: "你们应该澄清你们之间的误会",
+            },
+{
+                english: "I said it very clearly How could you misunderstand it?",
+                chinese: "我说得清清楚楚, 你怎么会误会呢?",
+            },
+{
+                english: "I did not make it clear, which has caused a misunderstanding I apologize",
+                chinese: "我没有说清楚, 造成了误会, 很抱歉",
+            },
+{
+                english: "I had a good talk with him and cleared up the misunderstanding between us",
+                chinese: "我跟他好好谈了一次, 消除了我们之间的误会",
+            },
+{
+                english: "We should draw from other people's positive experiences",
+                chinese: "我们要吸收别人的好经验",
+            },
+{
+                english: "The ancient Chinese were particularly fond of bamboo",
+                chinese: "古代中国人特别喜爱竹子",
+            },
+{
+                english: "The school has a set of regulations",
+                chinese: "学校有一系列的规章制度",
+            },
+{
+                english: "The two sides have agreed on a series of issues",
+                chinese: "双方在一系列问题上达成了协议",
+            },
+{
+                english: "The factory is producing a new line of shoes",
+                chinese: "这家工厂在生产一系列新鞋",
+            },
+{
+                english: "He mentioned the plan, but gave no details",
+                chinese: "他提了一下这个计划, 但没有说明细节",
+            },
+{
+                english: "Some moving details are inserted in the story",
+                chinese: "故事中穿插了一些感人的细节",
+            },
+{
+                english: "We have made an intensive study of the phenomenon",
+                chinese: "我们已对这一现象做了深入细致的研究",
+            },
+{
+                english: "To reduce weight she restricted herself to two meals a day",
+                chinese: "为了减肥, 她限制自己一天吃两顿饭",
+            },
+{
+                english: "People's rights were constricted during the emergency",
+                chinese: "民众的权利在紧急状态时受到了限制",
+            },
+{
+                english: "We have to limit the expense of the trip to $300",
+                chinese: "我们必须把旅行费用限制在三百美元内",
+            },
+{
+                english: "She has an aged parent who's capable of being very difficult",
+                chinese: "她家里还有个老人, 有时候很不好相处",
+            },
+{
+                english: "My daughter is very difficult, uncommunicative and moody",
+                chinese: "我女儿很难相处, 不愿跟人交流, 又非常情绪化",
+            },
+{
+                english: "We must hear the opinions contrary to ours",
+                chinese: "我们必须听取相反的意见",
+            },
+{
+                english: "It's over two years since Granny died, but I still miss her very much",
+                chinese: "祖母去世两年了, 我还非常想念她",
+            },
+{
+                english: "Things are not as simple as you imagine",
+                chinese: "事情不象你想象的那么简单",
+            },
+{
+                english: "I haven't completely digested what I've just learned",
+                chinese: "我还没有完全消化刚学的东西",
+            },
+{
+                english: "I had little time to absorb this information",
+                chinese: "我几乎没有时间消化这些信息",
+            },
+{
+                english: "He is trying hard to sell his products",
+                chinese: "他在大力销售他的产品",
+            },
+{
+                english: "They maintain a large staff with little efficiency",
+                chinese: "他们摊子摆得很大, 可是效率不高",
+            },
+{
+                english: "The new model proved very popular",
+                chinese: "这种新型号很受欢迎",
+            },
+{
+                english: "Don't make decisions when you are excited",
+                chinese: "不要在兴奋的时候, 做任何决定",
+            },
+{
+                english: "Words can hardly describe our excitement",
+                chinese: "我们激动的心情难以用笔墨来形容",
+            },
+{
+                english: "I really can’t find appropriate words to describe my feelings",
+                chinese: "我实在找不出适当的字眼儿来形容我的心情",
+            },
+{
+                english: "The new situation has put new questions before us",
+                chinese: "新的形势向我们提出了新的课题",
+            },
+{
+                english: "Let's view the situation objectively",
+                chinese: "让我们客观地考虑形势",
+            },
+{
+                english: "The economy worsened because of rising fuel prices",
+                chinese: "由于燃料价格上升, 经济形势恶化了",
+            },
+{
+                english: "It's hard to decide which model of car to buy",
+                chinese: "很难决定买哪一型号的汽车",
+            },
+{
+                english: "They are different in size but not in kind",
+                chinese: "它们大小不同, 可是性质一样",
+            },
+{
+                english: "This machine is very old and is not worth repairing any more",
+                chinese: "这台机器很旧了, 不值得再修理了",
+            },
+{
+                english: "I'm looking for the right words to express my thanks",
+                chinese: "我在寻找恰当的词汇来表达我的感激之情",
+            },
+{
+                english: "We made a rapid response to the call for help",
+                chinese: "我们对求援迅速做出了反应",
+            },
+{
+                english: "Modern medicine has extended man’s life span",
+                chinese: "现代医学延长了人的寿命",
+            },
+{
+                english: "I need to have my visa extended for another three months",
+                chinese: "我需要再延长签证三个月",
+            },
+{
+                english: "After careful consideration we decided to postpone the meeting",
+                chinese: "经过慎重考虑, 我们决定延期开会",
+            },
+{
+                english: "The game was postponed because of rain",
+                chinese: "这场比赛因下雨而延期",
+            },
+{
+                english: "The dry weather lasted several months",
+                chinese: "干旱的天气延续了几个月",
+            },
+{
+                english: "This research can advance our understanding of human brains",
+                chinese: "这个研究能使我们进一步了解大脑的功能",
+            },
+{
+                english: "I am a teacher by profession and moonlight as an accountant",
+                chinese: "我的本业是教书, 业余时间兼做会计",
+            },
+{
+                english: "As long as we rely on our collective effort, we can certainly achieve something",
+                chinese: "依靠集体力量, 一定能搞出名堂来",
+            },
+{
+                english: "All countries, big or small, should be equal",
+                chinese: "国家不论大小, 应该一律平等",
+            },
+{
+                english: "Children as well as grown-ups are welcome",
+                chinese: "儿童和成年人一律受欢迎",
+            },
+{
+                english: "At first he didn’t feel like coming, but I persuaded him to",
+                chinese: "他开始不想来, 架不住我一再说, 也就来了",
+            },
+{
+                english: "Frequent lying brought him a bad name",
+                chinese: "一再撒谎使他得了一个臭名",
+            },
+{
+                english: "Even though the price of the goods was reduced several times, they still haven't been sold",
+                chinese: "商品虽然一再减价, 还是卖不掉",
+            },
+{
+                english: "I debated the idea in my mind until I fell asleep",
+                chinese: "我入睡前心中一再思考这个问题",
+            },
+{
+                english: "Even friends sometimes disagree",
+                chinese: "即使是朋友, 有时意见也不一致",
+            },
+{
+                english: "They reached an agreement without argument",
+                chinese: "他们没有争论, 取得了一致意见",
+            },
+{
+                english: "Plants, unlike animals, cannot move about",
+                chinese: "植物与动物不同, 是不会移动的",
+            },
+{
+                english: "Parents transmit some of their characteristics to their children",
+                chinese: "父母把他们的一些性格遗传给儿女",
+            },
+{
+                english: "It is beyond any doubt that this plan will materialize",
+                chinese: "这个计划一定要实现, 这是毫无疑问的",
+            },
+{
+                english: "He challenged your version of what happened",
+                chinese: "对于所发生的事,他对你的说法提出了疑问",
+            },
+{
+                english: "Husband and wife have the duty to support and assist each other",
+                chinese: "夫妻间有互相扶养的义务",
+            },
+{
+                english: "He doesn’t care at all what people say behind his back",
+                chinese: "别人背后怎么议论, 他才不在意呢",
+            },
+{
+                english: "It is not right to gossip about a person behind his back",
+                chinese: "背地里议论别人长短是不应该的",
+            },
+{
+                english: "Tomatoes were not found in China indigenously, but introduced from abroad",
+                chinese: "西红柿非中国土产, 而是从国外引进的",
+            },
+{
+                english: "The new movie will certainly interest you",
+                chinese: "这部新电影一定会引起你的兴趣",
+            },
+{
+                english: "Great inequalities in wealth can cause social unrest",
+                chinese: "贫富过于悬殊会引起社会的不安",
+            },
+{
+                english: "The girl's strange behavior was noticed by her teachers",
+                chinese: "女孩奇怪的行为引起了老师的注意",
+            },
+{
+                english: "His sudden resignation caused much comment",
+                chinese: "他突然辞职, 引起了很多议论",
+            },
+{
+                english: "The problem was caused by poor communication",
+                chinese: "问题是因为没有好好沟通引起的",
+            },
+{
+                english: "Global warming has caused growing concern",
+                chinese: "全球天气变暖, 引起越来越大的关注",
+            },
+{
+                english: "His promotion caused jealousy among his colleagues",
+                chinese: "他的提升在同事中引起了妒嫉",
+            },
+{
+                english: "Everyone agrees he is the best student in the class",
+                chinese: "大家公认他是班上最优秀的学生",
+            },
+{
+                english: "He's an excellent student and has been recommended for admission to the university",
+                chinese: "他成绩优秀, 被保送上了大学",
+            },
+{
+                english: "There is a limit to how much we're able to spend on the holiday",
+                chinese: "我们度假能花多少钱, 是有限度的",
+            },
+{
+                english: "The waiter led the customers to the table they had reserved",
+                chinese: "服务员领客人到他们预订的桌子",
+            },
+{
+                english: "I've been walking on air since I met her",
+                chinese: "自从遇见她, 我就一直幸福得飘飘然",
+            },
+{
+                english: "I met some friends and other people besides",
+                chinese: "我遇见了几个朋友, 还有别的人",
+            },
+{
+                english: "I'll stand by my principles, whatever the cost",
+                chinese: "我要不惜代价坚持原则",
+            },
+{
+                english: "the application of new scientific discoveries to industry",
+                chinese: "把新的科学发现运用到工业",
+            },
+{
+                english: "Use your intelligence, you will overcome these difficulties",
+                chinese: "运用你的聪明才智, 你一定会克服这些困难的",
+            },
+{
+                english: "The doctor ordered you again and again to stop smoking",
+                chinese: "医生再三关照你别抽烟",
+            },
+{
+                english: "Father urged us again and again to be modest and prudent",
+                chinese: "父亲再三叮嘱我们要谦虚谨慎",
+            },
+{
+                english: "Everybody was anxious about him, but he wasn’t worried one bit",
+                chinese: "别人都替他着急, 他却满不在乎",
+            },
+{
+                english: "Although he was critisized by others, he did not care",
+                chinese: "尽管他受到了别人的批评, 但是他不在乎",
+            },
+{
+                english: "Perfect people exist only in imagination",
+                chinese: "完美无缺的人只存在于人们的想象之中",
+            },
+{
+                english: "She was silent all the way, showing that actually she disapproved",
+                chinese: "她一直不说话, 表明她其实不赞成",
+            },
+{
+                english: "To tell the truth, I don't approve of your way of doing things",
+                chinese: "老实说, 你这种做法我并不赞成",
+            },
+{
+                english: "He greeted everybody when he came into the room",
+                chinese: "他进屋就跟大家打招呼",
+            },
+{
+                english: "He was very worried, but didn’t show it",
+                chinese: "他很着急, 但并没有表露出来",
+            },
+{
+                english: "My remark was not directed to all of you",
+                chinese: "我的话并不是针对你们所有人的",
+            },
+{
+                english: "There was a furious debate over the new legislation",
+                chinese: "对新的立法的争论十分激烈",
+            },
+{
+                english: "We need to work out a feasible plan",
+                chinese: "我们需要制订一个可行的计划",
+            },
+{
+                english: "Doctors still don't have a cure for the disease",
+                chinese: "医生对这个病还没有治疗方法",
+            },
+{
+                english: "You will be surprised to see so many kinds of cheese in a French market",
+                chinese: "你会在法国市场上很惊讶地看到种类如此之多的奶酪",
+            },
+{
+                english: "This plant is rare and should be protected",
+                chinese: "这种植物很少见, 应该受到保护",
+            },
+{
+                english: "This kind of plant grows well by the river",
+                chinese: "这种植物在河边生长得很好",
+            },
+{
+                english: "Our Chinese proficiency is progressively improving",
+                chinese: "我们的中文水平在逐步提高",
+            },
+{
+                english: "Gradually he could understand Chinese broadcasts",
+                chinese: "他逐渐能听懂中文广播了",
+            },
+{
+                english: "The simple plan evolved into a complicated scheme",
+                chinese: "这个简单的计划逐渐发展成了一项复杂的规划",
+            },
+{
+                english: "Grandpa is aware of the gradual decline of his own health",
+                chinese: "爷爷知道自己的健康正逐渐恶化",
+            },
+{
+                english: "The theme for the evening party will be China, so could you wear a Chinese costume?",
+                chinese: "晚会的主题是中国, 所以, 你能穿中国服装吗？",
+            },
+{
+                english: "You should make the best use of your time and write up the report before next Monday",
+                chinese: "你要抓紧时间, 在下星期一前写完报告",
+            },
+{
+                english: "My younger sister is absorbed in doing her mathematics exercises",
+                chinese: "妹妹正在专心地做数学练习",
+            },
+{
+                english: "The young businessman is running after his boss' daughter",
+                chinese: "这个年轻的商人在追求他老板的女儿",
+            },
+{
+                english: "My father set me a good example in being punctual",
+                chinese: "我父亲在准时方面为我树立了一个好榜样",
+            },
+{
+                english: "I can’t remember the exact address, but it’s somewhere near the Summer Palace",
+                chinese: "确切地址我记不清了, 总之是在颐和园附近",
+            },
+{
+                english: "Overall, I would say the project was a huge success",
+                chinese: "总之, 我想说, 这个工程是个巨大的成功",
+            },
+{
+                english: "Seemingly there is nothing we can do to stop the plan going ahead",
+                chinese: "看样子, 我们似乎无法阻止这个计划的实施",
+            },
+{
+                english: "We had to abandon our original plan as it was too expensive",
+                chinese: "我们不得不放弃最初的计划, 因为花费太大",
+            },
+{
+                english: "Leave the matter open We can’t make a final decision now",
+                chinese: "现在不能作出决定, 留个尾巴吧",
+            },
+{
+                english: "No decision can be made on this matter until the people have been consulted",
+                chinese: "这个问题要通过群众才能作出决定",
+            },
+{
+                english: "As one who has been through the experience, let me tell you how I feel",
+                chinese: "作为过来人, 我可以讲讲我的体会",
+            },
+{
+                english: "As a parent, you are your children's guardian",
+                chinese: "作为家长, 你是子女的监护人",
+            },
+{
+                english: "As a member of the club, you'll enjoy many privileges",
+                chinese: "作为俱乐部成员你享受很多特权",
             },
         ];
 
