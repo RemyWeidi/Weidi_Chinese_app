@@ -379,6 +379,7 @@
         let touchStartX, touchStartY;
         let touchStartTime;
         let touchMoved = false;
+        let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -434,20 +435,40 @@ questionCount++;
 updateCounter();
 }
 
+// Fonction pour créer un élément de mot (modifié pour inclure le clic et la gestion tactile)
 function createWordElement(word) {
     const wordElement = document.createElement('div');
     wordElement.className = 'word';
     wordElement.textContent = word;
     wordElement.draggable = true;
+
+    // Pour le glisser-déposer (PC et mobile)
     wordElement.addEventListener('dragstart', drag);
     wordElement.addEventListener('dragend', dragEnd);
-    wordElement.addEventListener('touchstart', touchStart, {passive: false});
-    wordElement.addEventListener('touchmove', touchMove, {passive: false});
+
+    // Gestion du tactile
+    wordElement.addEventListener('touchstart', touchStart, { passive: false });
+    wordElement.addEventListener('touchmove', touchMove, { passive: false });
     wordElement.addEventListener('touchend', touchEnd);
-    wordElement.addEventListener('click', function() { handleClick(this); }); // Ajout de l'écouteur de clic
+
+    // Gestion du clic (PC et mobile)
+    wordElement.addEventListener('click', function() {
+        handleClick(this);
+    });
+    
     return wordElement;
 }
 
+// Fonction pour gérer le clic (déplace le mot entre les conteneurs)
+function handleClick(wordElement) {
+    const sourceContainer = wordElement.parentElement;
+    const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
+    
+    // Déplacer le mot immédiatement sans animation
+    targetContainer.appendChild(wordElement);
+}
+
+// Fonction pour gérer le démarrage du touch (glisser-déposer)
 function touchStart(event) {
     const touch = event.touches[0];
     touchStartX = touch.clientX;
@@ -456,11 +477,12 @@ function touchStart(event) {
     draggedElement = event.target;
     touchMoved = false;
     event.preventDefault();
-    
+
     draggedElement.style.transition = 'none';
     draggedElement.style.zIndex = '1000';
 }
 
+// Fonction pour gérer le déplacement tactile (glisser-déposer)
 function touchMove(event) {
     if (!draggedElement) return;
     event.preventDefault();
@@ -476,6 +498,7 @@ function touchMove(event) {
     }
 }
 
+// Fonction pour gérer la fin du touch (glisser-déposer ou clic)
 function touchEnd(event) {
     if (!draggedElement) return;
 
@@ -490,7 +513,7 @@ function touchEnd(event) {
         // C'est un glisser-déposer
         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
         const container = dropTarget.closest('#chinese-words, #user-sentence');
-        
+
         if (container) {
             const dropPosition = getDropPosition(container, touch.clientX, touch.clientY);
             if (dropPosition.element) {
@@ -508,14 +531,7 @@ function touchEnd(event) {
     removeDropPlaceholder();
 }
 
-function handleClick(wordElement) {
-    const sourceContainer = wordElement.parentElement;
-    const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
-   
-    // Déplacer le mot immédiatement sans animation
-    targetContainer.appendChild(wordElement);
-}
-
+// Fonction pour obtenir la position de dépôt pendant le glisser-déposer
 function getDropPosition(container, x, y) {
     const words = [...container.querySelectorAll('.word:not(.dragging):not(.word-placeholder)')];
     const containerRect = container.getBoundingClientRect();
@@ -546,6 +562,7 @@ function getDropPosition(container, x, y) {
     }
 }
 
+// Fonction pour mettre à jour le placeholder de dépôt pendant le glisser-déposer
 function updateDropPlaceholder(x, y) {
     removeDropPlaceholder();
     const containers = [document.getElementById('chinese-words'), document.getElementById('user-sentence')];
@@ -577,6 +594,7 @@ function updateDropPlaceholder(x, y) {
     }
 }
 
+// Fonction pour supprimer le placeholder après le dépôt
 function removeDropPlaceholder() {
     const placeholder = document.querySelector('.word-placeholder');
     if (placeholder) {
@@ -584,6 +602,7 @@ function removeDropPlaceholder() {
     }
 }
 
+// Fonction pour gérer le glisser-déposer (dragstart)
 function drag(event) {
     draggedElement = event.target;
     event.dataTransfer.setData('text/plain', event.target.textContent);
@@ -593,16 +612,19 @@ function drag(event) {
     }, 0);
 }
 
+// Fonction pour gérer la fin du glisser-déposer (dragend)
 function dragEnd(event) {
     event.target.classList.remove('dragging');
     removeDropPlaceholder();
 }
 
+// Fonction pour autoriser le glisser-déposer (allowDrop)
 function allowDrop(event) {
     event.preventDefault();
     updateDropPlaceholder(event.clientX, event.clientY);
 }
 
+// Fonction pour gérer le dépôt (drop)
 function drop(event) {
     event.preventDefault();
     const container = event.currentTarget;
