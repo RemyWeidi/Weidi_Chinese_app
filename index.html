@@ -389,49 +389,49 @@
         }
 
         function displayNewSentence() {
-            currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
-            document.getElementById('english-sentence').textContent = currentSentence.english;
-            
-            const chineseWordsContainer = document.getElementById('chinese-words');
-            const userSentenceContainer = document.getElementById('user-sentence');
-            const userInput = document.getElementById('user-input');
-            
-            chineseWordsContainer.innerHTML = '';
-            userSentenceContainer.innerHTML = '';
-            userInput.value = '';
+    currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+    document.getElementById('english-sentence').textContent = currentSentence.english;
+    
+    const chineseWordsContainer = document.getElementById('chinese-words');
+    const userSentenceContainer = document.getElementById('user-sentence');
+    const userInput = document.getElementById('user-input');
+    
+    chineseWordsContainer.innerHTML = '';
+    userSentenceContainer.innerHTML = '';
+    userInput.value = '';
 
-            if (difficulty === 'normal') {
-    const shuffledWords = shuffleArray(currentSentence.chinese.split(''));
-    shuffledWords.forEach(word => {
-        const wordElement = createWordElement(word);
-        chineseWordsContainer.appendChild(wordElement);
-    });
-    userSentenceContainer.style.display = 'flex';
-    chineseWordsContainer.style.display = 'flex';
-    userInput.style.display = 'none';
-} else if (difficulty === 'difficult') {
-    const shuffledChars = shuffleArray(currentSentence.chinese.split(''));
-    shuffledChars.forEach(char => {
-        const charElement = createWordElement(char);
-        chineseWordsContainer.appendChild(charElement);
-    });
-    userSentenceContainer.style.display = 'flex';
-    chineseWordsContainer.style.display = 'flex';
-    userInput.style.display = 'none';
-} else if (difficulty === 'expert') {
-    chineseWordsContainer.style.display = 'none';
-    userSentenceContainer.style.display = 'none';
-    userInput.style.display = 'block';
-}
+    if (difficulty === 'normal') {
+        const shuffledWords = shuffleArray(currentSentence.chinese.split(''));
+        shuffledWords.forEach(word => {
+            const wordElement = createWordElement(word);
+            chineseWordsContainer.appendChild(wordElement);
+        });
+        userSentenceContainer.style.display = 'flex';
+        chineseWordsContainer.style.display = 'flex';
+        userInput.style.display = 'none';
+    } else if (difficulty === 'difficult') {
+        const shuffledChars = shuffleArray(currentSentence.chinese.split(''));
+        shuffledChars.forEach(char => {
+            const charElement = createWordElement(char);
+            chineseWordsContainer.appendChild(charElement);
+        });
+        userSentenceContainer.style.display = 'flex';
+        chineseWordsContainer.style.display = 'flex';
+        userInput.style.display = 'none';
+    } else if (difficulty === 'expert') {
+        chineseWordsContainer.style.display = 'none';
+        userSentenceContainer.style.display = 'none';
+        userInput.style.display = 'block';
+    }
 
-document.getElementById('result').textContent = '';
-document.getElementById('correct-sentence').textContent = '';
-document.getElementById('submit-button').textContent = 'Valider';
-document.getElementById('submit-button').removeEventListener('click', nextQuestion);
-document.getElementById('submit-button').addEventListener('click', submitAnswer);
-resetHint();
-questionCount++;
-updateCounter();
+    document.getElementById('result').textContent = '';
+    document.getElementById('correct-sentence').textContent = '';
+    document.getElementById('submit-button').textContent = 'Valider';
+    document.getElementById('submit-button').removeEventListener('click', nextQuestion);
+    document.getElementById('submit-button').addEventListener('click', submitAnswer);
+    resetHint();
+    questionCount++;
+    updateCounter();
 }
 
 function createWordElement(word) {
@@ -444,7 +444,7 @@ function createWordElement(word) {
     wordElement.addEventListener('touchstart', touchStart, {passive: false});
     wordElement.addEventListener('touchmove', touchMove, {passive: false});
     wordElement.addEventListener('touchend', touchEnd);
-    wordElement.addEventListener('click', function() { handleClick(this); }); // Ajout de l'écouteur de clic
+    wordElement.addEventListener('click', handleClick);
     return wordElement;
 }
 
@@ -511,8 +511,6 @@ function touchEnd(event) {
 function handleClick(wordElement) {
     const sourceContainer = wordElement.parentElement;
     const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
-   
-    // Déplacer le mot immédiatement sans animation
     targetContainer.appendChild(wordElement);
 }
 
@@ -851,6 +849,6 @@ document.getElementById('return-home-button').addEventListener('click', returnHo
 
 // Initialisation
 document.getElementById('mode-select').dispatchEvent(new Event('change'));
-    </script>
+</script>
 </body>
 </html>
