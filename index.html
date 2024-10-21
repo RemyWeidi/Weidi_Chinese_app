@@ -59,7 +59,7 @@
         }
         select, button {
             width: 100%;
-            max-width: 250px;
+            max-width: 300px;
             padding: 0.8rem;
             margin-bottom: 1rem;
             border: 1px solid var(--border-color);
@@ -70,7 +70,6 @@
             text-align-last: center;
         }
         select {
-            max-width: 250px;
             background-color: var(--background-color);
             color: var(--text-color);
             appearance: none;
@@ -1015,7 +1014,6 @@
             wordElement.addEventListener('touchstart', touchStart, {passive: false});
             wordElement.addEventListener('touchmove', touchMove, {passive: false});
             wordElement.addEventListener('touchend', touchEnd);
-            wordElement.addEventListener('click', handleWordClick);
             return wordElement;
         }
 
@@ -1079,7 +1077,7 @@
                 if (distance < closestDistance) {
                     closestWord = word;
                     closestDistance = distance;
-                    insertAfter = x > centerX;
+                    insertAfter = x > centerX && y > centerY;
                 }
             });
 
@@ -1118,6 +1116,7 @@
 
         let touchStartX, touchStartY;
         let touchMoved = false;
+        let longPressTimer;
 
         function touchStart(event) {
             const touch = event.touches[0];
@@ -1127,30 +1126,32 @@
             touchMoved = false;
             event.preventDefault();
             
-            draggedElement.style.transition = 'none';
-            draggedElement.style.zIndex = '1000';
-            
-            updateDropPlaceholder(touch.clientX, touch.clientY);
+            longPressTimer = setTimeout(() => {
+                draggedElement.style.transition = 'none';
+                draggedElement.style.zIndex = '1000';
+                updateDropPlaceholder(touch.clientX, touch.clientY);
+            }, 200);
         }
 
         function touchMove(event) {
             if (!draggedElement) return;
-            event.preventDefault();
-
             const touch = event.touches[0];
             const moveX = touch.clientX - touchStartX;
             const moveY = touch.clientY - touchStartY;
 
-            touchMoved = true;
-            draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            if (Math.abs(moveX) > 10 || Math.abs(moveY) > 10) {
+                touchMoved = true;
+                clearTimeout(longPressTimer);
+                event.preventDefault();
 
-            updateDropPlaceholder(touch.clientX, touch.clientY);
+                draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                updateDropPlaceholder(touch.clientX, touch.clientY);
+            }
         }
 
         function touchEnd(event) {
+            clearTimeout(longPressTimer);
             if (!draggedElement) return;
-
-            draggedElement.style.transition = 'all 0.3s ease';
 
             if (!touchMoved) {
                 handleWordClick(event);
@@ -1168,6 +1169,7 @@
                 }
             }
 
+            draggedElement.style.transition = 'all 0.3s ease';
             draggedElement.style.transform = '';
             draggedElement.style.zIndex = '';
             draggedElement = null;
