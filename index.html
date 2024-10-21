@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weidi Chinese App</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js" type="module"></script>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -852,36 +852,6 @@ document.getElementById('return-home-button').addEventListener('click', returnHo
 
 // Initialisation
 document.getElementById('mode-select').dispatchEvent(new Event('change'));
-
-document.addEventListener('DOMContentLoaded', function() {
-    new Sortable(document.getElementById('chinese-words'), {
-        group: 'shared',
-        animation: 150,
-        onEnd: function(evt) {
-            const item = evt.item;
-            const from = evt.from;
-            const to = evt.to;
-            if (from !== to) {
-                // L'élément a été déplacé d'un conteneur à l'autre
-                handleClick(item);
-            }
-        }
-    });
-
-    new Sortable(document.getElementById('user-sentence'), {
-        group: 'shared',
-        animation: 150,
-        onEnd: function(evt) {
-            const item = evt.item;
-            const from = evt.from;
-            const to = evt.to;
-            if (from !== to) {
-                // L'élément a été déplacé d'un conteneur à l'autre
-                handleClick(item);
-            }
-        }
-    });
-});
 </script>
 </body>
 </html>
