@@ -316,7 +316,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
             color: white;
             display: flex;
             flex-direction: column;
@@ -326,18 +326,84 @@
         }
         #final-score h2 {
             font-size: 2.5rem;
+            color: var(--primary-color);
             margin-bottom: 1rem;
             color: white;
         }
         #final-score .mode {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        #final-score .score {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-        }
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #e6f0fa; /* Bleu très clair pour le texte du mode */
+    opacity: 0.9;
+}
+        #final-score {
+    position: fixed;  /* Changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;  /* S'assurer qu'il est au-dessus de tout */
+}
+#final-score h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color); /* Bleu du titre principal */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+#final-score .mode {
+    font-size: 2rem;
+    margin-bottom: 0;
+    color: #e6f0fa; /* Bleu très clair pour le texte du mode */
+    opacity: 0.9;
+}
+#final-score .score {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 2;
+    color: var(--secondary-color); /* Vert pour mettre en valeur le score */
+    text-shadow: 0 2px 8px rgba(80,200,120,0.3); /* Légère lueur verte */
+}
+#final-score .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px; /* Largeur fixe pour le container des boutons */
+}
+#final-score button {
+    width: 100%; /* Prend toute la largeur du container */
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+#final-score button:first-of-type {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(74,144,226,0.2);
+}
+#final-score button:first-of-type:hover {
+    background-color: #3a7bc8;
+    transform: translateY(-2px);
+}
+#final-score button:last-of-type {
+    background-color: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(255,107,107,0.2);
+}
+#final-score button:last-of-type:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px)
+}
         #timer, #question-counter {
             background-color: var(--primary-color);
             color: white;
@@ -451,7 +517,7 @@
 
     <script>
         const sentences = [
-    {
+        {
         "english": "Thanks to everybody’s help, we finished the job on time",
         "chinese": "亏得 大家 帮忙 ,   我们 才 按时 把 这 活儿干 完"
     },
@@ -2378,8 +2444,7 @@
     {
         "english": "As a member of the club, you'll enjoy many privileges",
         "chinese": "作为 俱乐部 成员 你 享受 很多 特权"
-    }
-];
+    }    ];
 
         let currentSentence;
         let draggedElement = null;
@@ -2422,6 +2487,14 @@ function displayNewSentence() {
     const chineseWordsContainer = document.getElementById('chinese-words');
     const userSentenceContainer = document.getElementById('user-sentence');
     const userInput = document.getElementById('user-input');
+    const hintButton = document.getElementById('hint-button');
+    const resetButton = document.getElementById('reset-button');
+    const submitButton = document.getElementById('submit-button');
+    
+    // Réinitialiser les boutons
+    if (hintButton) hintButton.disabled = false;
+    if (resetButton) resetButton.disabled = false;
+    if (userInput) userInput.disabled = false;
     
     chineseWordsContainer.innerHTML = '';
     userSentenceContainer.innerHTML = '';
@@ -2431,35 +2504,21 @@ function displayNewSentence() {
         chineseWordsContainer.style.display = 'none';
         userSentenceContainer.style.display = 'none';
         userInput.style.display = 'block';
-        
-        // Calculer et appliquer la nouvelle largeur
-        const inputWidth = calculateInputWidth(currentSentence.chinese);
-        userInput.style.maxWidth = `${inputWidth}px`;
-    } else if (difficulty === 'difficult') {
-        // Pour le mode difficile, on divise en caractères individuels
-        const chars = currentSentence.chinese.replace(/\s+/g, '').split('');
-        const shuffledChars = shuffleArray([...chars]);
-        
-        chineseWordsContainer.style.display = 'flex';
-        userSentenceContainer.style.display = 'flex';
-        userInput.style.display = 'none';
-        
-        shuffledChars.forEach(char => {
-            const charElement = createWordElement(char);
-            chineseWordsContainer.appendChild(charElement);
-        });
+        userInput.style.maxWidth = `${calculateInputWidth(currentSentence.chinese)}px`;
     } else {
-        // Mode normal - diviser par mots
-        const words = currentSentence.chinese.split(' ').filter(word => word.trim() !== '');
-        const shuffledWords = shuffleArray([...words]);
-        
         chineseWordsContainer.style.display = 'flex';
         userSentenceContainer.style.display = 'flex';
         userInput.style.display = 'none';
         
-        shuffledWords.forEach(word => {
-            if (word.trim()) {
-                const wordElement = createWordElement(word);
+        const contentToSplit = difficulty === 'difficult' 
+            ? currentSentence.chinese.replace(/\s+/g, '').split('')
+            : currentSentence.chinese.split(' ').filter(word => word.trim() !== '');
+            
+        const shuffledContent = shuffleArray([...contentToSplit]);
+        
+        shuffledContent.forEach(item => {
+            if (item.trim()) {
+                const wordElement = createWordElement(item);
                 chineseWordsContainer.appendChild(wordElement);
             }
         });
@@ -2467,13 +2526,19 @@ function displayNewSentence() {
 
     document.getElementById('result').textContent = '';
     document.getElementById('correct-sentence').textContent = '';
-    document.getElementById('submit-button').textContent = 'Valider';
-    document.getElementById('submit-button').removeEventListener('click', nextQuestion);
-    document.getElementById('submit-button').addEventListener('click', submitAnswer);
+
+    // Réinitialiser les écouteurs d'événements du bouton "Valider"
+    submitButton.removeEventListener('click', submitAnswer);
+    submitButton.removeEventListener('click', nextQuestion);
+    submitButton.removeEventListener('click', endSession);
+    submitButton.textContent = 'Valider';
+    submitButton.addEventListener('click', submitAnswer);
+
     resetHint();
-    questionCount++;
     updateCounter();
 }
+
+
 
 function createWordElement(word) {
     const wordElement = document.createElement('div');
@@ -2659,54 +2724,80 @@ function drop(event) {
 }
 
 function submitAnswer() {
-   let userSentence;
-   let normalizedCorrect;
-   let normalizedUser;
+    let userSentence;
+    let normalizedCorrect;
+    let normalizedUser;
 
-   if (difficulty === 'expert') {
-       userSentence = document.getElementById('user-input').value.trim();
-       // Pour le mode expert, on enlève tous les espaces
-       normalizedUser = userSentence.replace(/\s+/g, '');
-       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
-   } else if (difficulty === 'difficult') {
-       // Pour le mode difficile, on enlève tous les espaces
-       userSentence = Array.from(document.getElementById('user-sentence').children)
-           .map(word => word.textContent)
-           .join('');
-       normalizedUser = userSentence;
-       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
-   } else {
-       // Pour le mode normal, on garde les espaces mais on les normalise
-       userSentence = Array.from(document.getElementById('user-sentence').children)
-           .map(word => word.textContent)
-           .join(' ');
-       normalizedUser = userSentence.replace(/\s+/g, ' ').trim();
-       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, ' ').trim();
-   }
-   
-   const resultElement = document.getElementById('result');
-   const correctSentenceElement = document.getElementById('correct-sentence');
-   
-   if (normalizedUser === normalizedCorrect) {
-       resultElement.textContent = 'Bonne réponse !';
-       resultElement.style.color = 'var(--secondary-color)';
-       updateScore(true);
-   } else {
-       resultElement.textContent = 'Mauvaise réponse.';
-       resultElement.style.color = 'var(--accent-color)';
-       updateScore(false);
-   }
-   
-   correctSentenceElement.textContent = currentSentence.chinese;
-   
-   // Vérification si c'est la dernière question
-   const isLastQuestion = (mode === 'questions' && currentSentenceIndex === sessionSentences.length - 1) || 
-                         (mode === 'time' && timeLeft <= 0);
+    if (difficulty === 'expert') {
+        userSentence = document.getElementById('user-input').value.trim();
+        normalizedUser = userSentence.replace(/\s+/g, '');
+        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+    } else if (difficulty === 'difficult') {
+        userSentence = Array.from(document.getElementById('user-sentence').children)
+            .map(word => word.textContent)
+            .join('');
+        normalizedUser = userSentence;
+        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+    } else {
+        userSentence = Array.from(document.getElementById('user-sentence').children)
+            .map(word => word.textContent)
+            .join(' ');
+        normalizedUser = userSentence.replace(/\s+/g, ' ').trim();
+        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, ' ').trim();
+    }
 
-   const submitButton = document.getElementById('submit-button');
-   submitButton.textContent = isLastQuestion ? 'Voir le score' : 'Question suivante';
-   submitButton.removeEventListener('click', submitAnswer);
-   submitButton.addEventListener('click', nextQuestion);
+    const resultElement = document.getElementById('result');
+    const correctSentenceElement = document.getElementById('correct-sentence');
+
+    if (normalizedUser === normalizedCorrect) {
+        resultElement.textContent = 'Bonne réponse !';
+        resultElement.style.color = 'var(--secondary-color)';
+        updateScore(true);
+    } else {
+        resultElement.textContent = 'Mauvaise réponse.';
+        resultElement.style.color = 'var(--accent-color)';
+        updateScore(false);
+    }
+
+    correctSentenceElement.textContent = currentSentence.chinese;
+
+    // Désactiver les interactions
+    const userSentenceContainer = document.getElementById('user-sentence');
+    const chineseWordsContainer = document.getElementById('chinese-words');
+    const words = document.querySelectorAll('.word');
+    const hintButton = document.getElementById('hint-button');
+    const resetButton = document.getElementById('reset-button');
+    const userInput = document.getElementById('user-input');
+
+    if (hintButton) hintButton.disabled = true;
+    if (resetButton) resetButton.disabled = true;
+    if (userInput) userInput.disabled = true;
+
+    words.forEach(word => {
+        word.draggable = false;
+        word.style.cursor = 'default';
+    });
+
+    if (userSentenceContainer) {
+        userSentenceContainer.removeEventListener('dragover', allowDrop);
+        userSentenceContainer.removeEventListener('drop', drop);
+    }
+
+    if (chineseWordsContainer) {
+        chineseWordsContainer.removeEventListener('dragover', allowDrop);
+        chineseWordsContainer.removeEventListener('drop', drop);
+    }
+
+    const submitButton = document.getElementById('submit-button');
+    submitButton.removeEventListener('click', submitAnswer);
+
+    if (mode === 'questions' && currentSentenceIndex >= limit - 1) {
+        submitButton.textContent = 'Voir le score';
+        submitButton.addEventListener('click', endSession);
+    } else {
+        submitButton.textContent = 'Question suivante';
+        submitButton.addEventListener('click', nextQuestion);
+    }
 }
 
 function updateScore(isCorrect) {
@@ -2777,49 +2868,46 @@ function showHint() {
     const userSentenceContainer = document.getElementById('user-sentence');
     const chineseWordsContainer = document.getElementById('chinese-words');
     const userInput = document.getElementById('user-input');
-    
+    const hintButton = document.getElementById('hint-button');
+
     if (difficulty === 'expert') {
         // Pour le mode expert, on utilise toute la phrase sans les espaces
         const phrase = currentSentence.chinese.replace(/\s+/g, '');
-        userInput.value = phrase.slice(0, hintIndex + 1);
-        
-        if (hintIndex >= phrase.length - 1) {
-            document.getElementById('hint-button').disabled = true;
+        if (hintIndex < phrase.length) {
+            userInput.value = phrase.slice(0, hintIndex + 1);
+            hintIndex++;
+            hintUsed = true;
+        }
+        // Vérifier si tous les caractères ont été révélés
+        if (hintIndex >= phrase.length) {
+            hintButton.disabled = true;
         }
     } else {
-        // D'abord, on vide le conteneur user-sentence
-        while (userSentenceContainer.firstChild) {
-            chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
-        }
-
         // On divise la phrase correcte selon le mode de difficulté
         const correctWords = difficulty === 'normal' 
             ? currentSentence.chinese.split(' ').filter(word => word.trim() !== '')
             : currentSentence.chinese.replace(/\s+/g, '').split('');
 
-        // Pour chaque mot jusqu'à l'index actuel
-        for (let i = 0; i <= hintIndex; i++) {
-            if (i < correctWords.length) {
-                const currentWord = correctWords[i];
-                // Chercher le mot exact dans le conteneur de mots chinois
-                const wordElement = Array.from(chineseWordsContainer.children)
-                    .find(el => el.textContent.trim() === currentWord.trim());
-                
-                if (wordElement) {
-                    userSentenceContainer.appendChild(wordElement);
-                }
+        if (hintIndex < correctWords.length) {
+            const currentWord = correctWords[hintIndex];
+            // Chercher le mot exact dans le conteneur de mots chinois
+            const wordElement = Array.from(chineseWordsContainer.children)
+                .find(el => el.textContent.trim() === currentWord.trim());
+            
+            if (wordElement) {
+                userSentenceContainer.appendChild(wordElement);
+                hintIndex++;
+                hintUsed = true;
             }
         }
-        
+
         // Vérifier si on a atteint la fin des mots
-        if (hintIndex >= correctWords.length - 1) {
-            document.getElementById('hint-button').disabled = true;
+        if (hintIndex >= correctWords.length) {
+            hintButton.disabled = true;
         }
     }
-    
-    hintIndex++;
-    hintUsed = true;
 }
+
 
 function resetHint() {
     hintIndex = 0;
@@ -2833,69 +2921,107 @@ function resetExercise() {
     const userSentenceContainer = document.getElementById('user-sentence');
     const chineseWordsContainer = document.getElementById('chinese-words');
     const userInput = document.getElementById('user-input');
-    
-    // Réinitialiser les indices
-    resetHint();
-    
+    const hintButton = document.getElementById('hint-button');
+
     if (difficulty === 'expert') {
         userInput.value = '';
     } else {
-        // Déplacer tous les mots vers le conteneur chinois
+        // Déplacer tous les mots du conteneur utilisateur vers le conteneur initial
         while (userSentenceContainer.firstChild) {
             chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
         }
 
-        // Mélanger les éléments
+        // Mélanger les mots dans le conteneur initial
         const elements = Array.from(chineseWordsContainer.children);
         shuffleArray(elements);
         elements.forEach(element => chineseWordsContainer.appendChild(element));
     }
-    
-    // Réinitialiser l'affichage du résultat
-    document.getElementById('result').textContent = '';
-    document.getElementById('correct-sentence').textContent = '';
+
+    // Réinitialiser les variables liées aux indices
+    hintIndex = 0;
+    hintUsed = false;
+
+    // Réactiver le bouton "Indice"
+    if (hintButton) hintButton.disabled = false;
 }
+
 
 function nextQuestion() {
     currentSentenceIndex++;
-    if ((mode === 'questions' && currentSentenceIndex < sessionSentences.length) || 
-        (mode === 'time' && timeLeft > 0)) {
-        displayNewSentence();
+    if (mode === 'questions') {
+        if (currentSentenceIndex < limit) {
+            displayNewSentence();
+        } else {
+            endSession();
+        }
     } else {
-        endSession();
+        // Mode temps
+        if (currentSentenceIndex >= sessionSentences.length) {
+            // Ajouter plus de phrases si nécessaire
+            const newPhrases = Math.min(sentences.length, 10);
+            for (let i = 0; i < newPhrases; i++) {
+                sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+            }
+        }
+        displayNewSentence();
     }
 }
 
+
+
 function endSession() {
     clearInterval(timerInterval);
-    const appElement = document.getElementById('app');
+
+    // Désactiver les interactions
+    const submitButton = document.getElementById('submit-button');
+    submitButton.removeEventListener('click', submitAnswer);
+    submitButton.removeEventListener('click', nextQuestion);
+
+    // Afficher la feuille de score
     const finalScoreElement = document.createElement('div');
     finalScoreElement.id = 'final-score';
     finalScoreElement.innerHTML = `
         <h2>Score</h2>
         <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
         <p class="score">${score}</p>
-        <button onclick="retrySession()" style="background-color: var(--primary-color); margin-bottom: 10px;">Réessayer</button>
-        <button onclick="restartGame()">Retour à l'accueil</button>
+        <div class="buttons">
+            <button onclick="retrySession()">Réessayer</button>
+            <button onclick="returnHome()">Retour à l'accueil</button>
+        </div>
     `;
-    appElement.appendChild(finalScoreElement);
+    document.body.appendChild(finalScoreElement);
 }
+
 
 function retrySession() {
     const finalScoreElement = document.getElementById('final-score');
     if (finalScoreElement) {
         finalScoreElement.remove();
     }
+
+    // Réinitialiser les variables d'état
     score = 0;
     consecutiveCorrectAnswers = 0;
     questionCount = 0;
     currentSentenceIndex = 0;
+    hintIndex = 0;
+    hintUsed = false;
+    sessionSentences = [];
+
+    // Réinitialiser les écouteurs d'événements
+    const submitButton = document.getElementById('submit-button');
+    submitButton.removeEventListener('click', submitAnswer);
+    submitButton.removeEventListener('click', nextQuestion);
+    submitButton.textContent = 'Valider';
+    submitButton.addEventListener('click', submitAnswer);
+
     if (mode === 'time') {
         timeLeft = parseInt(document.getElementById('time-select').value);
         startTimer();
     }
+
     displayNewSentence();
-}
+}   
 
 function getTimeString(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -2920,28 +3046,43 @@ function startGame() {
     document.getElementById('app').style.display = 'block';
     mode = document.getElementById('mode-select').value;
     difficulty = document.getElementById('difficulty-select').value;
-    
-    // Générer la liste des phrases pour la session
+
+    // Réinitialiser les variables d'état
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    questionCount = 0;
+    currentSentenceIndex = 0;
+    hintIndex = 0;
+    hintUsed = false;
     sessionSentences = [];
+
+    // Réinitialiser les écouteurs d'événements
+    const submitButton = document.getElementById('submit-button');
+    submitButton.removeEventListener('click', submitAnswer);
+    submitButton.removeEventListener('click', nextQuestion);
+    submitButton.removeEventListener('click', endSession);
+    submitButton.textContent = 'Valider';
+    submitButton.addEventListener('click', submitAnswer);
+
+    // Configuration de l'exercice en fonction du mode
     if (mode === 'questions') {
         limit = parseInt(document.getElementById('questions-select').value);
-        for(let i = 0; i < limit; i++) {
+        for (let i = 0; i < limit; i++) {
             sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
         }
         document.getElementById('timer').style.display = 'none';
         document.getElementById('question-counter').style.display = 'inline-block';
     } else {
-        // Pour le mode temps, on génère plus de phrases qu'il n'en faut
         timeLeft = parseInt(document.getElementById('time-select').value);
-        const estimatedQuestions = Math.ceil(timeLeft / 15) + 5; // On estime 15 secondes par question + marge
-        for(let i = 0; i < estimatedQuestions; i++) {
+        const estimatedQuestions = Math.min(sentences.length, 50);
+        for (let i = 0; i < estimatedQuestions; i++) {
             sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
         }
         document.getElementById('timer').style.display = 'inline-block';
         document.getElementById('question-counter').style.display = 'none';
         startTimer();
     }
-    currentSentenceIndex = 0;
+
     displayNewSentence();
 }
 
@@ -2951,9 +3092,10 @@ function startTimer() {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         timerElement.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            endSession();
+            endSession(); // Affiche la feuille de score quand le timer atteint zéro
         } else {
             timeLeft--;
         }
@@ -2963,18 +3105,38 @@ function startTimer() {
 function updateCounter() {
     if (mode === 'questions') {
         const counterElement = document.getElementById('question-counter');
-        counterElement.textContent = `Question ${questionCount} / ${limit}`;
+        counterElement.textContent = `Question ${currentSentenceIndex + 1} / ${limit}`;
     }
 }
 
 function returnHome() {
     clearInterval(timerInterval);
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('home').style.display = 'block';
+
+    // Réinitialiser les variables d'état
     score = 0;
     consecutiveCorrectAnswers = 0;
     questionCount = 0;
+    currentSentenceIndex = 0;
+    hintIndex = 0;
+    hintUsed = false;
+    sessionSentences = [];
+
+    // Réinitialiser les écouteurs d'événements
+    const submitButton = document.getElementById('submit-button');
+    submitButton.removeEventListener('click', submitAnswer);
+    submitButton.removeEventListener('click', nextQuestion);
+
+    // Cacher l'application et afficher l'accueil
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('home').style.display = 'block';
+
+    // Supprimer la feuille de score si elle existe
+    const finalScoreElement = document.getElementById('final-score');
+    if (finalScoreElement) {
+        finalScoreElement.remove();
+    }
 }
+
 
 // Événements pour la page d'accueil
 document.getElementById('mode-select').addEventListener('change', (e) => {
