@@ -72,8 +72,8 @@
             display: block;
         }
         select {
-            background-color: var(--background-color);
-            color: var(--text-color);
+            background-color: #e6f0fa;
+            color: #333;
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -95,6 +95,19 @@
         #start-button {
             background-color: var(--secondary-color);
             margin-top: 1rem;
+        }
+        #questions-options,
+        #difficulty-options {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 1rem;
+        }
+
+        #questions-options h3,
+        #difficulty-options h3,
+        #questions-options select,
+        #difficulty-options select {
+            width: 100%;
         }
         #start-button:hover {
             background-color: #45b167;
@@ -180,7 +193,7 @@
         }
         #score-popup {
             position: fixed;
-            top: 20px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             color: white;
