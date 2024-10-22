@@ -2824,7 +2824,9 @@ function showHint() {
 function resetHint() {
     hintIndex = 0;
     hintUsed = false;
-    document.getElementById('hint-button').disabled = false;
+    // S'assurer que le bouton est réactivé
+    const hintButton = document.getElementById('hint-button');
+    hintButton.disabled = false;
 }
 
 function resetExercise() {
@@ -2832,17 +2834,26 @@ function resetExercise() {
     const chineseWordsContainer = document.getElementById('chinese-words');
     const userInput = document.getElementById('user-input');
     
+    // Réinitialiser les indices
+    resetHint();
+    
     if (difficulty === 'expert') {
         userInput.value = '';
     } else {
+        // Déplacer tous les mots vers le conteneur chinois
         while (userSentenceContainer.firstChild) {
             chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
         }
 
+        // Mélanger les éléments
         const elements = Array.from(chineseWordsContainer.children);
         shuffleArray(elements);
         elements.forEach(element => chineseWordsContainer.appendChild(element));
     }
+    
+    // Réinitialiser l'affichage du résultat
+    document.getElementById('result').textContent = '';
+    document.getElementById('correct-sentence').textContent = '';
 }
 
 function nextQuestion() {
