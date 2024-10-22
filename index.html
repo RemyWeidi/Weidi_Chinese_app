@@ -2533,49 +2533,54 @@ function drop(event) {
 }
 
 function submitAnswer() {
-    let userSentence;
-    let normalizedCorrect;
-    let normalizedUser;
+   let userSentence;
+   let normalizedCorrect;
+   let normalizedUser;
 
-    if (difficulty === 'expert') {
-        userSentence = document.getElementById('user-input').value.trim();
-        // Pour le mode expert, on enlève tous les espaces
-        normalizedUser = userSentence.replace(/\s+/g, '');
-        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
-    } else if (difficulty === 'difficult') {
-        // Pour le mode difficile, on enlève tous les espaces
-        userSentence = Array.from(document.getElementById('user-sentence').children)
-            .map(word => word.textContent)
-            .join('');
-        normalizedUser = userSentence;
-        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
-    } else {
-        // Pour le mode normal, on garde les espaces mais on les normalise
-        userSentence = Array.from(document.getElementById('user-sentence').children)
-            .map(word => word.textContent)
-            .join(' ');
-        normalizedUser = userSentence.replace(/\s+/g, ' ').trim();
-        normalizedCorrect = currentSentence.chinese.replace(/\s+/g, ' ').trim();
-    }
-    
-    const resultElement = document.getElementById('result');
-    const correctSentenceElement = document.getElementById('correct-sentence');
-    
-    if (normalizedUser === normalizedCorrect) {
-        resultElement.textContent = 'Bonne réponse !';
-        resultElement.style.color = 'var(--secondary-color)';
-        updateScore(true);
-    } else {
-        resultElement.textContent = 'Mauvaise réponse.';
-        resultElement.style.color = 'var(--accent-color)';
-        updateScore(false);
-    }
-    
-    correctSentenceElement.textContent = currentSentence.chinese;
-    
-    document.getElementById('submit-button').textContent = 'Question suivante';
-    document.getElementById('submit-button').removeEventListener('click', submitAnswer);
-    document.getElementById('submit-button').addEventListener('click', nextQuestion);
+   if (difficulty === 'expert') {
+       userSentence = document.getElementById('user-input').value.trim();
+       // Pour le mode expert, on enlève tous les espaces
+       normalizedUser = userSentence.replace(/\s+/g, '');
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+   } else if (difficulty === 'difficult') {
+       // Pour le mode difficile, on enlève tous les espaces
+       userSentence = Array.from(document.getElementById('user-sentence').children)
+           .map(word => word.textContent)
+           .join('');
+       normalizedUser = userSentence;
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+   } else {
+       // Pour le mode normal, on garde les espaces mais on les normalise
+       userSentence = Array.from(document.getElementById('user-sentence').children)
+           .map(word => word.textContent)
+           .join(' ');
+       normalizedUser = userSentence.replace(/\s+/g, ' ').trim();
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, ' ').trim();
+   }
+   
+   const resultElement = document.getElementById('result');
+   const correctSentenceElement = document.getElementById('correct-sentence');
+   
+   if (normalizedUser === normalizedCorrect) {
+       resultElement.textContent = 'Bonne réponse !';
+       resultElement.style.color = 'var(--secondary-color)';
+       updateScore(true);
+   } else {
+       resultElement.textContent = 'Mauvaise réponse.';
+       resultElement.style.color = 'var(--accent-color)';
+       updateScore(false);
+   }
+   
+   correctSentenceElement.textContent = currentSentence.chinese;
+   
+   // Vérification si c'est la dernière question
+   const isLastQuestion = (mode === 'questions' && currentSentenceIndex === sessionSentences.length - 1) || 
+                         (mode === 'time' && timeLeft <= 0);
+
+   const submitButton = document.getElementById('submit-button');
+   submitButton.textContent = isLastQuestion ? 'Voir le score' : 'Question suivante';
+   submitButton.removeEventListener('click', submitAnswer);
+   submitButton.addEventListener('click', nextQuestion);
 }
 
 function updateScore(isCorrect) {
