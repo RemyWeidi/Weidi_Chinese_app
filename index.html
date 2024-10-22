@@ -52,10 +52,18 @@
             flex-direction: column;
             align-items: center;
         }
+        #home .content h3 {
+            margin: 0;
+            margin-bottom: 0.5rem; /* Espace cohérent entre le titre et le sélecteur */
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+            width: 100%;
+        }
         h2, h3 {
             font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 3rem;
             text-align: center;
             width: 100%;
         }
@@ -63,11 +71,12 @@
             width: 100%;
             max-width: 300px;
             padding: 0.8rem;
-            margin-bottom: 1rem;
+            margin: 0;
+            margin-bottom: 2rem;
             border: 1px solid var(--border-color);
             border-radius: 5px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            font-size: 1.1rem;
             text-align: center;
             text-align-last: center;
             display: block;
@@ -95,18 +104,28 @@
         }
         #start-button {
             background-color: var(--secondary-color);
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
+
         #questions-options,
         #difficulty-options {
             width: 100%;
             max-width: 300px;
             margin-bottom: 1rem;
         }
-
+        #questions-options,
+        #difficulty-options,
+        #mode-options, /* Ajouté pour inclure le bloc du mode de jeu */
+        #time-options {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 0; /* Modification pour uniformiser l'espacement */
+        }
         #questions-options h3,
         #difficulty-options h3,
+        #mode-options h3
         #questions-options select,
+        #mode-options select,
         #difficulty-options select {
             width: 100%;
         }
