@@ -318,47 +318,42 @@
 </head>
 <body>
     <div id="home">
-    <div id="home">
-    <h1 class="app-title">Weidi Chinese App</h1>
-    <div class="content">
-        <h3>Mode de jeu</h3>
-        <select id="mode-select">
-            <option value="questions">Nombre de questions</option>
-            <option value="time">Durée de temps</option>
-        </select>
-
-        <div id="questions-options">
-            <h3>Nombre de questions</h3>
-            <select id="questions-select">
-                <option value="5">5 questions</option>
-                <option value="10">10 questions</option>
-                <option value="15">15 questions</option>
-                <option value="25">25 questions</option>
+        <h1 class="app-title">Weidi Chinese App</h1>
+        <div class="content">
+            <h3>Mode de jeu</h3>
+            <select id="mode-select">
+                <option value="questions">Nombre de questions</option>
+                <option value="time">Durée de temps</option>
             </select>
+            <div id="questions-options">
+                <h3>Nombre de questions</h3>
+                <select id="questions-select">
+                    <option value="5">5 questions</option>
+                    <option value="10">10 questions</option>
+                    <option value="15">15 questions</option>
+                    <option value="25">25 questions</option>
+                </select>
+            </div>
+            <div id="difficulty-options">
+                <h3>Niveau de difficulté</h3>
+                <select id="difficulty-select">
+                    <option value="normal">Normal</option>
+                    <option value="difficult">Difficile</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+            <div id="time-options" style="display: none;">
+                <h3>Durée de l'exercice</h3>
+                <select id="time-select">
+                    <option value="30">30 secondes</option>
+                    <option value="60">1 minute</option>
+                    <option value="120">2 minutes</option>
+                    <option value="300">5 minutes</option>
+                    <option value="600">10 minutes</option>
+                </select>
+            </div>
+            <button id="start-button">Commencer l'exercice</button>
         </div>
-
-        <div id="time-options" style="display: none;">
-            <h3>Durée de l'exercice</h3>
-            <select id="time-select">
-                <option value="30">30 secondes</option>
-                <option value="60">1 minute</option>
-                <option value="120">2 minutes</option>
-                <option value="300">5 minutes</option>
-                <option value="600">10 minutes</option>
-            </select>
-        </div>
-
-        <div id="difficulty-options">
-            <h3>Niveau de difficulté</h3>
-            <select id="difficulty-select">
-                <option value="normal">Normal</option>
-                <option value="difficult">Difficile</option>
-                <option value="expert">Expert</option>
-            </select>
-        </div>
-
-        <button id="start-button">Commencer l'exercice</button>
-    </div>
     </div>
 
     <div id="app" style="display: none;">
@@ -2879,34 +2874,15 @@ function returnHome() {
 }
 
 // Événements pour la page d'accueil
-<script>
-    // Événements pour la page d'accueil
-    document.getElementById('mode-select').addEventListener('change', function() {
-        var mode = this.value;
-
-        // Sélection des éléments
-        var questionsOptions = document.getElementById('questions-options');
-        var timeOptions = document.getElementById('time-options');
-        var difficultyOptions = document.getElementById('difficulty-options');
-
-        // Gestion de la visibilité selon le mode sélectionné
-        if (mode === 'time') {
-            questionsOptions.style.display = 'none'; // Masquer la sélection du nombre de questions
-            timeOptions.style.display = 'block';     // Afficher la durée de temps
-        } else if (mode === 'questions') {
-            questionsOptions.style.display = 'block'; // Afficher la sélection du nombre de questions
-            timeOptions.style.display = 'none';       // Masquer la durée de temps
-        }
-
-        // Garder la section de difficulté visible dans tous les cas
-        difficultyOptions.style.display = 'block';
-    });
-
-    // Masquer la sélection de la durée au chargement
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('time-options').style.display = 'none'; // Cacher la durée de temps par défaut
-    });
-</script>
+document.getElementById('mode-select').addEventListener('change', (e) => {
+    if (e.target.value === 'questions') {
+        document.getElementById('questions-options').style.display = 'block';
+        document.getElementById('time-options').style.display = 'none';
+    } else {
+        document.getElementById('questions-options').style.display = 'none';
+        document.getElementById('time-options').style.display = 'block';
+    }
+});
 
 document.getElementById('start-button').addEventListener('click', startGame);
 
