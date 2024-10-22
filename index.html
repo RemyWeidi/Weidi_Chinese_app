@@ -2395,14 +2395,8 @@ function touchEnd(event) {
     if (!draggedElement) return;
 
     const touch = event.changedTouches[0];
-    const touchEndTime = new Date().getTime();
-    const touchDuration = touchEndTime - touchStartTime;
 
-    if (!touchMoved && touchDuration < 200) {
-        // C'est un clic rapide
-        handleClick(draggedElement);
-    } else if (touchMoved) {
-        // C'est un glisser-déposer
+    if (touchMoved) {
         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
         const container = dropTarget.closest('#chinese-words, #user-sentence');
         
@@ -2414,8 +2408,12 @@ function touchEnd(event) {
                 container.appendChild(draggedElement);
             }
         }
+    } else {
+        // Gestion du clic rapide si nécessaire
+        handleClick(draggedElement);
     }
 
+    // Réinitialiser le style du mot déplacé
     draggedElement.style.transition = 'all 0.3s ease';
     draggedElement.style.transform = '';
     draggedElement.style.zIndex = '';
@@ -2431,30 +2429,30 @@ function handleClick(wordElement) {
 
 function getDropPosition(container, x, y) {
     const words = [...container.querySelectorAll('.word:not(.dragging):not(.word-placeholder)')];
-    const containerRect = container.getBoundingClientRect();
     
     let closestWord = null;
-    let closestDistance = Infinity;
-    let insertAfter = false;
+    let minDistance = Infinity;
 
     words.forEach((word) => {
         const rect = word.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-
-        if (distance < closestDistance) {
-            closestWord = word;
-            closestDistance = distance;
-            insertAfter = (x > centerX && y > rect.top && y < rect.bottom) || 
-                          (y > centerY && x > rect.left && x < rect.right);
+        if (y >= rect.top && y <= rect.bottom) {
+            const distance = Math.abs(x - (rect.left + rect.width / 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestWord = word;
+            }
         }
     });
 
     if (closestWord) {
-        return { element: insertAfter ? closestWord.nextSibling : closestWord };
+        const rect = closestWord.getBoundingClientRect();
+        if (x < rect.left + rect.width / 2) {
+            return { element: closestWord };
+        } else {
+            return { element: closestWord.nextSibling };
+        }
     } else {
-        // Si aucun mot n'est proche, insérer à la fin
+        // Si aucun mot sur la même ligne, insérer à la fin
         return { element: null };
     }
 }
