@@ -4,7 +4,2957 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weidi Chinese App</title>
+    <link href="<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weidi Chinese App</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js" type="module"></script>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --accent-color: #ff6b6b;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --card-background: #ffffff;
+            --word-background: #f0f0f0;
+            --user-sentence-border: #4a90e2;
+            --border-color: #f8f8f8;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        #home, #app {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+        }
+        .app-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #home .content h3 {
+            margin: 0;
+            margin-bottom: 0.5rem; /* Espace cohérent entre le titre et le sélecteur */
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+            width: 100%;
+        }
+        h2, h3 {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+            width: 100%;
+        }
+        select, button {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.8rem;
+            margin: 0;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            text-align-last: center;
+            display: block;
+        }
+        
+        select {
+            background-color: #e6f0fa;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position-x: calc(100% - 10px);
+            background-position-y: 50%;
+        }
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff5252;
+        }
+        #start-button {
+            background-color: var(--secondary-color);
+            margin-top: 1.5rem;
+        }
+
+        #questions-options,
+        #difficulty-options {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 1rem;
+        }
+        #questions-options,
+        #difficulty-options,
+        #mode-options,
+        #time-options {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        #mode-specific-options {
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #questions-options h3,
+        #difficulty-options h3,
+        #mode-options h3,
+        #time-options h3,
+        #questions-options select,
+        #mode-options select,
+        #difficulty-options select,
+        #time-options select {
+            width: 100%;
+        }
+        #start-button:hover {
+            background-color: #45b167;
+        }
+        #submit-button {
+            background-color: var(--secondary-color);
+        }
+        #submit-button:hover {
+            background-color: #45b167;
+        }
+        #hint-button {
+            background-color: #4a90e2;
+        }
+        #hint-button:hover {
+            background-color: #3a7bc8;
+        }
+
+        #reset-button {
+            background-color: #29507d;
+        }
+
+        #reset-button:hover {
+            background-color: #4174b0;
+        }
+        @media (max-width: 600px) {
+        #reset-button {
+            background-color: #29507d; 
+        }
+        #hint-button {
+         background-color: #4a90e2; 
+        }
+        #reset-button:hover {
+            background-color: #4174b0; 
+        }
+        #hint-button:hover {
+            background-color: #3a7bc8; 
+        }
+        }
+        #chinese-words, #user-sentence {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            min-height: 60px;
+            padding: 1rem;
+            position: relative;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        #chinese-words {
+            background-color: var(--card-background);
+        }
+        #user-sentence {
+            background-color: transparent;
+            border: 2px solid var(--user-sentence-border);
+        }
+        .word {
+            color: var(--text-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            cursor: move;
+            user-select: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            min-height: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            background-color: var(--word-background);
+            margin-bottom: 0.5rem;
+            touch-action: none;
+        }
+        .word:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .word.dragging {
+            opacity: 0.5;
+            z-index: 1000;
+        }
+        #result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        #result {
+            margin-bottom: 0.25rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        #correct-sentence {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+        #score-popup {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 1.2rem 2.5rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-weight: 600;
+    /* Effets de profondeur et de fenêtre */
+    box-shadow: 
+        0 10px 20px rgba(0,0,0,0.15),
+        0 3px 6px rgba(0,0,0,0.1),
+        inset 0 -3px 0 rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+    /* Animation d'apparition */
+    animation: popupAppear 0.3s ease-out;
+    z-index: 1000;
+}
+#score-popup .points {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-weight: 700;
+}
+#score-popup .total {
+    font-size: 1rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+@keyframes popupAppear {
+    from {
+        transform: translate(-50%, -20px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+.popup-disappear {
+    animation: popupDisappear 0.3s ease-out forwards !important;
+}
+
+@keyframes popupDisappear {
+    from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -20px);
+        opacity: 0;
+    }
+}
+        #final-score {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        #final-score h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        #final-score .mode {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        #final-score .score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        #timer, #question-counter {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        #english-sentence {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        #user-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 500;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+}
+        @media (max-width: 600px) {
+            #home, #app {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+            }
+            #chinese-words, #user-sentence {
+                max-width: 100%;
+            }
+            #chinese-words .word {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="home">
+        <h1 class="app-title">Weidi Chinese App</h1>
+        <div class="content">
+            <h3>Mode de jeu</h3>
+            <select id="mode-select">
+                <option value="questions">Nombre de questions</option>
+                <option value="time">Durée de temps</option>
+            </select>
+
+            <div id="mode-specific-options">
+                <div id="questions-options">
+                    <h3>Nombre de questions</h3>
+                    <select id="questions-select">
+                        <option value="5">5 questions</option>
+                        <option value="10">10 questions</option>
+                        <option value="15">15 questions</option>
+                        <option value="25">25 questions</option>
+                    </select>
+                </div>
+
+                <div id="time-options" style="display: none;">
+                    <h3>Durée de l'exercice</h3>
+                    <select id="time-select">
+                        <option value="30">30 secondes</option>
+                        <option value="60">1 minute</option>
+                        <option value="120">2 minutes</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minutes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="difficulty-options">
+                <h3>Niveau de difficulté</h3>
+                <select id="difficulty-select">
+                    <option value="normal">Normal</option>
+                    <option value="difficult">Difficile</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+
+            <button id="start-button">Commencer l'exercice</button>
+        </div>
+    </div>
+
+    <div id="app" style="display: none;">
+        <h1 class="app-title">Weidi Chinese App</h1>
+        <div class="content">
+            <div id="timer"></div>
+            <div id="question-counter"></div>
+            <div id="english-sentence"></div>
+            <div id="chinese-words"></div>
+            <div id="user-sentence"></div>
+            <div id="result-container">
+                <div id="result"></div>
+                <div id="correct-sentence"></div>
+            </div>
+            <input type="text" id="user-input" placeholder="Entrez votre réponse ici" style="display: none;">
+            <button id="submit-button">Valider</button>
+            <button id="reset-button">Reset</button>
+            <button id="hint-button">Indice</button>
+            <button id="return-home-button">Retour à l'accueil</button>
+        </div>
+    </div>
+
+    <div id="score-popup"></div>
+
+    <script>
+        const sentences = [
+    {
+        "english": "Thanks to everybody’s help, we finished the job on time",
+        "chinese": "亏得 大家 帮忙 ,   我们 才 按时 把 这 活儿干 完"
+    },
+    {
+        "english": "Because of bad weather, the plane didn’t take off on time",
+        "chinese": "因为 天气 的 关系 ,   飞机 不能 按时 起飞"
+    },
+    {
+        "english": "We must work harder to meet the deadline",
+        "chinese": "要 按时 完成 ,   我们 得 抓紧 一些"
+    },
+    {
+        "english": "They've been giving broad hints about what to expect",
+        "chinese": "他们 一直 在 明确 暗示 会 发生 什么"
+    },
+    {
+        "english": "I hadn't really digested the news that the letter contained",
+        "chinese": "我 还 没有 真正 理解 信中 包含 的 消息"
+    },
+    {
+        "english": "The map shows the rest of the western region, encompassing nine states",
+        "chinese": "地图 显示 了 西部 地区 的 其余 部分 ,   共 包含 ９ 个州"
+    },
+    {
+        "english": "The rent is 400 yuan a month, including water and electricity",
+        "chinese": "房租 每月 四百元 ,   水电费 包括 在内"
+    },
+    {
+        "english": "The document was highly classified and circulated to a very limited group of people",
+        "chinese": "这份 文件 高度 保密 ,   只 在 很小 的 范围 内 传阅"
+    },
+    {
+        "english": "I'm telling you this in the strictest confidence",
+        "chinese": "我 现在 告诉 你 的 这件 事情 必须 绝对 保密"
+    },
+    {
+        "english": "He becomes more and more conservative as he gets older",
+        "chinese": "他 年纪 越来越 大 , 就 变得 越来越 保守"
+    },
+    {
+        "english": "His group was forced to turn back and take an alternate route",
+        "chinese": "他 的 小组 被迫 返回 并 选择 另 一条 路线"
+    },
+    {
+        "english": "She avoids meeting her ex-boyfriend",
+        "chinese": "她 避免 和 以前 的 男朋友 见面"
+    },
+    {
+        "english": "Natural disasters cannot be avoided",
+        "chinese": "自然灾害 是 无法 避免 的"
+    },
+    {
+        "english": "When the result was announced his face said it all",
+        "chinese": "结果 宣布 的 时候 ,   他 脸上 的 表情 说明 了 一切"
+    },
+    {
+        "english": "He made great progress in his studies and the teacher praised him in class",
+        "chinese": "他 学习 进步 很大 ,   老师 在 班上 表扬 了 他"
+    },
+    {
+        "english": "Her compositions are often commended by the teacher",
+        "chinese": "她 的 作文 经常 得到 老师 的 表扬"
+    },
+    {
+        "english": "When teachers assign homework, students usually feel an obligation to do it",
+        "chinese": "老师 布置 家庭 作业 时 ,   学生 们 通常 都 觉得 必须 完成"
+    },
+    {
+        "english": "Working on the film was an amazing experience",
+        "chinese": "参与 这部 电影 的 制作 是 一次 了不起 的 经历"
+    },
+    {
+        "english": "The engineer demonstrated the operation to the people",
+        "chinese": "工程师 把 操作 过程 演示 给 大家 看"
+    },
+    {
+        "english": "She's currently undergoing psychological tests",
+        "chinese": "她 目前 正在 接受 心理 测试"
+    },
+    {
+        "english": "You must thoroughly change your bad habits",
+        "chinese": "要 彻底 改掉 你 的 坏习惯"
+    },
+    {
+        "english": "We need a radical reform of our prison system",
+        "chinese": "我们 需要 彻底 改革 监狱 体制"
+    },
+    {
+        "english": "The whole issue was thoroughly aired at the meeting",
+        "chinese": "整个 问题 在 会上 被 彻底 公开"
+    },
+    {
+        "english": "We did OK in the third quarter, but got blown away in the last",
+        "chinese": "我们 在 第 三 节 打得 还行 ,   但 在 最后 一节 被 彻底 打败 了"
+    },
+    {
+        "english": "She turned him down cold",
+        "chinese": "她 彻底 拒绝 了 他"
+    },
+    {
+        "english": "It's a complete disaster",
+        "chinese": "这是 一场 彻底 的 灾难"
+    },
+    {
+        "english": "We must kill this rumour once and for all",
+        "chinese": "我们 必须 彻底 终止 这一 谣言"
+    },
+    {
+        "english": "I interpreted the silence as consent",
+        "chinese": "我 把 这 沉默 理解 为 同意"
+    },
+    {
+        "english": "There was a long interval of silence",
+        "chinese": "有 一段 长 时间 的 沉默"
+    },
+    {
+        "english": "I like to travel light, without the encumbrance of a heavy suitcase",
+        "chinese": "我 喜欢 轻装 上路 ,   没有 沉重 行李箱 的 拖累"
+    },
+    {
+        "english": "We want the maximum number of people to attend to help us cover our costs",
+        "chinese": "我们 希望 有 尽量 多 的 人 参加 ,   以帮 我们 承担 费用"
+    },
+    {
+        "english": "Everybody agreed that the plan was far from perfect",
+        "chinese": "大家 都 承认 这个 规划 还 很 不 完善"
+    },
+    {
+        "english": "So far from admitting his own mistake, he falsely accused his critic",
+        "chinese": "他 自己 错 了 不 承认 ,   反而 倒打一耙"
+    },
+    {
+        "english": "We can't afford another scandal in the firm",
+        "chinese": "公司 可 不能 再出 丑闻 了 ,   我们 承受 不起"
+    },
+    {
+        "english": "Each side was exceedingly well prepared",
+        "chinese": "各方 都 做 了 极为 充分 的 准备"
+    },
+    {
+        "english": "He has come up with some fantastic, inventive ideas",
+        "chinese": "他 提出 了 一些 出色 的 、 富有 创意 的 想法"
+    },
+    {
+        "english": "We've invited some famous people to our conference",
+        "chinese": "我们 邀请 了 一些 知名人士 出席 会议"
+    },
+    {
+        "english": "She was badly upset by the sad news",
+        "chinese": "不幸 的 消息 给 了 她 很大 的 刺激"
+    },
+    {
+        "english": "Carelessness is the main cause of work accidents",
+        "chinese": "麻痹 粗心 是 产生 事故 的 主要 原因"
+    },
+    {
+        "english": "These businesses stimulate the creation of local jobs",
+        "chinese": "这些 企业 促进 了 当地 的 就业"
+    },
+    {
+        "english": "We must take immediate and effective measures",
+        "chinese": "我们 必须 迅速 采取 有效 措施"
+    },
+    {
+        "english": "Women often receive unfair treatment in society",
+        "chinese": "妇女 在 社会 上 常常 受到 不 公正 的 待遇"
+    },
+    {
+        "english": "We guarantee prompt delivery of goods",
+        "chinese": "我们 担保 送货 迅速"
+    },
+    {
+        "english": "Who'll be our chinese teacher this year?",
+        "chinese": "今年 谁 担任 我们 的 中文 老师 ?"
+    },
+    {
+        "english": "She was so ingenuous that she was cheated",
+        "chinese": "她 太 单纯 ,   以 至于 上当 受骗"
+    },
+    {
+        "english": "He got tired of the sameness of the work in the office",
+        "chinese": "他 对 办公室 的 单调 工作 感到 厌烦"
+    },
+    {
+        "english": "He won’t go out alone for fear of being mugged",
+        "chinese": "他 不敢 单独 外出 ,   怕 有人 劫 道"
+    },
+    {
+        "english": "Poor posture can cause neck ache, headaches and breathing problems",
+        "chinese": "姿势 不当 会 导致 颈部 疼痛 、 头痛 和 呼吸 困难"
+    },
+    {
+        "english": "This has also led to a concentration of wealth in a small number of hands",
+        "chinese": "这 也 导致 了 财富 集中 在 少数 人 手里"
+    },
+    {
+        "english": "Natural disasters have obviously contributed to the continent's economic crisis",
+        "chinese": "自然 灾害 显然 是 导致 该 大陆 爆发 经济 危机 的 原因 之一"
+    },
+    {
+        "english": "Jealousy causes distress and painful emotions",
+        "chinese": "嫉妒 会 导致 苦恼 和 痛苦"
+    },
+    {
+        "english": "Lots of small businesses have crashed in the last few months",
+        "chinese": "过去 几个 月 大量 小 公司 破产 倒闭"
+    },
+    {
+        "english": "There was a note of triumph in her voice",
+        "chinese": "她 说话 的 语气 得意 扬扬 的"
+    },
+    {
+        "english": "We registered the baby's birth today",
+        "chinese": "我们 今天 给 宝宝 作 了 出生 登记"
+    },
+    {
+        "english": "I just got angry and started shouting at her",
+        "chinese": "我 的确 发了 脾气 ,   对 她 大声 喊 了 起来"
+    },
+    {
+        "english": "No matter what he says, I will not change my mind",
+        "chinese": "任凭 他 怎么 说 ,   我 都 不 动摇"
+    },
+    {
+        "english": "He is a man of distinct character",
+        "chinese": "他 是 一个 性情 独特 的 人"
+    },
+    {
+        "english": "He was standing all alone in the middle of the hall",
+        "chinese": "他 独自一人 站 在 大厅 中央"
+    },
+    {
+        "english": "I spent my childhood in my hometown",
+        "chinese": "我 在 故乡 度过 了 孩提 时代"
+    },
+    {
+        "english": "My boyfriend and I had a romantic night",
+        "chinese": "我 和 男朋友 度过 了 一个 浪漫 的 晚上"
+    },
+    {
+        "english": "He had a happy childhood in the country",
+        "chinese": "他 在 农村 度过 了 快乐 的 童年"
+    },
+    {
+        "english": "The two families joined up for the rest of the holiday",
+        "chinese": "两个 家庭 一起 度过 了 余下 的 假期"
+    },
+    {
+        "english": "She had made their childhood so joyous and carefree",
+        "chinese": "她 让 他们 度过 了 一个 快乐 无比 、 无忧无虑 的 童年"
+    },
+    {
+        "english": "If you compare and contrast chinese and english, you will find many interesting issues",
+        "chinese": "你 对比 一下 中文 和 英文 ,   就 会 发现 很多 有趣 的 问题"
+    },
+    {
+        "english": "I don't know how to cope with such a situation",
+        "chinese": "我 不 知道 怎么样 对付 这种 情况"
+    },
+    {
+        "english": "It is indeed difficult to deal with such unreasonable people",
+        "chinese": "这种 不讲 道理 的 人 ,   实在 难 对付"
+    },
+    {
+        "english": "I have no complaints regarding his work",
+        "chinese": "对于 他 的 工作 我 没有 意见"
+    },
+    {
+        "english": "How did she react to your suggestion?",
+        "chinese": "她 对于 你 的 建议 有 什么 反应 ？"
+    },
+    {
+        "english": "What is your opinion on this problem?",
+        "chinese": "对于 这个 问题 ,   你 怎么 看 ?"
+    },
+    {
+        "english": "Learning chinese is very helpful towards understanding the chinese people and chinese culture",
+        "chinese": "学习 中文 对于 了解 中国 人 和 中国 文化 很 有 帮助"
+    },
+    {
+        "english": "The cinema has little attraction for me",
+        "chinese": "电影 对于 我 没什么 吸引力"
+    },
+    {
+        "english": "I feel so angry about the whole issue",
+        "chinese": "对于 整件事 我 感到 非常 愤怒"
+    },
+    {
+        "english": "His works have been translated into a dozen foreign languages",
+        "chinese": "他 的 著作 被 翻译 为 十多种 语言"
+    },
+    {
+        "english": "You often feel sick in the morning when you are pregnant",
+        "chinese": "要是 怀孕 了 , 早上 常会 有 恶心 的 感觉"
+    },
+    {
+        "english": "They'll never be able to make full use of their brains",
+        "chinese": "他们 永远 都 无法 充分 发挥 自己 的 聪明 才智"
+    },
+    {
+        "english": "Please turn your books to page 20",
+        "chinese": "请 把 书 翻到 二十页"
+    },
+    {
+        "english": "The storm is getting stronger rather than weaker",
+        "chinese": "暴风雨 没有 减弱 反而 增强 了"
+    },
+    {
+        "english": "The reports do not accurately reflect the bank's position",
+        "chinese": "报告 没有 准确 地 反映 银行 的 立场"
+    },
+    {
+        "english": "The houses are arranged around a central courtyard",
+        "chinese": "房子 分布 在 中央 庭院 的 周围"
+    },
+    {
+        "english": "the clearest possible map of criminal activity",
+        "chinese": "最 清楚 的 犯罪 活动 分布图"
+    },
+    {
+        "english": "A disturbance in the street distracted my attention",
+        "chinese": "街上 的 一阵 骚乱 分散 了 我 的 注意力"
+    },
+    {
+        "english": "Living things are generally categorized into animals and plants",
+        "chinese": "生物 一般 分为 动物 和 植物 两 大类"
+    },
+    {
+        "english": "As the storm approached, the birds were seeking shelter",
+        "chinese": "暴风雨 要来 了 ,   鸟儿 纷纷 躲藏 起来"
+    },
+    {
+        "english": "The girl was well dressed, as usual, though in a more conservative style",
+        "chinese": "和 平时 一样 ,   这个 女孩 衣着 讲究 ,   只是 风格 更为 传统"
+    },
+    {
+        "english": "I won’t go unless you go with me",
+        "chinese": "除非 你 跟 我 去 ,   否则 我 不 去"
+    },
+    {
+        "english": "You must pay the electricity bill in ten days or face an electricity cutoff",
+        "chinese": "你们 一定 要 在 十天 内 付清 电费 ,   否则 要 断电"
+    },
+    {
+        "english": "The quality of this product does not meet the requirements",
+        "chinese": "这种 产品 的 质量 不 符合 要求"
+    },
+    {
+        "english": "His behavior does not fit his post",
+        "chinese": "他 的 行为 不 符合 他 的 职位"
+    },
+    {
+        "english": "I've committed much time to this project",
+        "chinese": "我 已经 为 这个 项目 付出 了 很多 时间"
+    },
+    {
+        "english": "We should improve our relationship with our neighbors",
+        "chinese": "我们 要 改善 和 邻居 的 关系"
+    },
+    {
+        "english": "Everybody wants to improve their living conditions",
+        "chinese": "人人 都 想 改善 生活 条件"
+    },
+    {
+        "english": "I encourage you to improve your relationship with her",
+        "chinese": "我 劝 你 改善 和 她 的 关系"
+    },
+    {
+        "english": "The exercise will improve strength and endurance",
+        "chinese": "这种 锻炼 会 改善 体力 ,   增加 耐力"
+    },
+    {
+        "english": "Can you summarize this report in about 500 chinese characters?",
+        "chinese": "你 能 不能 把 这份 报告 概括 成 五百 个 字 左右 的 短文 ?"
+    },
+    {
+        "english": "He’s particularly interested in computers",
+        "chinese": "他 对 计算机 格外 感兴趣"
+    },
+    {
+        "english": "The suit made him look especially smart",
+        "chinese": "他 穿 上 西装 显得 格外 精神"
+    },
+    {
+        "english": "The dining area is separated from the kitchen by a screen",
+        "chinese": "吃饭 的 地方 和 厨房 用 屏风 隔开"
+    },
+    {
+        "english": "They served breakfast all day and sold it cheap",
+        "chinese": "他们 全天 供应 早餐 而且 卖得 很 便宜"
+    },
+    {
+        "english": "His aim is to buy a new car at the end of the year",
+        "chinese": "他 的 目标 是 年底 前 购买 新车"
+    },
+    {
+        "english": "Some commercials try to deceive the public into buying inferior goods",
+        "chinese": "有些 电视 广告 试图 欺骗 公众 购买 劣质 商品"
+    },
+    {
+        "english": "I accepted his offer of a permanent job",
+        "chinese": "我 接受 了 他 提供 的 一份 固定 工作"
+    },
+    {
+        "english": "The factory had to close down for lack of orders",
+        "chinese": "那 家 工厂 因 无人 订货 而 被迫 关闭"
+    },
+    {
+        "english": "The meaning of this word varies with different contexts",
+        "chinese": "这个 词用 在 不同 场合 有 不同 的 含义"
+    },
+    {
+        "english": "This spring water is rich in minerals",
+        "chinese": "这里 的 泉水 含有 多种 矿物质"
+    },
+    {
+        "english": "In study memorization should not be stressed at the expense of comprehension",
+        "chinese": "学习 只 偏重 记忆 而 忽视 理解 是 不行 的"
+    },
+    {
+        "english": "She's feeling rather neglected",
+        "chinese": "她 觉得 自己 有些 被 忽视 了"
+    },
+    {
+        "english": "Steve longed for the good old days",
+        "chinese": "史蒂夫 怀念 往昔 的 美好 岁月"
+    },
+    {
+        "english": "I doubt if he was telling the truth",
+        "chinese": "我 怀疑 他 说 的话 是不是 真的"
+    },
+    {
+        "english": "I had a kind of suspicion that he was cheating",
+        "chinese": "我 有点儿 怀疑 他 在 欺骗"
+    },
+    {
+        "english": "Her innocence is beyond all doubt",
+        "chinese": "她 的 清白 完全 不 需要 怀疑"
+    },
+    {
+        "english": "I never disbelieved their story",
+        "chinese": "我 从没 怀疑 过 他们 的 说法"
+    },
+    {
+        "english": "I doubt whether that will actually happen",
+        "chinese": "我 怀疑 那事 是否 真的 会 发生"
+    },
+    {
+        "english": "I suspect he is having an affair with that woman",
+        "chinese": "我 怀疑 他 和 那个 女人 有 婚 外恋"
+    },
+    {
+        "english": "He expected me to do something to ameliorate his depression",
+        "chinese": "他 期待 我 做点 什么 来 缓解 他 的 抑郁 情绪"
+    },
+    {
+        "english": "Yoga helps to relax me and manage stress",
+        "chinese": "练 瑜伽 让 我 得到 放松 ,   缓解 压力"
+    },
+    {
+        "english": "There are techniques that can help to reduce stress",
+        "chinese": "有 一些 技巧 能 帮助 缓解 压力"
+    },
+    {
+        "english": "I've received too many letters and I'm not able to reply to them one by one",
+        "chinese": "来信 太 多 ,   我 不能 逐一 回复"
+    },
+    {
+        "english": "My friend's reply was courteous but firm",
+        "chinese": "我 朋友 的 回复 很 客气 但 很 坚决"
+    },
+    {
+        "english": "The mayor sees to it that he replies to every letter promptly",
+        "chinese": "市长 确保 及时 回复 每 一封信"
+    },
+    {
+        "english": "I have nothing else to report",
+        "chinese": "我 没有 其他 要 汇报 的 了"
+    },
+    {
+        "english": "People can obtain a great deal of information from the Internet",
+        "chinese": "人们 可以 从 英特网 获取 大量 信息"
+    },
+    {
+        "english": "We now give patients access to their medical records",
+        "chinese": "我们 现在 为 病人 提供 获取 自己 的 医疗 记录 的 权利"
+    },
+    {
+        "english": "People are encouraged to acquire new skills and experiment with untested methods",
+        "chinese": "人们 受到 鼓励 去 获取 新技能 、 尝试 新 办法"
+    },
+    {
+        "english": "He has been very busy lately and has hardly had a single good night’s rest",
+        "chinese": "他 最近 太忙 ,   几乎 没睡 过 一个 囫囵 觉"
+    },
+    {
+        "english": "My hometown had changed so much that I could hardly recognize it",
+        "chinese": "故乡 变化 太 大 ,   我 几乎 认不 出来 了"
+    },
+    {
+        "english": "They resuscitated a man who had almost drowned",
+        "chinese": "他们 把 一个 几乎 淹死 了 的 人 救活 了"
+    },
+    {
+        "english": "I have very little leisure time in this job",
+        "chinese": "我 干 这个 工作 几乎 没有 清闲 的 时候"
+    },
+    {
+        "english": "The reproduction is almost as good as the original",
+        "chinese": "这件 复制品 几乎 与 原作 无异"
+    },
+    {
+        "english": "Almost everyone in this country speaks some english",
+        "chinese": "这个 国家 的 人 几乎 都 会 说 一点 英语"
+    },
+    {
+        "english": "She spends nearly all her salary on new clothes",
+        "chinese": "她 的 工资 几乎 全 用来 买 新 衣服"
+    },
+    {
+        "english": "In China almost every town has an ancient tower",
+        "chinese": "在 中国 几乎 每 一个 城市 都 有 一座 古塔"
+    },
+    {
+        "english": "The first few weeks after I arrived, it rained almost every day",
+        "chinese": "我 刚来 的 头 几个 星期 ,   几乎 天天 下雨"
+    },
+    {
+        "english": "What kind of setup do you work for?",
+        "chinese": "你 在 什么 机构 上班 ？"
+    },
+    {
+        "english": "Such an accumulation of knowledge cannot be ignored",
+        "chinese": "这样 的 知识 积累 不可 忽视"
+    },
+    {
+        "english": "He was very excited, and took a long time to calm down",
+        "chinese": "他 很 激动 ,   心情 久久 不能平静"
+    },
+    {
+        "english": "In a quick glance I noticed her agitation",
+        "chinese": "就 在 这 一瞥 之间 ,   我 看出 了 她 非常 激动"
+    },
+    {
+        "english": "Two minutes before the end of the match he scored a goal How exciting!",
+        "chinese": "比赛 结束 前 两分钟 ,   他 踢进 一 球 ,   真是 激动 人心 !"
+    },
+    {
+        "english": "He is so hot-tempered and excitable, like a bottle of soda water exploding",
+        "chinese": "他 是 如此 暴躁 并且 易 激动 ,   就 像 一瓶 突然 喷射 的 苏打水"
+    },
+    {
+        "english": "He got the job through stiff competition",
+        "chinese": "他 通过 激烈 的 竞争 才 得到 这份 工作"
+    },
+    {
+        "english": "Mum will get angry if I don’t pass the exam",
+        "chinese": "我 如果 考试 不及格 ,   妈妈 要 气恼 的"
+    },
+    {
+        "english": "I regret to inform you that you failed the exam",
+        "chinese": "我 遗憾 地 告诉 你 ,   你 考试 没 及格"
+    },
+    {
+        "english": "How are you going to explain to your parents about your not passing the exam?",
+        "chinese": "考试 不及格 ,   你 怎么 向 你 父母 交代 ?"
+    },
+    {
+        "english": "The new version of the software is extremely convenient to use",
+        "chinese": "新版 的 软件 使用 起来 极其 方便"
+    },
+    {
+        "english": "Customers are extremely unhappy with such service",
+        "chinese": "顾客 对 这样 的 服务 态度 极其 不满"
+    },
+    {
+        "english": "The weather was at its worst; bitterly cold, with leaden skies that gave minimum visibility",
+        "chinese": "天气 极其 恶劣 寒冷 刺骨 ,   天色 晦暗 ,   能 见度 极低"
+    },
+    {
+        "english": "There are indications that the talks will resume soon",
+        "chinese": "有 迹象 表明 会谈 即将 恢复"
+    },
+    {
+        "english": "She could hardly contain her excitement as the day of her holiday approached",
+        "chinese": "假日 即将 到来 ,   她 兴奋 得 不 能 自已"
+    },
+    {
+        "english": "He carefully figured out what time the first train would pass by",
+        "chinese": "他 细心 掐算 第一列 火车 即将 通过 的 时刻"
+    },
+    {
+        "english": "We are extremely glad to learn that he will soon complete his studies abroad and return home",
+        "chinese": "听说 他 即将 学成 归国 ,   欣喜万分"
+    },
+    {
+        "english": "The end of the world may be nigh, but do we really care?",
+        "chinese": "世界 末日 或许 即将 来临 ,   但 我们 真的 在乎 吗 ？"
+    },
+    {
+        "english": "She is very excited about her forthcoming wedding",
+        "chinese": "她 为 即将 举行 的 婚礼 而 十分 激动"
+    },
+    {
+        "english": "He got up late and rushed to school without eating any breakfast",
+        "chinese": "他 起 晚 了 ,   没 吃 早饭 就 急忙 去 了 学校"
+    },
+    {
+        "english": "The call was for 6 o'clock so the actors should be there by 5",
+        "chinese": "六点 集合 ,   所以 演员 五点 就 需 到达"
+    },
+    {
+        "english": "All mention of that episode has been obliterated from their history books",
+        "chinese": "所有 有关 那次 事件 的 记载 都 从 他们 的 历史 书里 删去 了"
+    },
+    {
+        "english": "He violated school discipline and was reprimanded",
+        "chinese": "他 违反 学校 纪律 ,   受到 了 批评"
+    },
+    {
+        "english": "The principal convened a teachers' meeting to discuss the issue of student discipline",
+        "chinese": "校长 召开 全体 教师 会议 ,   讨论 学生 纪律 问题"
+    },
+    {
+        "english": "The performance showed great technical accomplishment",
+        "chinese": "表演 展现 了 技巧 方面 的 很 高 造诣"
+    },
+    {
+        "english": "He handled a difficult situation with great skill and address",
+        "chinese": "他 曾 以 高超 的 技巧 和 圆通 应对 困境"
+    },
+    {
+        "english": "Now that you know you are wrong, you should mend your ways without delay",
+        "chinese": "既然 知道 错 了 ,   就要 及早 回头"
+    },
+    {
+        "english": "Now that you have expressed your determination, you should act",
+        "chinese": "你 既然 表示 了 决心 ,   就 应该 见之于 行动"
+    },
+    {
+        "english": "Since they had a fair warning, they have no reason to complain",
+        "chinese": "既然 事前 提醒 过 他们 ,   他们 就 没什么 可 埋怨 的"
+    },
+    {
+        "english": "As you are not ready, we must go without you",
+        "chinese": "既然 你 没 准备 好 ,   我们 只能 先 走 了"
+    },
+    {
+        "english": "If you thought that wasn’t fair, why didn’t you speak up?",
+        "chinese": "既然 你 认为 那 不 公平 ,   为什么 不 痛痛快快 地说 出来 呢 ？"
+    },
+    {
+        "english": "Since you dislike your boyfriend so much, just dump him!",
+        "chinese": "你 既然 这么 讨厌 男朋友 ,   干脆 不要 他 了 !"
+    },
+    {
+        "english": "If you can join us, I shall be very glad indeed",
+        "chinese": "如果 你 能 加入 我们 的 行列 ,   那 我 真 太高兴 了"
+    },
+    {
+        "english": "Try including fresh orange segments when cooking",
+        "chinese": "烹煮 时试 着 加入 一些 新鲜 的 橘瓣"
+    },
+    {
+        "english": "If you had only one wish, what would you wish for?",
+        "chinese": "假如 只有 一个 愿望 ,   你 的 愿望 是 什么 ？"
+    },
+    {
+        "english": "The software will detect and remove viruses",
+        "chinese": "这 款 软件 可以 检测 并 清除 病毒"
+    },
+    {
+        "english": "In the past three years, the student population of this school has been reduced by twenty percent",
+        "chinese": "在 过去 三年 中 ,   这个 学校 的 学生 人数 减少 了 百分之 二十"
+    },
+    {
+        "english": "The number of speakers of this language is on the decline",
+        "chinese": "说 这种 语言 的 人数 在 不断 减少"
+    },
+    {
+        "english": "The reduction of forest areas causes great damage to the environment",
+        "chinese": "森林 面积 的 减少 给 环境 造成 很大 危害"
+    },
+    {
+        "english": "The government has decreased its support for small business",
+        "chinese": "政府 减少 了 对 小企业 的 支持"
+    },
+    {
+        "english": "Police statistics show that violent crime is on the decrease",
+        "chinese": "警方 的 统计 数据 显示 ,   暴力 犯罪 在 减少"
+    },
+    {
+        "english": "Some groups have decreased their cigarette consumption",
+        "chinese": "一些 人群 减少 了 烟草 消费"
+    },
+    {
+        "english": "Poverty had declined during his presidency",
+        "chinese": "在 他 担任 主席 期间 ,   贫困人口 减少 了"
+    },
+    {
+        "english": "In desperation I joined a physical exercise class",
+        "chinese": "我 实在 没 办法 了 ,   只好 参加 了 一个 健身 班"
+    },
+    {
+        "english": "The fishing boat gradually moved away from the seacoast",
+        "chinese": "渔船 渐渐 地 离开 了 海岸"
+    },
+    {
+        "english": "Some old customs are gradually disappearing",
+        "chinese": "有些 旧 风俗 正在 渐渐 消失"
+    },
+    {
+        "english": "He's always been fussy about food and clothing",
+        "chinese": "他 向来 讲究 吃 和 穿"
+    },
+    {
+        "english": "I' m very choosy about my whisky",
+        "chinese": "我 对 威士忌酒 十分 讲究"
+    },
+    {
+        "english": "I often exchange ideas with my colleagues",
+        "chinese": "我 和 同事 经常 交换意见"
+    },
+    {
+        "english": "She gave him free english lessons in exchange for piano lessons",
+        "chinese": "她 免费 教他 英文 ,   来 交换 他 的 钢琴课"
+    },
+    {
+        "english": "He's not in my circle, but I still hear about him",
+        "chinese": "他 不 在 我 的 交际 圈子里 ,   但 我 还是 能 得知 他 的 情况"
+    },
+    {
+        "english": "Best of all, it's a sociable activity that the whole family can enjoy together",
+        "chinese": "最好 的 是 ,   那 是 个 交际性 活动 ,   全家 可以 一起 参与"
+    },
+    {
+        "english": "The old professor associates with many young friends",
+        "chinese": "这位 老 教授 交结 了 很多 年轻 朋友"
+    },
+    {
+        "english": "The lesson from that incident is painful",
+        "chinese": "那件事 的 教训 是 惨痛 的"
+    },
+    {
+        "english": "Making mistakes doesn't matter, what's important is to learn your lesson",
+        "chinese": "犯 错误 不要紧 ,   重要 的 是 接受 教训"
+    },
+    {
+        "english": "Let this experience be a lesson to you",
+        "chinese": "让 这段 经历 作为 一个 教训 吧"
+    },
+    {
+        "english": "Why is he threatening to teach you a lesson?",
+        "chinese": "为什么 他 威胁 说 要 教训 你 一顿 ?"
+    },
+    {
+        "english": "They entered upon the most dangerous part of the journey",
+        "chinese": "他们 开始 了 旅行 中 最 危险 的 阶段"
+    },
+    {
+        "english": "The teenage period is crucial in learning about the opposite sex",
+        "chinese": "青少年 时期 是 了解 异性 的 关键 阶段"
+    },
+    {
+        "english": "She spent the first part of her honeymoon in hospital",
+        "chinese": "她 在 医院 度过 了 蜜月 的 第一阶段"
+    },
+    {
+        "english": "I'm past the stage of wanting a fulfilling job",
+        "chinese": "我 已经 过 了 想要 一份 有 成就感 的 工作 的 阶段 了"
+    },
+    {
+        "english": "If you save a little money routinely, after several years you may have a substantial sum of money",
+        "chinese": "你 平时 节省 一点 钱 ,   几年 下来 就 可能 有 一大笔钱"
+    },
+    {
+        "english": "Please familiarize yourself with the structure of our organization",
+        "chinese": "请 熟悉 一下 我们 组织 的 结构"
+    },
+    {
+        "english": "Don’t jump to conclusions",
+        "chinese": "不要 仓促 下结论"
+    },
+    {
+        "english": "You should check the facts before drawing a conclusion",
+        "chinese": "你 应该 先 调查 事实 ,   再作 结论"
+    },
+    {
+        "english": "To avoid misunderstanding, let me explain once again",
+        "chinese": "让 我 再 来 解释一下 ,   免得 引起 误会"
+    },
+    {
+        "english": "How do you explain this?",
+        "chinese": "这件 事 你 怎样 解释 ？"
+    },
+    {
+        "english": "We should arrive at our destination as soon as possible",
+        "chinese": "我们 要 尽快 到达 目的地"
+    },
+    {
+        "english": "Leave here as soon as possible to avoid more trouble",
+        "chinese": "尽快 离开 这里 ,   免得 夜长梦多"
+    },
+    {
+        "english": "We must catch up with developed countries as soon as possible",
+        "chinese": "我们 要 尽快 追 上 发达国家"
+    },
+    {
+        "english": "This problem must be solved as soon as possible; otherwise it will jeopardize the entire project",
+        "chinese": "这个 问题 必须 尽快 解决 ,   否则 会 危害 整个 工程"
+    },
+    {
+        "english": "Now that I've promised to help him, I can only do my best",
+        "chinese": "既然 答应 帮助 他 ,   只有 尽力而为 了"
+    },
+    {
+        "english": "I believe it is time to ban the advertising of tobacco altogether",
+        "chinese": "我 认为 到 了 彻底 禁止 烟草 广告 的 时候 了"
+    },
+    {
+        "english": "The old man is still full of energy",
+        "chinese": "老人 依然 精力充沛"
+    },
+    {
+        "english": "We've thrown all our time and energy into this project",
+        "chinese": "我们 在 这个 项目 上 倾注 了 所有 精力 和 时间"
+    },
+    {
+        "english": "My father is getting old and is not so energetic as before",
+        "chinese": "我 父亲 年纪 大 了 ,   精力 不如 以前 了"
+    },
+    {
+        "english": "I never realized that he was so pitifully ignorant",
+        "chinese": "他 竟然 无知 到 这样 可怜 的 程度 ！"
+    },
+    {
+        "english": "She was so careless she missed a question in the exam",
+        "chinese": "她 太 粗心 了 ,   考试 的 时候 竟然 漏 了 一道 题目"
+    },
+    {
+        "english": "The film has a lot of sex in it",
+        "chinese": "这部 电影 色情 镜头 太 多"
+    },
+    {
+        "english": "What on earth are you up to? You’re being so mysterious",
+        "chinese": "你 究竟 在 搞 什么 鬼 ？ 这么 神秘兮兮"
+    },
+    {
+        "english": "So who is actually going to the meeting tomorrow?",
+        "chinese": "明天 的 会 究竟 谁 去 参加 ？"
+    },
+    {
+        "english": "After all, he is very experienced, so he should be put in charge of the job",
+        "chinese": "他 究竟 经验 丰富 ,   让 他 负责 这项 工作 最 合适"
+    },
+    {
+        "english": "What actually happened is in dispute",
+        "chinese": "人们 对 究竟 发生 了 什么 有 争议"
+    },
+    {
+        "english": "Why on earth would anyone buy such an expensive car?",
+        "chinese": "究竟 为什么 会 有人 买 这么 贵 的 汽车 ？"
+    },
+    {
+        "english": "Some places on earth are simply not fit for human habitation",
+        "chinese": "地球 上 有些 地方 简直 不 适合 人类 居住"
+    },
+    {
+        "english": "What qualifications are needed for this job?",
+        "chinese": "做 这项 工作 需要 具备 什么 条件 ？"
+    },
+    {
+        "english": "Don’t look down on this little dictionary It really solves our problems",
+        "chinese": "别 看不起 这本 小 字典 ,   它 真能 解决 问题"
+    },
+    {
+        "english": "I despise such dishonest people",
+        "chinese": "我 看不起 这种 不 老实 的 人"
+    },
+    {
+        "english": "She was sensitive to bad reviews, even from people she did not reckon",
+        "chinese": "她 对 负面 评论 很 敏感 ,   即使 这些 评论 来自 那些 她 看不起 的 人"
+    },
+    {
+        "english": "In my opinion, she dealt with the matter perfectly fairly and reasonably",
+        "chinese": "在我看来 ,   她 这样 处理 真是 天公地道"
+    },
+    {
+        "english": "There isn't much in the fridge Looks like we'll have to dine out",
+        "chinese": "冰箱 里 没有 什么 东西 ,   看来 得 出去 吃晚饭 了"
+    },
+    {
+        "english": "My father's elder brother is only two years older than he, but looks much older",
+        "chinese": "伯父 只 比 爸爸 大 两岁 ,   但是 看来 比 爸爸 老得 多"
+    },
+    {
+        "english": "She dressed up beautifully today, she probably has a date",
+        "chinese": "她 今天 打扮 得 这么 漂亮 ,   看来 有 约会"
+    },
+    {
+        "english": "The old man is lonely, and never has few visitors",
+        "chinese": "老人 很 孤单 ,   很少 有人 来 看望"
+    },
+    {
+        "english": "I pay a visit to my high school teacher every New Year's Day",
+        "chinese": "我 每年 过年 都 要 看望 中学 时 的 老师"
+    },
+    {
+        "english": "Think it over before you go so that you won’t regret it later",
+        "chinese": "你 要 先 考虑 好 再 去 ,   免得 吃后悔药"
+    },
+    {
+        "english": "Last weekend he asked his girlfriend to marry him, but she said she needed to think it over before replying",
+        "chinese": "他 上 个 周末 向 女朋友 求婚 ,   女朋友 说 要 考虑 考虑 再 回答"
+    },
+    {
+        "english": "His suggestion was not adopted; it was not even considered",
+        "chinese": "他 的 建议 没有 被 采用 ,   甚至 没有 被 考虑"
+    },
+    {
+        "english": "Before buying a new car, think about the additional costs",
+        "chinese": "在 买 新车 以前 ,   要 考虑 额外 的 费用"
+    },
+    {
+        "english": "The universities will admit more students this year",
+        "chinese": "今年 各 大学 要 扩大 招生"
+    },
+    {
+        "english": "It’s too late to go there by train Let’s go by air",
+        "chinese": "坐火车 去 已 来不及 了 ,   还是 乘飞机 吧"
+    },
+    {
+        "english": "It’ll be too late to start preparing dinner after your guests have arrived",
+        "chinese": "客人 到 了 旋 做 就 来不及 了"
+    },
+    {
+        "english": "I haven’t had time yet to make a list of everyone’s questions",
+        "chinese": "大家 提 的 问题 我 还 没 来得及 归总"
+    },
+    {
+        "english": "You should tell us about that matter honestly",
+        "chinese": "你 应该 老老实实 告诉 我们 那件事 儿"
+    },
+    {
+        "english": "What type of car do you own?",
+        "chinese": "你 的 汽车 是 什么 类型 的 ？"
+    },
+    {
+        "english": "He is very ill, and needs someone to watch over him all the time",
+        "chinese": "他 的 病 很重 ,   身边 离不开 人"
+    },
+    {
+        "english": "His speech evoked an immediate response",
+        "chinese": "他 的 讲话 立即 引起反响"
+    },
+    {
+        "english": "When you see anything suspicious, report it to the police immediately",
+        "chinese": "看到 可疑 情况 ,   立即 报告 警察"
+    },
+    {
+        "english": "This child came out first in all the subjects How wonderful!",
+        "chinese": "这个 孩子 门 门 功课 第一名 ,   真 了不起 !"
+    },
+    {
+        "english": "He is very arrogant, always thinking himself terrific",
+        "chinese": "他 很 不 虚心 ,   总是 认为 自己 了不起"
+    },
+    {
+        "english": "The director hired some temporary actors",
+        "chinese": "导演 雇 了 一些 临时 演员"
+    },
+    {
+        "english": "This legend has circulated for centuries",
+        "chinese": "这个 传说 流传 了 几个 世纪"
+    },
+    {
+        "english": "These students were admitted after strict screening processes",
+        "chinese": "这些 学生 都 是 经过 严格 筛选 才 被 录取 的"
+    },
+    {
+        "english": "It's your turn to bathe the baby",
+        "chinese": "轮到 你 给 宝宝 洗澡 了"
+    },
+    {
+        "english": "They took turns staying with their sick mother",
+        "chinese": "他们 轮流 陪 生病 的 母亲"
+    },
+    {
+        "english": "That guy is very unreasonable and there’s no discussing with him",
+        "chinese": "他 这个 人 很 霸道 ,   你 没法儿 跟 他 说"
+    },
+    {
+        "english": "The government is closely observing the situation",
+        "chinese": "政府 正在 密切 注视 着 局势 的 发展"
+    },
+    {
+        "english": "The siblings in this family are very close to each other",
+        "chinese": "这家 人家 的 兄弟姐妹 关系 很 密切"
+    },
+    {
+        "english": "A patient should cooperate closely with his doctor so as to achieve a speedy recovery",
+        "chinese": "病人 要 和 医生 密切 配合 ,   才能 早日 恢复 健康"
+    },
+    {
+        "english": "We are facing a lot of difficulties indeed, but we are sure they can be overcome",
+        "chinese": "固然 我们 面临 着 很多 困难 ,   但 我们 相信 它们 是 能够 克服 的"
+    },
+    {
+        "english": "The two men are facing trial on terrorism charges",
+        "chinese": "那 两个 人 被 指控 有 恐怖主义 行径 ,   正 面临 审判"
+    },
+    {
+        "english": "He described her as a woman of charm, accomplishment and beauty",
+        "chinese": "他 把 她 描述 为 一个 迷人 、 优雅 、 美丽 的 女人"
+    },
+    {
+        "english": "In her letter she gives a description of the beautiful landscape there",
+        "chinese": "她 在 信中 描写 了 那里 的 美丽 风景"
+    },
+    {
+        "english": "My father liked to assemble airplane models when he was a high school student",
+        "chinese": "我 父亲 在 中学 的 时候 喜欢 装 飞机 模型"
+    },
+    {
+        "english": "He reached the height of his popularity in the thirties, and was all but forgotten after the war",
+        "chinese": "三十 年代 他 红得发紫 ,   战后 就 默默无闻 了"
+    },
+    {
+        "english": "You should not look down upon him In fact, he is quite capable",
+        "chinese": "你 不该 门缝 里 看 人 ,   他 其实 很 能干"
+    },
+    {
+        "english": "What can you do with your high aims but low abilities?",
+        "chinese": "你 这么 眼高手低 ,   能 干什么 呢 ?"
+    },
+    {
+        "english": "She is not just a pretty face; she is also an able administrator",
+        "chinese": "她 不仅 漂亮 ,   而且 还是 一位 能干 的 行政 管理人员"
+    },
+    {
+        "english": "This dictionary is arranged in alphabetical order",
+        "chinese": "这本 字典 按 字母 次序 排列"
+    },
+    {
+        "english": "Secretaries will all have training in the use of a new computer software",
+        "chinese": "秘书 们 都 要 参加 新 电脑软件 使用 的 培训"
+    },
+    {
+        "english": "We need to improve the quality of the product",
+        "chinese": "我们 需要 提高 产品 质量"
+    },
+    {
+        "english": "This product is of excellent quality and is therefore rather expensive",
+        "chinese": "这种 产品 质量 极好 ,   因此 价格 比较 高"
+    },
+    {
+        "english": "It is generally acknowledged that products of that company are of excellent quality",
+        "chinese": "普遍认为 ,   那 家 公司 的 产品 质量 优越"
+    },
+    {
+        "english": "It is windless The sea is perfectly calm",
+        "chinese": "没有 一点 风 ,   大海 十分 平静"
+    },
+    {
+        "english": "Our urgent task is to understand the market situation",
+        "chinese": "我们 的 迫切 任务 是 了解 市场 情况"
+    },
+    {
+        "english": "We must keep the business from bankruptcy",
+        "chinese": "我们 一定 要 防止 公司 破产"
+    },
+    {
+        "english": "I am also looking forward to getting more acquainted with immigration law",
+        "chinese": "我 也 期待 能 对 移民法 有 更 多 的 了解"
+    },
+    {
+        "english": "While in hospital, he read a lot of novels",
+        "chinese": "他 在 住院 期间 读 了 很多 小说"
+    },
+    {
+        "english": "I hope you’ll have a pleasant stay in China",
+        "chinese": "祝 你 在 中国 逗留 期间 过得 愉快"
+    },
+    {
+        "english": "He accused his wife of committing adultery while he was away",
+        "chinese": "他 指责 妻子 在 自己 外出 期间 与 人 通奸"
+    },
+    {
+        "english": "Take what you want and throw the rest away",
+        "chinese": "把 你 所 要 的 拿走 ,   其余 的 丢掉"
+    },
+    {
+        "english": "This river is shallow You can wade across it",
+        "chinese": "这条 河 很 浅 ,   可以 走 过去"
+    },
+    {
+        "english": "The children were playing at the shallow end of the pool",
+        "chinese": "孩子 们 在 游泳池 浅水 的 一头 玩水"
+    },
+    {
+        "english": "He wasn’t born yesterday and can’t be easily fooled",
+        "chinese": "他 老练 得 很 ,   不会 轻易 上当 的"
+    },
+    {
+        "english": "He always keeps a clear mind when confronted by major events",
+        "chinese": "在 重大 的 事件 面前 ,   他 始终 都 很 清醒"
+    },
+    {
+        "english": "The scene would always be engraved on her memory",
+        "chinese": "这番 情景 将 永远 镂刻 在 她 的 心中"
+    },
+    {
+        "english": "He recognized the humor in that unpleasant situation",
+        "chinese": "他 从 那个 不 愉快 的 情景 中 体会 到 幽默"
+    },
+    {
+        "english": "The general trend of history is unalterable",
+        "chinese": "历史 发展 的 总趋势 是 不可 改变 的"
+    },
+    {
+        "english": "No one can change the general trend of world history",
+        "chinese": "世界 历史 的 总趋势 任何人 也 改变 不了"
+    },
+    {
+        "english": "Which country sets the fashion trends now?",
+        "chinese": "现在 哪个 国家 领导 时尚 趋势 ？"
+    },
+    {
+        "english": "We accredit the invention of paper to China",
+        "chinese": "我们 确认 纸 是 中国 发明 的"
+    },
+    {
+        "english": "The forest fire raged three days and nights",
+        "chinese": "森林 大火 燃烧 了 三天三夜"
+    },
+    {
+        "english": "After graduating from college, he proceeded to apply to a graduate school in the US",
+        "chinese": "大学 毕业 后 ,   他 进而 申请 去 美国 留学"
+    },
+    {
+        "english": "They discussed the mysterious events that followed it",
+        "chinese": "他们 讨论 了 随后 发生 的 那些 神秘 事件"
+    },
+    {
+        "english": "He not only ignored the criticism of the others but went so far as to be sarcastic",
+        "chinese": "他 对 大家 的 批评 置若罔闻 ,   甚至 反唇相讥"
+    },
+    {
+        "english": "Then he started to embellish the story and even to fabricate",
+        "chinese": "接着 ,   他 就 添枝加叶 ,   甚至 公开 扯谎"
+    },
+    {
+        "english": "He was so busy that he didn’t even go to bed for several nights",
+        "chinese": "他 忙 得 甚至 好几夜 没 睡觉"
+    },
+    {
+        "english": "We should hear out different, even opposing, opinions",
+        "chinese": "不同 的 意见 ,   甚至 相反 的 意见 都 要 听"
+    },
+    {
+        "english": "She has been to many places in China, even to Tibet",
+        "chinese": "她 到 过 中国 很多 地方 ,   甚至 西藏 也 去过"
+    },
+    {
+        "english": "This set of work clothes does not look beautiful, but it is very practical",
+        "chinese": "这套 工作服 穿着 不 好看 ,   但是 十分 实用"
+    },
+    {
+        "english": "The streets in this city are like a maze",
+        "chinese": "这个 城市 的 街道 像 迷宫 似的"
+    },
+    {
+        "english": "If you had prepared better, you wouldn’t be in such an awkward position now",
+        "chinese": "如果 你 事先 做好 准备 ,   也 不至于 那么 被动"
+    },
+    {
+        "english": "I’m annoyed with him simply because he didn’t notify me beforehand",
+        "chinese": "我 不气 别的 ,   气 他 事先 不 通知 我 一声"
+    },
+    {
+        "english": "Please tell us if you will come to the party",
+        "chinese": "你 是否 来 参加 聚会 请 通知 我们 一声"
+    },
+    {
+        "english": "I wonder if you've made the right decision",
+        "chinese": "我 怀疑 你 的 决定 是否 正确"
+    },
+    {
+        "english": "I want to withdraw a statement I made earlier",
+        "chinese": "我 想 收回 我 早些 时候 发表 的 一个 声明"
+    },
+    {
+        "english": "A large amount of data has been obtained from the test, which is a big achievement",
+        "chinese": "这次 试验 取得 了 大量 数据 ,   收获 很大"
+    },
+    {
+        "english": "The factory gained much profit from manufacturing the new products",
+        "chinese": "工厂 从 生产 新 产品 中 收益 不少"
+    },
+    {
+        "english": "Every room of the hotel offers a comfortable, relaxed ambience",
+        "chinese": "这家 旅馆 的 每间 客房 都 给 人 一种 舒适 轻松 的 氛围"
+    },
+    {
+        "english": "The overall ambience of the room is cosy",
+        "chinese": "房间 整体 的 感觉 是 温暖 舒适"
+    },
+    {
+        "english": "Summer temperatures are appreciably more comfortable there",
+        "chinese": "那里 夏季 的 气温 明显 更 舒适"
+    },
+    {
+        "english": "They lived a peaceful and comfortable life in the countryside",
+        "chinese": "他们 在 乡间 过 着 平静 而 舒适 的 生活"
+    },
+    {
+        "english": "The more you practise, the more skillful you’ll become",
+        "chinese": "练习 的 次数 越 多 ,   熟练 的 程度 越高"
+    },
+    {
+        "english": "The workers are unskilled so the project has not been finished in time",
+        "chinese": "工人 不 熟练 ,   因而 工程 未能 按时 完成"
+    },
+    {
+        "english": "The baby fell asleep in its mother’s arms",
+        "chinese": "小孩儿 在 妈妈 的 怀里 睡着 了"
+    },
+    {
+        "english": "Hurry up At some point the weather is going to change",
+        "chinese": "赶紧 干 吧 ,   说不定 哪会儿 天气 要变"
+    },
+    {
+        "english": "He has knocked 10 seconds off the world record",
+        "chinese": "他 将 世界纪录 缩短 了 １ ０ 秒"
+    },
+    {
+        "english": "Only under special circumstances can you take this step",
+        "chinese": "你 只有 在 特殊 情况 下 才能 采取 这一 措施"
+    },
+    {
+        "english": "I wrote down some of the features of the car",
+        "chinese": "我 记下 了 那辆车 的 一些 特征"
+    },
+    {
+        "english": "His dominant trait is fearlessness",
+        "chinese": "他 的 主要 性格 特征 是 勇敢 无畏"
+    },
+    {
+        "english": "The common feature of great sportsmen is their commitment",
+        "chinese": "大 运动员 的 共同 特征 是 对 事业 的 投入"
+    },
+    {
+        "english": "We are not obligated to provide you with this service, sir",
+        "chinese": "先生 ,   我们 没有 义务 为 您 提供 这种 服务"
+    },
+    {
+        "english": "This company provides farmers with all kinds of high quality seeds",
+        "chinese": "这家 公司 向 农民 提供 各类 优质 种子"
+    },
+    {
+        "english": "We are trying to accommodate the students who do not have a computer",
+        "chinese": "我们 设法 为 没有 电脑 的 学生 提供 方便"
+    },
+    {
+        "english": "Luckily he reminded me; otherwise I’d have forgotten all about it",
+        "chinese": "亏 他 提醒 了 我 ,   要 不 我 早 忘 了"
+    },
+    {
+        "english": "She's nervous about something, in case you didn't notice",
+        "chinese": "她 正 为了 什么 事 紧张 呢 ,   我 就是 提醒 你 一下 ,   免得 你 没 看 出来"
+    },
+    {
+        "english": "Hearing the child's naïve words, the old man burst into laughter",
+        "chinese": "听 了 孩子 天真 的话 ,   老人 哈哈大笑 起来"
+    },
+    {
+        "english": "Talking with innocent children is an enjoyment",
+        "chinese": "和 天 真的 孩子 说话 ,   是 一种 享受"
+    },
+    {
+        "english": "How could you believe such advertisements? You're too naïve!",
+        "chinese": "你 怎么 会 相信 这种 广告 ?   太天真 了 !"
+    },
+    {
+        "english": "Sometimes when there are too many things to choose from, it's difficult to decide",
+        "chinese": "有时候 可以 挑选 的 东西 太 多 ,   很难 决定"
+    },
+    {
+        "english": "You're free to choose the holiday destination—Paris or Venice",
+        "chinese": "你 可以 随意 挑选 度假地 — 巴黎 ,   或者 威尼斯"
+    },
+    {
+        "english": "John was sent home for bad behaviour in class",
+        "chinese": "约翰 因为 上课 调皮捣蛋 被 赶回 了 家"
+    },
+    {
+        "english": "Children may behave badly because they have been abused or neglected",
+        "chinese": "孩子 调皮捣蛋 ,   也许 是 因为 被 虐待 或 遭 漠视"
+    },
+    {
+        "english": "The new job is a challenge to him",
+        "chinese": "这份 新 工作 是 对 他 的 一次 挑战"
+    },
+    {
+        "english": "Whoever passes here will stop to admire the scenery",
+        "chinese": "但凡 过客 ,   无不 停下 脚步 欣赏 这里 的 风景"
+    },
+    {
+        "english": "We've almost run out of gas We'll have to stop for gas at the next gas station",
+        "chinese": "我们 的 汽油 快用 完 了 ,   到 前面 的 加油站 要 停下 加油"
+    },
+    {
+        "english": "It's a red light in front The car must stop",
+        "chinese": "前面 是 红灯 ,   车子 要 停下来"
+    },
+    {
+        "english": "I sympathize with the mother who lost her son in the traffic accident",
+        "chinese": "我 很 同情 这位 在 交通 事故 中 失去 儿子 的 母亲"
+    },
+    {
+        "english": "Please count the number of people attending the meeting",
+        "chinese": "你 来 统计 到 会 的 人数"
+    },
+    {
+        "english": "These countries have already formed a common market",
+        "chinese": "这些 国家 已经 形成 一个 统一 的 市场"
+    },
+    {
+        "english": "I haven't had such fun for a long time",
+        "chinese": "我 好久 没 玩得 这么 痛快 了"
+    },
+    {
+        "english": "We had a terrific time last Sunday",
+        "chinese": "上 星期日 我们 玩得 真 痛快"
+    },
+    {
+        "english": "She enthusiastically threw herself into her work",
+        "chinese": "她 满腔热情 地 投入 工作"
+    },
+    {
+        "english": "He put in three years writing this book",
+        "chinese": "他 在 这 本书 上 投入 了 三年 的 劳动"
+    },
+    {
+        "english": "They put lots of money into their children's education",
+        "chinese": "他们 在 孩子 的 教育 上 投入 很多 钱"
+    },
+    {
+        "english": "I'll write to the government about the poor quality of your product",
+        "chinese": "我要 向 政府 去 投诉 你们 的 劣质 产品"
+    },
+    {
+        "english": "The bus company has received lots of complaints about the buses not being punctual",
+        "chinese": "公共汽车 公司 收到 很多 投诉 ,   说 汽车 不准 时"
+    },
+    {
+        "english": "The plastic capsule was entirely transparent",
+        "chinese": "这个 圆 塑料盒 是 全透明 的"
+    },
+    {
+        "english": "The boss gave orders during his business trip",
+        "chinese": "老板 在 出差 途中 发话 过来"
+    },
+    {
+        "english": "To farmers, the most important resource is land",
+        "chinese": "对 农民 来说 ,   最 重要 的 资源 是 土地"
+    },
+    {
+        "english": "The local government wants to requisition this piece of land",
+        "chinese": "当地 政府 要 征用 这块 土地"
+    },
+    {
+        "english": "We may reasonably conclude that the meeting has been postponed",
+        "chinese": "我们 有 理由 断定 ,   会议 推迟 了"
+    },
+    {
+        "english": "The date of the tourist group departure will be postponed for three days",
+        "chinese": "旅行团 出发 的 日期 要 推迟 三天"
+    },
+    {
+        "english": "We must promote local products",
+        "chinese": "我们 要 大力 推销 本地 产品"
+    },
+    {
+        "english": "Our store pushes a different item each week",
+        "chinese": "我们 店 每周 推销 一种 商品"
+    },
+    {
+        "english": "Keep an eye on him, because we’ll get into trouble if anything happens",
+        "chinese": "你好 好看 住 他 ,   万一 有个 差池 ,   你 我 都 不好办"
+    },
+    {
+        "english": "What if anything should happen to the child?",
+        "chinese": "万一 这 孩子 出 了 差错 怎么办 ？"
+    },
+    {
+        "english": "If I book an air ticket now, can I cancel it in case of emergency?",
+        "chinese": "我 现在 订机票 ,   万一 有事 能 退 吗 ?"
+    },
+    {
+        "english": "Sunlight is very important for sustaining life",
+        "chinese": "阳光 对于 维持 生命 很 重要"
+    },
+    {
+        "english": "In this world, things don’t always turn out the way you want",
+        "chinese": "天底下 的 事 未必 都 那么 称心如意"
+    },
+    {
+        "english": "Don't make any rash decisions about your future",
+        "chinese": "对 你 的 未来 不要 轻率 作 决定"
+    },
+    {
+        "english": "The city is at the juncture of two main rail lines",
+        "chinese": "这个 城市 位于 两条 铁路 主干线 的 汇合处"
+    },
+    {
+        "english": "The flight was very uncomfortable because of turbulence",
+        "chinese": "由于 湍流 的 影响 ,   飞机 不 稳定 ,   令人 很 不 舒服"
+    },
+    {
+        "english": "Please give my regards to your wife and children",
+        "chinese": "请 替 我 问候 你 的 太太 以及 你 的 孩子"
+    },
+    {
+        "english": "You won’t know real happiness if you don’t put in a lot of hard work",
+        "chinese": "不 付出 辛勤 的 劳动 就 无法 体会 真正 的 幸福"
+    },
+    {
+        "english": "I can't persuade him to my point of view",
+        "chinese": "我 无法 说服 他 接受 我 的 观点"
+    },
+    {
+        "english": "The heat is unbearable in parts of Texas",
+        "chinese": "在 得克萨斯州 有些 地方 ,   高温 天气 使人 无法 忍受"
+    },
+    {
+        "english": "I can't get this machine to work properly today",
+        "chinese": "我 今天 无法 使 这台 机器 正常 工作"
+    },
+    {
+        "english": "I can't express fully how grateful I am for your help",
+        "chinese": "我 无法 充分 表达 对 你 的 帮助 的 谢意"
+    },
+    {
+        "english": "Words cannot describe the beauty of the lake",
+        "chinese": "言词 无法 描写 这个 湖泊 的 美丽"
+    },
+    {
+        "english": "Children are by nature very curious, and they often ask questions which adults find difficult to answer",
+        "chinese": "儿童 本性 就是 好奇 的 ,   他们 常常 问 一些 成人 无法 回答 的 问题"
+    },
+    {
+        "english": "I can't tell whether their offer to cooperate is sincere or not",
+        "chinese": "我 无法 判断 ,   他们 提出 合作 是不是 真心"
+    },
+    {
+        "english": "The jungle was so dense that the explorers could hardly pass",
+        "chinese": "丛林 很密 ,   探险者 几乎 无法 通过"
+    },
+    {
+        "english": "On that occasion I was not able to have a serious conversation with him",
+        "chinese": "在 那种 场合 我 无法 和 他 认真 地 交谈"
+    },
+    {
+        "english": "It's a mystery to me why she was in the woods that night",
+        "chinese": "她 那天 夜里 在 树林 里 干什么 ,   我 无法 解释"
+    },
+    {
+        "english": "I don't think her income could support her lifestyle",
+        "chinese": "我 想 她 的 收入 无法 支撑 她 的 生活 方式"
+    },
+    {
+        "english": "He wouldn't listen regardless of how people explained the situation",
+        "chinese": "无论 怎么 说 他 也 不 听"
+    },
+    {
+        "english": "You must lend me some money no matter what",
+        "chinese": "你 无论如何 借 我 点儿 钱"
+    },
+    {
+        "english": "After numerous experiments, the scientists finally succeeded",
+        "chinese": "经过 无数 次 的 试验 ,   科学家 们 终于 成功 了"
+    },
+    {
+        "english": "It doesn't matter whether he approves or not—I've made up my mind anyway",
+        "chinese": "他 同意 不 同意 ,   无所谓 ;   反正 我 已经 决定"
+    },
+    {
+        "english": "You should clear up the misunderstanding between you",
+        "chinese": "你们 应该 澄清 你们 之间 的 误会"
+    },
+    {
+        "english": "I said it very clearly How could you misunderstand it?",
+        "chinese": "我 说 得 清清楚楚 ,   你 怎么 会 误会 呢 ?"
+    },
+    {
+        "english": "I did not make it clear, which has caused a misunderstanding I apologize",
+        "chinese": "我 没有 说 清楚 ,   造成 了 误会 ,   很 抱歉"
+    },
+    {
+        "english": "I had a good talk with him and cleared up the misunderstanding between us",
+        "chinese": "我 跟 他 好好 谈 了 一次 ,   消除 了 我们 之间 的 误会"
+    },
+    {
+        "english": "We should draw from other people's positive experiences",
+        "chinese": "我们 要 吸收 别人 的 好 经验"
+    },
+    {
+        "english": "The ancient chinese were particularly fond of bamboo",
+        "chinese": "古代 中国 人 特别 喜爱 竹子"
+    },
+    {
+        "english": "The school has a set of regulations",
+        "chinese": "学校 有 一系列 的 规章制度"
+    },
+    {
+        "english": "The two sides have agreed on a series of issues",
+        "chinese": "双方 在 一系列 问题 上 达成 了 协议"
+    },
+    {
+        "english": "The factory is producing a new line of shoes",
+        "chinese": "这家 工厂 在 生产 一系列 新鞋"
+    },
+    {
+        "english": "He mentioned the plan, but gave no details",
+        "chinese": "他 提 了 一下 这个 计划 ,   但 没有 说明 细节"
+    },
+    {
+        "english": "Some moving details are inserted in the story",
+        "chinese": "故事 中 穿插 了 一些 感人 的 细节"
+    },
+    {
+        "english": "We have made an intensive study of the phenomenon",
+        "chinese": "我们 已 对 这 一 现象 做 了 深入细致 的 研究"
+    },
+    {
+        "english": "To reduce weight she restricted herself to two meals a day",
+        "chinese": "为了 减肥 ,   她 限制 自己 一天 吃 两顿 饭"
+    },
+    {
+        "english": "People's rights were constricted during the emergency",
+        "chinese": "民众 的 权利 在 紧急状态 时 受到 了 限制"
+    },
+    {
+        "english": "We have to limit the expense of the trip to $300",
+        "chinese": "我们 必须 把 旅行 费用 限制 在 三百 美元 内"
+    },
+    {
+        "english": "She has an aged parent who's capable of being very difficult",
+        "chinese": "她 家里 还有 个 老人 ,   有时候 很 不好 相处"
+    },
+    {
+        "english": "My daughter is very difficult, uncommunicative and moody",
+        "chinese": "我 女儿 很难 相处 ,   不愿 跟 人 交流 ,   又 非常 情绪化"
+    },
+    {
+        "english": "We must hear the opinions contrary to ours",
+        "chinese": "我们 必须 听取 相反 的 意见"
+    },
+    {
+        "english": "It's over two years since Granny died, but I still miss her very much",
+        "chinese": "祖母 去世 两年 了 ,   我 还 非常 想念 她"
+    },
+    {
+        "english": "Things are not as simple as you imagine",
+        "chinese": "事情 不象 你 想象 的 那么 简单"
+    },
+    {
+        "english": "I haven't completely digested what I've just learned",
+        "chinese": "我 还 没有 完全 消化 刚学 的 东西"
+    },
+    {
+        "english": "I had little time to absorb this information",
+        "chinese": "我 几乎 没有 时间 消化 这些 信息"
+    },
+    {
+        "english": "He is trying hard to sell his products",
+        "chinese": "他 在 大力 销售 他 的 产品"
+    },
+    {
+        "english": "They maintain a large staff with little efficiency",
+        "chinese": "他们 摊子 摆 得 很大 ,   可是 效率 不高"
+    },
+    {
+        "english": "The new model proved very popular",
+        "chinese": "这种 新型 号 很 受欢迎"
+    },
+    {
+        "english": "Don't make decisions when you are excited",
+        "chinese": "不要 在 兴奋 的 时候 ,   做 任何 决定"
+    },
+    {
+        "english": "Words can hardly describe our excitement",
+        "chinese": "我们 激动 的 心情 难以 用 笔墨 来 形容"
+    },
+    {
+        "english": "I really can’t find appropriate words to describe my feelings",
+        "chinese": "我 实在 找不出 适当 的 字眼儿 来 形容 我 的 心情"
+    },
+    {
+        "english": "The new situation has put new questions before us",
+        "chinese": "新 的 形势 向 我们 提出 了 新 的 课题"
+    },
+    {
+        "english": "Let's view the situation objectively",
+        "chinese": "让 我们 客观 地 考虑 形势"
+    },
+    {
+        "english": "The economy worsened because of rising fuel prices",
+        "chinese": "由于 燃料 价格 上升 ,   经济 形势 恶化 了"
+    },
+    {
+        "english": "It's hard to decide which model of car to buy",
+        "chinese": "很难 决定 买 哪 一 型号 的 汽车"
+    },
+    {
+        "english": "They are different in size but not in kind",
+        "chinese": "它们 大小 不同 ,   可是 性质 一样"
+    },
+    {
+        "english": "This machine is very old and is not worth repairing any more",
+        "chinese": "这台 机器 很 旧 了 ,   不 值得 再 修理 了"
+    },
+    {
+        "english": "I'm looking for the right words to express my thanks",
+        "chinese": "我 在 寻找 恰当 的 词汇 来 表达 我 的 感激 之情"
+    },
+    {
+        "english": "We made a rapid response to the call for help",
+        "chinese": "我们 对 求援 迅速 做出 了 反应"
+    },
+    {
+        "english": "Modern medicine has extended man’s life span",
+        "chinese": "现代 医学 延长 了 人 的 寿命"
+    },
+    {
+        "english": "I need to have my visa extended for another three months",
+        "chinese": "我 需要 再 延长 签证 三个 月"
+    },
+    {
+        "english": "After careful consideration we decided to postpone the meeting",
+        "chinese": "经过 慎重考虑 ,   我们 决定 延期 开会"
+    },
+    {
+        "english": "The game was postponed because of rain",
+        "chinese": "这场 比赛 因 下雨 而 延期"
+    },
+    {
+        "english": "The dry weather lasted several months",
+        "chinese": "干旱 的 天气 延续 了 几个 月"
+    },
+    {
+        "english": "This research can advance our understanding of human brains",
+        "chinese": "这个 研究 能 使 我们 进一步 了解 大脑 的 功能"
+    },
+    {
+        "english": "I am a teacher by profession and moonlight as an accountant",
+        "chinese": "我 的 本业 是 教书 ,   业余 时间 兼 做 会计"
+    },
+    {
+        "english": "As long as we rely on our collective effort, we can certainly achieve something",
+        "chinese": "依靠 集体 力量 ,   一定 能 搞 出 名堂 来"
+    },
+    {
+        "english": "All countries, big or small, should be equal",
+        "chinese": "国家 不论 大小 ,   应该 一律平等"
+    },
+    {
+        "english": "Children as well as grown-ups are welcome",
+        "chinese": "儿童 和 成年人 一律 受 欢迎"
+    },
+    {
+        "english": "At first he didn’t feel like coming, but I persuaded him to",
+        "chinese": "他 开始 不想 来 ,   架不住 我 一 再说 ,   也 就 来 了"
+    },
+    {
+        "english": "Frequent lying brought him a bad name",
+        "chinese": "一再 撒谎 使 他 得 了 一个 臭名"
+    },
+    {
+        "english": "Even though the price of the goods was reduced several times, they still haven't been sold",
+        "chinese": "商品 虽然 一再 减价 ,   还是 卖不掉"
+    },
+    {
+        "english": "I debated the idea in my mind until I fell asleep",
+        "chinese": "我 入睡 前 心中 一再 思考 这个 问题"
+    },
+    {
+        "english": "Even friends sometimes disagree",
+        "chinese": "即使 是 朋友 ,   有时 意见 也 不 一致"
+    },
+    {
+        "english": "They reached an agreement without argument",
+        "chinese": "他们 没有 争论 ,   取得 了 一致意见"
+    },
+    {
+        "english": "Plants, unlike animals, cannot move about",
+        "chinese": "植物 与 动物 不同 ,   是 不会 移动 的"
+    },
+    {
+        "english": "Parents transmit some of their characteristics to their children",
+        "chinese": "父母 把 他们 的 一些 性格 遗传 给 儿女"
+    },
+    {
+        "english": "It is beyond any doubt that this plan will materialize",
+        "chinese": "这个 计划 一定 要 实现 ,   这是 毫无疑问 的"
+    },
+    {
+        "english": "He challenged your version of what happened",
+        "chinese": "对于 所 发生 的 事 , 他 对 你 的 说法 提出 了 疑问"
+    },
+    {
+        "english": "Husband and wife have the duty to support and assist each other",
+        "chinese": "夫妻间 有 互相 扶养 的 义务"
+    },
+    {
+        "english": "He doesn’t care at all what people say behind his back",
+        "chinese": "别人 背后 怎么 议论 ,   他 才 不在意 呢"
+    },
+    {
+        "english": "It is not right to gossip about a person behind his back",
+        "chinese": "背地里 议论 别人 长短 是 不 应该 的"
+    },
+    {
+        "english": "Tomatoes were not found in China indigenously, but introduced from abroad",
+        "chinese": "西红柿 非 中国 土产 ,   而是 从 国外 引进 的"
+    },
+    {
+        "english": "The new movie will certainly interest you",
+        "chinese": "这部 新 电影 一定 会 引起 你 的 兴趣"
+    },
+    {
+        "english": "Great inequalities in wealth can cause social unrest",
+        "chinese": "贫富 过于 悬殊 会 引起 社会 的 不安"
+    },
+    {
+        "english": "The girl's strange behavior was noticed by her teachers",
+        "chinese": "女孩 奇怪 的 行为 引起 了 老师 的 注意"
+    },
+    {
+        "english": "His sudden resignation caused much comment",
+        "chinese": "他 突然 辞职 ,   引起 了 很多 议论"
+    },
+    {
+        "english": "The problem was caused by poor communication",
+        "chinese": "问题 是 因为 没有 好好 沟通 引起 的"
+    },
+    {
+        "english": "Global warming has caused growing concern",
+        "chinese": "全球 天气 变暖 ,   引起 越来越 大 的 关注"
+    },
+    {
+        "english": "His promotion caused jealousy among his colleagues",
+        "chinese": "他 的 提升 在 同事 中 引起 了 妒嫉"
+    },
+    {
+        "english": "Everyone agrees he is the best student in the class",
+        "chinese": "大家 公认 他 是 班上 最 优秀 的 学生"
+    },
+    {
+        "english": "He's an excellent student and has been recommended for admission to the university",
+        "chinese": "他 成绩优秀 ,   被 保送 上 了 大学"
+    },
+    {
+        "english": "There is a limit to how much we're able to spend on the holiday",
+        "chinese": "我们 度假 能花 多少 钱 ,   是 有 限度 的"
+    },
+    {
+        "english": "The waiter led the customers to the table they had reserved",
+        "chinese": "服务员 领 客人 到 他们 预订 的 桌子"
+    },
+    {
+        "english": "I've been walking on air since I met her",
+        "chinese": "自从 遇见 她 ,   我 就 一直 幸福 得 飘飘然"
+    },
+    {
+        "english": "I met some friends and other people besides",
+        "chinese": "我 遇见 了 几个 朋友 ,   还有 别的 人"
+    },
+    {
+        "english": "I'll stand by my principles, whatever the cost",
+        "chinese": "我要 不惜代价 坚持 原则"
+    },
+    {
+        "english": "the application of new scientific discoveries to industry",
+        "chinese": "把 新 的 科学 发现 运用 到 工业"
+    },
+    {
+        "english": "Use your intelligence, you will overcome these difficulties",
+        "chinese": "运用 你 的 聪明才智 ,   你 一定 会 克服 这些 困难 的"
+    },
+    {
+        "english": "The doctor ordered you again and again to stop smoking",
+        "chinese": "医生 再三 关照 你别 抽烟"
+    },
+    {
+        "english": "Father urged us again and again to be modest and prudent",
+        "chinese": "父亲 再三 叮嘱 我们 要 谦虚谨慎"
+    },
+    {
+        "english": "Everybody was anxious about him, but he wasn’t worried one bit",
+        "chinese": "别人 都 替 他 着急 ,   他 却 满不在乎"
+    },
+    {
+        "english": "Although he was critisized by others, he did not care",
+        "chinese": "尽管 他 受到 了 别人 的 批评 ,   但是 他 不在乎"
+    },
+    {
+        "english": "Perfect people exist only in imagination",
+        "chinese": "完美无缺 的 人 只 存在 于 人们 的 想象 之中"
+    },
+    {
+        "english": "She was silent all the way, showing that actually she disapproved",
+        "chinese": "她 一直 不 说话 ,   表明 她 其实 不 赞成"
+    },
+    {
+        "english": "To tell the truth, I don't approve of your way of doing things",
+        "chinese": "老实 说 ,   你 这种 做法 我 并 不 赞成"
+    },
+    {
+        "english": "He greeted everybody when he came into the room",
+        "chinese": "他 进屋 就 跟 大家 打招呼"
+    },
+    {
+        "english": "He was very worried, but didn’t show it",
+        "chinese": "他 很着急 ,   但 并 没有 表露 出来"
+    },
+    {
+        "english": "My remark was not directed to all of you",
+        "chinese": "我 的话 并 不是 针对 你们 所有人 的"
+    },
+    {
+        "english": "There was a furious debate over the new legislation",
+        "chinese": "对 新 的 立法 的 争论 十分 激烈"
+    },
+    {
+        "english": "We need to work out a feasible plan",
+        "chinese": "我们 需要 制订 一个 可行 的 计划"
+    },
+    {
+        "english": "Doctors still don't have a cure for the disease",
+        "chinese": "医生 对 这个 病 还 没有 治疗 方法"
+    },
+    {
+        "english": "You will be surprised to see so many kinds of cheese in a French market",
+        "chinese": "你 会 在 法国 市场 上 很 惊讶 地 看到 种类 如此 之多 的 奶酪"
+    },
+    {
+        "english": "This plant is rare and should be protected",
+        "chinese": "这种 植物 很少 见 ,   应该 受到 保护"
+    },
+    {
+        "english": "This kind of plant grows well by the river",
+        "chinese": "这种 植物 在 河边 生长 得 很 好"
+    },
+    {
+        "english": "Our chinese proficiency is progressively improving",
+        "chinese": "我们 的 中文 水平 在 逐步 提高"
+    },
+    {
+        "english": "Gradually he could understand chinese broadcasts",
+        "chinese": "他 逐渐 能 听懂 中文 广播 了"
+    },
+    {
+        "english": "The simple plan evolved into a complicated scheme",
+        "chinese": "这个 简单 的 计划 逐渐 发展 成 了 一项 复杂 的 规划"
+    },
+    {
+        "english": "Grandpa is aware of the gradual decline of his own health",
+        "chinese": "爷爷 知道 自己 的 健康 正 逐渐 恶化"
+    },
+    {
+        "english": "The theme for the evening party will be China, so could you wear a chinese costume?",
+        "chinese": "晚会 的 主题 是 中国 ,   所以 ,   你 能 穿 中国 服装 吗 ？"
+    },
+    {
+        "english": "You should make the best use of your time and write up the report before next Monday",
+        "chinese": "你 要 抓紧 时间 ,   在 下 星期一 前写 完 报告"
+    },
+    {
+        "english": "My younger sister is absorbed in doing her mathematics exercises",
+        "chinese": "妹妹 正在 专心 地 做 数学 练习"
+    },
+    {
+        "english": "The young businessman is running after his boss' daughter",
+        "chinese": "这个 年轻 的 商人 在 追求 他 老板 的 女儿"
+    },
+    {
+        "english": "My father set me a good example in being punctual",
+        "chinese": "我 父亲 在 准时 方面 为 我 树立 了 一个 好榜样"
+    },
+    {
+        "english": "I can’t remember the exact address, but it’s somewhere near the Summer Palace",
+        "chinese": "确切 地址 我 记不清 了 ,   总之 是 在 颐和园 附近"
+    },
+    {
+        "english": "Overall, I would say the project was a huge success",
+        "chinese": "总之 ,   我 想 说 ,   这个 工程 是 个 巨大 的 成功"
+    },
+    {
+        "english": "Seemingly there is nothing we can do to stop the plan going ahead",
+        "chinese": "看样子 ,   我们 似乎 无法 阻止 这个 计划 的 实施"
+    },
+    {
+        "english": "We had to abandon our original plan as it was too expensive",
+        "chinese": "我们 不得不 放弃 最初 的 计划 ,   因为 花费 太 大"
+    },
+    {
+        "english": "Leave the matter open We can’t make a final decision now",
+        "chinese": "现在 不能 作出 决定 ,   留个 尾巴 吧"
+    },
+    {
+        "english": "No decision can be made on this matter until the people have been consulted",
+        "chinese": "这个 问题 要 通过 群众 才能 作出 决定"
+    },
+    {
+        "english": "As one who has been through the experience, let me tell you how I feel",
+        "chinese": "作为 过来人 ,   我 可以 讲讲 我 的 体会"
+    },
+    {
+        "english": "As a parent, you are your children's guardian",
+        "chinese": "作为 家长 ,   你 是 子女 的 监护人"
+    },
+    {
+        "english": "As a member of the club, you'll enjoy many privileges",
+        "chinese": "作为 俱乐部 成员 你 享受 很多 特权"
+    }
+];
+
+        let currentSentence;
+        let draggedElement = null;
+        let score = 0;
+        let consecutiveCorrectAnswers = 0;
+        let sessionSentences = [];
+        let currentSentenceIndex = 0;
+        let hintIndex = 0;
+        let hintUsed = false;
+        let questionCount = 0;
+        let timeLeft = 0;
+        let timerInterval;
+        let mode = 'questions';
+        let limit = 5;
+        let difficulty = 'normal';
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        let touchStartX, touchStartY;
+        let touchStartTime;
+        let touchMoved = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function calculateInputWidth(sentence) {
+            const charCount = sentence.replace(/\s+/g, '').length;
+            return Math.max(300, charCount * 30);
+}
+     
+
+function displayNewSentence() {
+    currentSentence = sessionSentences[currentSentenceIndex];
+    document.getElementById('english-sentence').textContent = currentSentence.english;
+    
+    const chineseWordsContainer = document.getElementById('chinese-words');
+    const userSentenceContainer = document.getElementById('user-sentence');
+    const userInput = document.getElementById('user-input');
+    
+    chineseWordsContainer.innerHTML = '';
+    userSentenceContainer.innerHTML = '';
+    userInput.value = '';
+
+    if (difficulty === 'expert') {
+        chineseWordsContainer.style.display = 'none';
+        userSentenceContainer.style.display = 'none';
+        userInput.style.display = 'block';
+        
+        // Calculer et appliquer la nouvelle largeur
+        const inputWidth = calculateInputWidth(currentSentence.chinese);
+        userInput.style.maxWidth = `${inputWidth}px`;
+    } else if (difficulty === 'difficult') {
+        // Pour le mode difficile, on divise en caractères individuels
+        const chars = currentSentence.chinese.replace(/\s+/g, '').split('');
+        const shuffledChars = shuffleArray([...chars]);
+        
+        chineseWordsContainer.style.display = 'flex';
+        userSentenceContainer.style.display = 'flex';
+        userInput.style.display = 'none';
+        
+        shuffledChars.forEach(char => {
+            const charElement = createWordElement(char);
+            chineseWordsContainer.appendChild(charElement);
+        });
+    } else {
+        // Mode normal - diviser par mots
+        const words = currentSentence.chinese.split(' ').filter(word => word.trim() !== '');
+        const shuffledWords = shuffleArray([...words]);
+        
+        chineseWordsContainer.style.display = 'flex';
+        userSentenceContainer.style.display = 'flex';
+        userInput.style.display = 'none';
+        
+        shuffledWords.forEach(word => {
+            if (word.trim()) {
+                const wordElement = createWordElement(word);
+                chineseWordsContainer.appendChild(wordElement);
+            }
+        });
+    }
+
+    document.getElementById('result').textContent = '';
+    document.getElementById('correct-sentence').textContent = '';
+    document.getElementById('submit-button').textContent = 'Valider';
+    document.getElementById('submit-button').removeEventListener('click', nextQuestion);
+    document.getElementById('submit-button').addEventListener('click', submitAnswer);
+    resetHint();
+    questionCount++;
+    updateCounter();
+}
+
+function createWordElement(word) {
+    const wordElement = document.createElement('div');
+    wordElement.className = 'word';
+    wordElement.textContent = word;
+    wordElement.draggable = true;
+    wordElement.addEventListener('dragstart', drag);
+    wordElement.addEventListener('dragend', dragEnd);
+    wordElement.addEventListener('touchstart', touchStart, {passive: false});
+    wordElement.addEventListener('touchmove', touchMove, {passive: false});
+    wordElement.addEventListener('touchend', touchEnd);
+    // Utilisez la fonction handleClick directement ici
+    wordElement.addEventListener('click', handleClick);
+    wordElement.addEventListener('click', function() { handleClick(this); });
+    return wordElement;
+}
+
+function touchStart(event) {
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = new Date().getTime();
+    draggedElement = event.target;
+    touchMoved = false;
+    event.preventDefault();
+    
+    draggedElement.style.transition = 'none';
+    draggedElement.style.zIndex = '1000';
+}
+
+function touchMove(event) {
+    if (!draggedElement) return;
+    event.preventDefault();
+
+    const touch = event.touches[0];
+    const moveX = touch.clientX - touchStartX;
+    const moveY = touch.clientY - touchStartY;
+
+    if (Math.abs(moveX) > 5 || Math.abs(moveY) > 5) {
+        touchMoved = true;
+        draggedElement.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        updateDropPlaceholder(touch.clientX, touch.clientY);
+    }
+}
+
+function touchEnd(event) {
+    if (!draggedElement) return;
+
+    const touch = event.changedTouches[0];
+
+    if (touchMoved) {
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        const container = dropTarget.closest('#chinese-words, #user-sentence');
+        
+        if (container) {
+            const dropPosition = getDropPosition(container, touch.clientX, touch.clientY);
+            if (dropPosition.element) {
+                container.insertBefore(draggedElement, dropPosition.element);
+            } else {
+                container.appendChild(draggedElement);
+            }
+        }
+    } else {
+        // Gestion du clic rapide si nécessaire
+        handleClick(draggedElement);
+    }
+
+    // Réinitialiser le style du mot déplacé
+    draggedElement.style.transition = 'all 0.3s ease';
+    draggedElement.style.transform = '';
+    draggedElement.style.zIndex = '';
+    draggedElement = null;
+    removeDropPlaceholder();
+}
+
+function handleClick(wordElement) {
+    const sourceContainer = wordElement.parentElement;
+    const targetContainer = sourceContainer.id === 'chinese-words' ? document.getElementById('user-sentence') : document.getElementById('chinese-words');
+    targetContainer.appendChild(wordElement);
+}
+
+function getDropPosition(container, x, y) {
+    const words = [...container.querySelectorAll('.word:not(.dragging):not(.word-placeholder)')];
+    
+    let closestWord = null;
+    let minDistance = Infinity;
+
+    words.forEach((word) => {
+        const rect = word.getBoundingClientRect();
+        if (y >= rect.top && y <= rect.bottom) {
+            const distance = Math.abs(x - (rect.left + rect.width / 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestWord = word;
+            }
+        }
+    });
+
+    if (closestWord) {
+        const rect = closestWord.getBoundingClientRect();
+        if (x < rect.left + rect.width / 2) {
+            return { element: closestWord };
+        } else {
+            return { element: closestWord.nextSibling };
+        }
+    } else {
+        // Si aucun mot sur la même ligne, insérer à la fin
+        return { element: null };
+    }
+}
+
+function updateDropPlaceholder(x, y) {
+    removeDropPlaceholder();
+    const containers = [document.getElementById('chinese-words'), document.getElementById('user-sentence')];
+    let targetContainer = null;
+    let dropPosition = null;
+
+    for (const container of containers) {
+        const rect = container.getBoundingClientRect();
+        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+            targetContainer = container;
+            dropPosition = getDropPosition(container, x, y);
+            break;
+        }
+    }
+
+    if (targetContainer && dropPosition) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'word word-placeholder';
+        placeholder.style.width = `${draggedElement.offsetWidth}px`;
+        placeholder.style.height = `${draggedElement.offsetHeight}px`;
+        placeholder.style.backgroundColor = 'transparent';
+        placeholder.style.border = '2px dashed #4a90e2';
+        
+        if (dropPosition.element) {
+            targetContainer.insertBefore(placeholder, dropPosition.element);
+        } else {
+            targetContainer.appendChild(placeholder);
+        }
+    }
+}
+
+function removeDropPlaceholder() {
+    const placeholder = document.querySelector('.word-placeholder');
+    if (placeholder) {
+        placeholder.remove();
+    }
+}
+
+function drag(event) {
+    draggedElement = event.target;
+    event.dataTransfer.setData('text/plain', event.target.textContent);
+    setTimeout(() => {
+        event.target.classList.add('dragging');
+        updateDropPlaceholder(event.clientX, event.clientY);
+    }, 0);
+}
+
+function dragEnd(event) {
+    event.target.classList.remove('dragging');
+    removeDropPlaceholder();
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+    updateDropPlaceholder(event.clientX, event.clientY);
+}
+
+function drop(event) {
+    event.preventDefault();
+    const container = event.currentTarget;
+    const dropPosition = getDropPosition(container, event.clientX, event.clientY);
+    
+    if (draggedElement) {
+        if (dropPosition.element) {
+            container.insertBefore(draggedElement, dropPosition.element);
+        } else {
+            container.appendChild(draggedElement);
+        }
+        draggedElement.classList.remove('dragging');
+    }
+    removeDropPlaceholder();
+}
+
+function submitAnswer() {
+   let userSentence;
+   let normalizedCorrect;
+   let normalizedUser;
+
+   if (difficulty === 'expert') {
+       userSentence = document.getElementById('user-input').value.trim();
+       // Pour le mode expert, on enlève tous les espaces
+       normalizedUser = userSentence.replace(/\s+/g, '');
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+   } else if (difficulty === 'difficult') {
+       // Pour le mode difficile, on enlève tous les espaces
+       userSentence = Array.from(document.getElementById('user-sentence').children)
+           .map(word => word.textContent)
+           .join('');
+       normalizedUser = userSentence;
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, '');
+   } else {
+       // Pour le mode normal, on garde les espaces mais on les normalise
+       userSentence = Array.from(document.getElementById('user-sentence').children)
+           .map(word => word.textContent)
+           .join(' ');
+       normalizedUser = userSentence.replace(/\s+/g, ' ').trim();
+       normalizedCorrect = currentSentence.chinese.replace(/\s+/g, ' ').trim();
+   }
+   
+   const resultElement = document.getElementById('result');
+   const correctSentenceElement = document.getElementById('correct-sentence');
+   
+   if (normalizedUser === normalizedCorrect) {
+       resultElement.textContent = 'Bonne réponse !';
+       resultElement.style.color = 'var(--secondary-color)';
+       updateScore(true);
+   } else {
+       resultElement.textContent = 'Mauvaise réponse.';
+       resultElement.style.color = 'var(--accent-color)';
+       updateScore(false);
+   }
+   
+   correctSentenceElement.textContent = currentSentence.chinese;
+   
+   // Vérification si c'est la dernière question
+   const isLastQuestion = (mode === 'questions' && currentSentenceIndex === sessionSentences.length - 1) || 
+                         (mode === 'time' && timeLeft <= 0);
+
+   const submitButton = document.getElementById('submit-button');
+   submitButton.textContent = isLastQuestion ? 'Voir le score' : 'Question suivante';
+   submitButton.removeEventListener('click', submitAnswer);
+   submitButton.addEventListener('click', nextQuestion);
+}
+
+function updateScore(isCorrect) {
+    let points = 0;
+    // ... [reste du code de calcul des points inchangé]
+    
+    const scorePopup = document.getElementById('score-popup');
+    // Réinitialiser les classes d'animation
+    scorePopup.classList.remove('popup-disappear');
+    // Force un reflow pour réinitialiser l'animation
+    void scorePopup.offsetWidth;
+    
+    scorePopup.innerHTML = `
+        <div class="points">${points > 0 ? '+' : ''}${points} points !</div>
+        <div class="total">Score total : ${score}</div>
+    `;
+    
+    scorePopup.style.display = 'block';
+    scorePopup.style.backgroundColor = isCorrect ? 'var(--secondary-color)' : 'var(--accent-color)';
+    
+    setTimeout(() => {
+        // Ajouter l'animation de disparition
+        scorePopup.classList.add('popup-disappear');
+        setTimeout(() => {
+            scorePopup.style.display = 'none';
+        }, 300); // Durée de l'animation
+    }, 1700); // Temps d'affichage légèrement réduit pour accommoder l'animation
+}
+
+function showHint() {
+    const userSentenceContainer = document.getElementById('user-sentence');
+    const chineseWordsContainer = document.getElementById('chinese-words');
+    const userInput = document.getElementById('user-input');
+    
+    if (difficulty === 'expert') {
+        // Pour le mode expert, on utilise toute la phrase sans les espaces
+        const phrase = currentSentence.chinese.replace(/\s+/g, '');
+        userInput.value = phrase.slice(0, hintIndex + 1);
+        
+        if (hintIndex >= phrase.length - 1) {
+            document.getElementById('hint-button').disabled = true;
+        }
+    } else {
+        // D'abord, on vide le conteneur user-sentence
+        while (userSentenceContainer.firstChild) {
+            chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
+        }
+
+        // On divise la phrase correcte selon le mode de difficulté
+        const correctWords = difficulty === 'normal' 
+            ? currentSentence.chinese.split(' ').filter(word => word.trim() !== '')
+            : currentSentence.chinese.replace(/\s+/g, '').split('');
+
+        // Pour chaque mot jusqu'à l'index actuel
+        for (let i = 0; i <= hintIndex; i++) {
+            if (i < correctWords.length) {
+                const currentWord = correctWords[i];
+                // Chercher le mot exact dans le conteneur de mots chinois
+                const wordElement = Array.from(chineseWordsContainer.children)
+                    .find(el => el.textContent.trim() === currentWord.trim());
+                
+                if (wordElement) {
+                    userSentenceContainer.appendChild(wordElement);
+                }
+            }
+        }
+        
+        // Vérifier si on a atteint la fin des mots
+        if (hintIndex >= correctWords.length - 1) {
+            document.getElementById('hint-button').disabled = true;
+        }
+    }
+    
+    hintIndex++;
+    hintUsed = true;
+}
+
+function resetHint() {
+    hintIndex = 0;
+    hintUsed = false;
+    document.getElementById('hint-button').disabled = false;
+}
+
+function resetExercise() {
+    const userSentenceContainer = document.getElementById('user-sentence');
+    const chineseWordsContainer = document.getElementById('chinese-words');
+    const userInput = document.getElementById('user-input');
+    
+    if (difficulty === 'expert') {
+        userInput.value = '';
+    } else {
+        while (userSentenceContainer.firstChild) {
+            chineseWordsContainer.appendChild(userSentenceContainer.firstChild);
+        }
+
+        const elements = Array.from(chineseWordsContainer.children);
+        shuffleArray(elements);
+        elements.forEach(element => chineseWordsContainer.appendChild(element));
+    }
+}
+
+function nextQuestion() {
+    currentSentenceIndex++;
+    if ((mode === 'questions' && currentSentenceIndex < sessionSentences.length) || 
+        (mode === 'time' && timeLeft > 0)) {
+        displayNewSentence();
+    } else {
+        endSession();
+    }
+}
+
+function endSession() {
+    clearInterval(timerInterval);
+    const appElement = document.getElementById('app');
+    const finalScoreElement = document.createElement('div');
+    finalScoreElement.id = 'final-score';
+    finalScoreElement.innerHTML = `
+        <h2>Score</h2>
+        <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
+        <p class="score">${score}</p>
+        <button onclick="retrySession()" style="background-color: var(--primary-color); margin-bottom: 10px;">Réessayer</button>
+        <button onclick="restartGame()">Retour à l'accueil</button>
+    `;
+    appElement.appendChild(finalScoreElement);
+}
+
+function retrySession() {
+    const finalScoreElement = document.getElementById('final-score');
+    if (finalScoreElement) {
+        finalScoreElement.remove();
+    }
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    questionCount = 0;
+    currentSentenceIndex = 0;
+    if (mode === 'time') {
+        timeLeft = parseInt(document.getElementById('time-select').value);
+        startTimer();
+    }
+    displayNewSentence();
+}
+
+function getTimeString(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? remainingSeconds + ' seconde' + (remainingSeconds > 1 ? 's' : '') : ''}`;
+}
+
+function restartGame() {
+    const finalScoreElement = document.getElementById('final-score');
+    if (finalScoreElement) {
+        finalScoreElement.remove();
+    }
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('home').style.display = 'block';
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    questionCount = 0;
+}
+
+function startGame() {
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    mode = document.getElementById('mode-select').value;
+    difficulty = document.getElementById('difficulty-select').value;
+    
+    // Générer la liste des phrases pour la session
+    sessionSentences = [];
+    if (mode === 'questions') {
+        limit = parseInt(document.getElementById('questions-select').value);
+        for(let i = 0; i < limit; i++) {
+            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+        }
+        document.getElementById('timer').style.display = 'none';
+        document.getElementById('question-counter').style.display = 'inline-block';
+    } else {
+        // Pour le mode temps, on génère plus de phrases qu'il n'en faut
+        timeLeft = parseInt(document.getElementById('time-select').value);
+        const estimatedQuestions = Math.ceil(timeLeft / 15) + 5; // On estime 15 secondes par question + marge
+        for(let i = 0; i < estimatedQuestions; i++) {
+            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+        }
+        document.getElementById('timer').style.display = 'inline-block';
+        document.getElementById('question-counter').style.display = 'none';
+        startTimer();
+    }
+    currentSentenceIndex = 0;
+    displayNewSentence();
+}
+
+function startTimer() {
+    const timerElement = document.getElementById('timer');
+    timerInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endSession();
+        } else {
+            timeLeft--;
+        }
+    }, 1000);
+}
+
+function updateCounter() {
+    if (mode === 'questions') {
+        const counterElement = document.getElementById('question-counter');
+        counterElement.textContent = `Question ${questionCount} / ${limit}`;
+    }
+}
+
+function returnHome() {
+    clearInterval(timerInterval);
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('home').style.display = 'block';
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    questionCount = 0;
+}
+
+// Événements pour la page d'accueil
+document.getElementById('mode-select').addEventListener('change', (e) => {
+    if (e.target.value === 'questions') {
+        document.getElementById('questions-options').style.display = 'block';
+        document.getElementById('time-options').style.display = 'none';
+    } else {
+        document.getElementById('questions-options').style.display = 'none';
+        document.getElementById('time-options').style.display = 'block';
+    }
+});
+
+document.getElementById('start-button').addEventListener('click', startGame);
+
+// Événements pour le jeu
+document.getElementById('chinese-words').addEventListener('dragover', allowDrop);
+document.getElementById('chinese-words').addEventListener('drop', drop);
+document.getElementById('user-sentence').addEventListener('dragover', allowDrop);
+document.getElementById('user-sentence').addEventListener('drop', drop);
+document.getElementById('submit-button').addEventListener('click', submitAnswer);
+document.getElementById('reset-button').addEventListener('click', resetExercise);
+document.getElementById('hint-button').addEventListener('click', showHint);
+document.getElementById('return-home-button').addEventListener('click', returnHome);
+
+// Initialisation
+document.getElementById('mode-select').dispatchEvent(new Event('change'));
+</script>
+</body>
+</html>://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js" type="module"></script>
     <style>
