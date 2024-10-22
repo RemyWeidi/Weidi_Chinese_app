@@ -2259,6 +2259,8 @@
         let draggedElement = null;
         let score = 0;
         let consecutiveCorrectAnswers = 0;
+        let sessionSentences = [];
+        let currentSentenceIndex = 0;
         let hintIndex = 0;
         let hintUsed = false;
         let questionCount = 0;
@@ -2288,7 +2290,7 @@
      
 
 function displayNewSentence() {
-    currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+    currentSentence = sessionSentences[currentSentenceIndex];
     document.getElementById('english-sentence').textContent = currentSentence.english;
     
     const chineseWordsContainer = document.getElementById('chinese-words');
@@ -2395,14 +2397,8 @@ function touchEnd(event) {
     if (!draggedElement) return;
 
     const touch = event.changedTouches[0];
-    const touchEndTime = new Date().getTime();
-    const touchDuration = touchEndTime - touchStartTime;
 
-    if (!touchMoved && touchDuration < 200) {
-        // C'est un clic rapide
-        handleClick(draggedElement);
-    } else if (touchMoved) {
-        // C'est un glisser-déposer
+    if (touchMoved) {
         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
         const container = dropTarget.closest('#chinese-words, #user-sentence');
         
@@ -2414,8 +2410,12 @@ function touchEnd(event) {
                 container.appendChild(draggedElement);
             }
         }
+    } else {
+        // Gestion du clic rapide si nécessaire
+        handleClick(draggedElement);
     }
 
+    // Réinitialiser le style du mot déplacé
     draggedElement.style.transition = 'all 0.3s ease';
     draggedElement.style.transform = '';
     draggedElement.style.zIndex = '';
@@ -2431,30 +2431,30 @@ function handleClick(wordElement) {
 
 function getDropPosition(container, x, y) {
     const words = [...container.querySelectorAll('.word:not(.dragging):not(.word-placeholder)')];
-    const containerRect = container.getBoundingClientRect();
     
     let closestWord = null;
-    let closestDistance = Infinity;
-    let insertAfter = false;
+    let minDistance = Infinity;
 
     words.forEach((word) => {
         const rect = word.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-
-        if (distance < closestDistance) {
-            closestWord = word;
-            closestDistance = distance;
-            insertAfter = (x > centerX && y > rect.top && y < rect.bottom) || 
-                          (y > centerY && x > rect.left && x < rect.right);
+        if (y >= rect.top && y <= rect.bottom) {
+            const distance = Math.abs(x - (rect.left + rect.width / 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestWord = word;
+            }
         }
     });
 
     if (closestWord) {
-        return { element: insertAfter ? closestWord.nextSibling : closestWord };
+        const rect = closestWord.getBoundingClientRect();
+        if (x < rect.left + rect.width / 2) {
+            return { element: closestWord };
+        } else {
+            return { element: closestWord.nextSibling };
+        }
     } else {
-        // Si aucun mot n'est proche, insérer à la fin
+        // Si aucun mot sur la même ligne, insérer à la fin
         return { element: null };
     }
 }
@@ -2580,17 +2580,30 @@ function submitAnswer() {
 
 function updateScore(isCorrect) {
     let points = 0;
+    
     if (hintUsed) {
         points = 0;
         consecutiveCorrectAnswers = 0;
     } else if (isCorrect) {
-        consecutiveCorrectAnswers++;
-        points = 5;
-        if (consecutiveCorrectAnswers > 1) {
-            points += Math.min(consecutiveCorrectAnswers - 1, 5);
+        // Calculer le score de base selon la difficulté
+        if (difficulty === 'normal') {
+            // Nombre de mots (séparés par des espaces)
+            points = currentSentence.chinese.split(' ').filter(word => word.trim() !== '').length;
+        } else {
+            // Pour difficile et expert : nombre de caractères (sans les espaces)
+            points = currentSentence.chinese.replace(/\s+/g, '').length;
+            
+            // Pour expert : doubler le score de base
+            if (difficulty === 'expert') {
+                points *= 2;
+            }
         }
-        if (consecutiveCorrectAnswers > 6) {
-            points += Math.floor((consecutiveCorrectAnswers - 6) / 2);
+        
+        consecutiveCorrectAnswers++;
+        
+        // Appliquer les multiplicateurs selon le nombre de bonnes réponses consécutives
+        if (consecutiveCorrectAnswers > 1) {
+            points *= Math.min(consecutiveCorrectAnswers, 5);
         }
     } else {
         points = 0;
@@ -2681,7 +2694,9 @@ function resetExercise() {
 }
 
 function nextQuestion() {
-    if ((mode === 'questions' && questionCount < limit) || (mode === 'time' && timeLeft > 0)) {
+    currentSentenceIndex++;
+    if ((mode === 'questions' && currentSentenceIndex < sessionSentences.length) || 
+        (mode === 'time' && timeLeft > 0)) {
         displayNewSentence();
     } else {
         endSession();
@@ -2697,9 +2712,26 @@ function endSession() {
         <h2>Score</h2>
         <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
         <p class="score">${score}</p>
-        <button onclick="restartGame()">Rejouer</button>
+        <button onclick="retrySession()" style="background-color: var(--primary-color); margin-bottom: 10px;">Réessayer</button>
+        <button onclick="restartGame()">Retour à l'accueil</button>
     `;
     appElement.appendChild(finalScoreElement);
+}
+
+function retrySession() {
+    const finalScoreElement = document.getElementById('final-score');
+    if (finalScoreElement) {
+        finalScoreElement.remove();
+    }
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    questionCount = 0;
+    currentSentenceIndex = 0;
+    if (mode === 'time') {
+        timeLeft = parseInt(document.getElementById('time-select').value);
+        startTimer();
+    }
+    displayNewSentence();
 }
 
 function getTimeString(seconds) {
@@ -2725,16 +2757,28 @@ function startGame() {
     document.getElementById('app').style.display = 'block';
     mode = document.getElementById('mode-select').value;
     difficulty = document.getElementById('difficulty-select').value;
+    
+    // Générer la liste des phrases pour la session
+    sessionSentences = [];
     if (mode === 'questions') {
         limit = parseInt(document.getElementById('questions-select').value);
+        for(let i = 0; i < limit; i++) {
+            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+        }
         document.getElementById('timer').style.display = 'none';
         document.getElementById('question-counter').style.display = 'inline-block';
     } else {
+        // Pour le mode temps, on génère plus de phrases qu'il n'en faut
         timeLeft = parseInt(document.getElementById('time-select').value);
+        const estimatedQuestions = Math.ceil(timeLeft / 15) + 5; // On estime 15 secondes par question + marge
+        for(let i = 0; i < estimatedQuestions; i++) {
+            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+        }
         document.getElementById('timer').style.display = 'inline-block';
         document.getElementById('question-counter').style.display = 'none';
         startTimer();
     }
+    currentSentenceIndex = 0;
     displayNewSentence();
 }
 
