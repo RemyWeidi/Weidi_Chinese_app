@@ -2917,6 +2917,7 @@ function resetHint() {
     hintButton.disabled = false;
 }
 
+
 function resetExercise() {
     const userSentenceContainer = document.getElementById('user-sentence');
     const chineseWordsContainer = document.getElementById('chinese-words');
@@ -2994,34 +2995,19 @@ function endSession() {
 
 
 function retrySession() {
+    // Supprimer la feuille de score si elle existe
     const finalScoreElement = document.getElementById('final-score');
     if (finalScoreElement) {
         finalScoreElement.remove();
     }
 
-    // Réinitialiser les variables d'état
-    score = 0;
-    consecutiveCorrectAnswers = 0;
-    questionCount = 0;
-    currentSentenceIndex = 0;
-    hintIndex = 0;
-    hintUsed = false;
-    sessionSentences = [];
+    // Initialiser la session (en gardant le même mode et la même difficulté)
+    initializeSession();
 
-    // Réinitialiser les écouteurs d'événements
-    const submitButton = document.getElementById('submit-button');
-    submitButton.removeEventListener('click', submitAnswer);
-    submitButton.removeEventListener('click', nextQuestion);
-    submitButton.textContent = 'Valider';
-    submitButton.addEventListener('click', submitAnswer);
-
-    if (mode === 'time') {
-        timeLeft = parseInt(document.getElementById('time-select').value);
-        startTimer();
-    }
-
+    // Afficher la première phrase
     displayNewSentence();
-}   
+}
+
 
 function getTimeString(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -3041,12 +3027,7 @@ function restartGame() {
     questionCount = 0;
 }
 
-function startGame() {
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    mode = document.getElementById('mode-select').value;
-    difficulty = document.getElementById('difficulty-select').value;
-
+function initializeSession() {
     // Réinitialiser les variables d'état
     score = 0;
     consecutiveCorrectAnswers = 0;
@@ -3056,7 +3037,7 @@ function startGame() {
     hintUsed = false;
     sessionSentences = [];
 
-    // Réinitialiser les écouteurs d'événements
+    // Réinitialiser les écouteurs d'événements du bouton "Valider"
     const submitButton = document.getElementById('submit-button');
     submitButton.removeEventListener('click', submitAnswer);
     submitButton.removeEventListener('click', nextQuestion);
@@ -3082,9 +3063,24 @@ function startGame() {
         document.getElementById('question-counter').style.display = 'none';
         startTimer();
     }
+}
 
+function startGame() {
+    // Afficher l'application et cacher l'écran d'accueil
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    // Récupérer le mode et la difficulté sélectionnés
+    mode = document.getElementById('mode-select').value;
+    difficulty = document.getElementById('difficulty-select').value;
+
+    // Initialiser la session
+    initializeSession();
+
+    // Afficher la première phrase
     displayNewSentence();
 }
+
 
 function startTimer() {
     const timerElement = document.getElementById('timer');
