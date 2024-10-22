@@ -2880,6 +2880,7 @@ function returnHome() {
 
 // Événements pour la page d'accueil
 <script>
+    // Événements pour la page d'accueil
     document.getElementById('mode-select').addEventListener('change', function() {
         var mode = this.value;
 
@@ -2890,14 +2891,14 @@ function returnHome() {
 
         // Gestion de la visibilité selon le mode sélectionné
         if (mode === 'time') {
-            questionsOptions.style.display = 'none'; // Masquer le nombre de questions
+            questionsOptions.style.display = 'none'; // Masquer la sélection du nombre de questions
             timeOptions.style.display = 'block';     // Afficher la durée de temps
-        } else {
-            questionsOptions.style.display = 'block'; // Afficher le nombre de questions
+        } else if (mode === 'questions') {
+            questionsOptions.style.display = 'block'; // Afficher la sélection du nombre de questions
             timeOptions.style.display = 'none';       // Masquer la durée de temps
         }
 
-        // Garder la section de difficulté visible
+        // Garder la section de difficulté visible dans tous les cas
         difficultyOptions.style.display = 'block';
     });
 
@@ -2905,6 +2906,7 @@ function returnHome() {
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('time-options').style.display = 'none'; // Cacher la durée de temps par défaut
     });
+</script>
 
 document.getElementById('start-button').addEventListener('click', startGame);
 
