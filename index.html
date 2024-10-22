@@ -244,49 +244,58 @@
             font-size: 1.5rem;
         }
         #score-popup {
-            position: fixed;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            padding: 1.2rem 2.5rem;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            font-weight: 600;
-            box-shadow: 
-            0 10px 20px rgba(0,0,0,0.15),
-            0 3px 6px rgba(0,0,0,0.1),
-            inset 0 -3px 0 rgba(0,0,0,0.15),
-            inset 0 1px 0 rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: popupAppear 0.3s ease-out;
-            z-index: 1000;
-        }
-        #score-popup .points {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            font-weight: 700;
-        }
-        #score-popup .total {
-            font-size: 1rem;
-            opacity: 0.9;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        @keyframes popupAppear {
-            from {
-                transform: translate(-50%, -20px);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 1.2rem 2.5rem;
+    border-radius: 15px;
+    display: none; /* Changé de flex à none par défaut */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 
+        0 10px 20px rgba(0,0,0,0.15),
+        0 3px 6px rgba(0,0,0,0.1),
+        inset 0 -3px 0 rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: popupAppear 0.3s ease-out;
+    z-index: 1000;
+    pointer-events: none; /* Pour éviter toute interaction non désirée */
+}
+#score-popup:not(:visible) {
+    visibility: hidden;
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+#score-popup .points {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-weight: 700;
+}
+#score-popup .total {
+    font-size: 1rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+@keyframes popupAppear {
+    from {
+        transform: translate(-50%, -20px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
 .popup-disappear {
     animation: popupDisappear 0.3s ease-out forwards !important;
 }
@@ -2702,27 +2711,64 @@ function submitAnswer() {
 
 function updateScore(isCorrect) {
     let points = 0;
-    // ... [reste du code de calcul des points inchangé]
     
+    if (hintUsed) {
+        points = 0;
+        consecutiveCorrectAnswers = 0;
+    } else if (isCorrect) {
+        // Calculer le score de base selon la difficulté
+        if (difficulty === 'normal') {
+            // Nombre de mots (séparés par des espaces)
+            points = currentSentence.chinese.split(' ').filter(word => word.trim() !== '').length;
+        } else {
+            // Pour difficile et expert : nombre de caractères (sans les espaces)
+            points = currentSentence.chinese.replace(/\s+/g, '').length;
+            
+            // Pour expert : doubler le score de base
+            if (difficulty === 'expert') {
+                points *= 2;
+            }
+        }
+        
+        consecutiveCorrectAnswers++;
+        
+        // Appliquer les multiplicateurs selon le nombre de bonnes réponses consécutives
+        if (consecutiveCorrectAnswers > 1) {
+            points *= Math.min(consecutiveCorrectAnswers, 5);
+        }
+    } else {
+        points = 0;
+        consecutiveCorrectAnswers = 0;
+    }
+    
+    score += points;
+
     const scorePopup = document.getElementById('score-popup');
-    // Réinitialiser les classes d'animation
-    scorePopup.classList.remove('popup-disappear');
-    // Force un reflow pour réinitialiser l'animation
-    void scorePopup.offsetWidth;
+    scorePopup.style.display = 'flex';
+    scorePopup.style.visibility = 'visible';
+    scorePopup.style.height = 'auto';
     
+    // Nouvelle structure HTML pour le popup
     scorePopup.innerHTML = `
         <div class="points">${points > 0 ? '+' : ''}${points} points !</div>
         <div class="total">Score total : ${score}</div>
     `;
     
-    scorePopup.style.display = 'block';
     scorePopup.style.backgroundColor = isCorrect ? 'var(--secondary-color)' : 'var(--accent-color)';
+    
+    // Force un reflow pour réinitialiser l'animation
+    void scorePopup.offsetWidth;
+    
+    // Réinitialiser les classes d'animation
+    scorePopup.classList.remove('popup-disappear');
     
     setTimeout(() => {
         // Ajouter l'animation de disparition
         scorePopup.classList.add('popup-disappear');
         setTimeout(() => {
             scorePopup.style.display = 'none';
+            scorePopup.style.visibility = 'hidden';
+            scorePopup.style.height = '0';
         }, 300); // Durée de l'animation
     }, 1700); // Temps d'affichage légèrement réduit pour accommoder l'animation
 }
