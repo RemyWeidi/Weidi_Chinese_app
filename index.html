@@ -2452,6 +2452,7 @@
         let consecutiveCorrectAnswers = 0;
         let sessionSentences = [];
         let currentSentenceIndex = 0;
+        let usedSentences = new Set();
         let hintIndex = 0;
         let hintUsed = false;
         let questionCount = 0;
@@ -2538,7 +2539,32 @@ function displayNewSentence() {
     updateCounter();
 }
 
+function getRandomUnusedSentence() {
+    // Créer un tableau des indices disponibles
+    const availableIndices = [];
+    for (let i = 0; i < sentences.length; i++) {
+        if (!usedSentences.has(i)) {
+            availableIndices.push(i);
+        }
+    }
 
+    // Si tous les indices ont été utilisés, réinitialiser
+    if (availableIndices.length === 0) {
+        usedSentences.clear();
+        for (let i = 0; i < sentences.length; i++) {
+            availableIndices.push(i);
+        }
+    }
+
+    // Sélectionner un indice aléatoire parmi les disponibles
+    const randomIndex = Math.floor(Math.random() * availableIndices.length);
+    const selectedIndex = availableIndices[randomIndex];
+    
+    // Marquer l'indice comme utilisé
+    usedSentences.add(selectedIndex);
+    
+    return sentences[selectedIndex];
+}
 
 function createWordElement(word) {
     const wordElement = document.createElement('div');
@@ -2959,9 +2985,9 @@ function nextQuestion() {
         // Mode temps
         if (currentSentenceIndex >= sessionSentences.length) {
             // Ajouter plus de phrases si nécessaire
-            const newPhrases = Math.min(sentences.length, 10);
+            const newPhrases = Math.min(sentences.length - usedSentences.size, 10);
             for (let i = 0; i < newPhrases; i++) {
-                sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+                sessionSentences.push(getRandomUnusedSentence());
             }
         }
         displayNewSentence();
@@ -3049,7 +3075,7 @@ function initializeSession() {
     if (mode === 'questions') {
         limit = parseInt(document.getElementById('questions-select').value);
         for (let i = 0; i < limit; i++) {
-            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+            sessionSentences.push(getRandomUnusedSentence());
         }
         document.getElementById('timer').style.display = 'none';
         document.getElementById('question-counter').style.display = 'inline-block';
@@ -3057,7 +3083,7 @@ function initializeSession() {
         timeLeft = parseInt(document.getElementById('time-select').value);
         const estimatedQuestions = Math.min(sentences.length, 50);
         for (let i = 0; i < estimatedQuestions; i++) {
-            sessionSentences.push(sentences[Math.floor(Math.random() * sentences.length)]);
+            sessionSentences.push(getRandomUnusedSentence());
         }
         document.getElementById('timer').style.display = 'inline-block';
         document.getElementById('question-counter').style.display = 'none';
@@ -3116,6 +3142,7 @@ function returnHome() {
     hintIndex = 0;
     hintUsed = false;
     sessionSentences = [];
+    usedSentences.clear(); // Réinitialiser les phrases utilisées
 
     // Réinitialiser les écouteurs d'événements
     const submitButton = document.getElementById('submit-button');
@@ -3132,7 +3159,6 @@ function returnHome() {
         finalScoreElement.remove();
     }
 }
-
 
 // Événements pour la page d'accueil
 document.getElementById('mode-select').addEventListener('change', (e) => {
