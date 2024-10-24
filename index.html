@@ -2996,38 +2996,48 @@ function nextQuestion() {
 }
 
 
-
 function endSession() {
     clearInterval(timerInterval);
     
     // Sauvegarder les phrases de la session courante
     lastSessionSentences = [...sessionSentences];
 
-    // Afficher la feuille de score
-    const finalScoreElement = document.createElement('div');
-    finalScoreElement.id = 'final-score';
-    finalScoreElement.innerHTML = `
-        <h2>Score</h2>
-        <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
-        <p class="score">${score}</p>
-        <div class="buttons">
-            <button onclick="event.stopPropagation(); retryLastSession()">Réessayer</button>
-            <button onclick="event.stopPropagation(); startNewSession()" style="background-color: #4a90e2">Nouveau jeu</button>
-            <button onclick="event.stopPropagation(); returnHome()">Retour à l'accueil</button>
-        </div>
-    `;
+    // Forcer la réinitialisation immédiate du style du bouton
+    const submitButton = document.getElementById('submit-button');
+    submitButton.style.transition = 'none'; // Désactiver temporairement la transition
+    submitButton.style.backgroundColor = ''; // Réinitialiser la couleur
+    
+    // Utiliser requestAnimationFrame pour s'assurer que le DOM est mis à jour
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // Réactiver la transition après la mise à jour
+            submitButton.style.transition = '';
+            
+            // Créer et afficher la feuille de score
+            const finalScoreElement = document.createElement('div');
+            finalScoreElement.id = 'final-score';
+            finalScoreElement.innerHTML = `
+                <h2>Score</h2>
+                <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
+                <p class="score">${score}</p>
+                <div class="buttons">
+                    <button onclick="event.stopPropagation(); retryLastSession()">Réessayer</button>
+                    <button onclick="event.stopPropagation(); startNewSession()" style="background-color: #4a90e2">Nouveau jeu</button>
+                    <button onclick="event.stopPropagation(); returnHome()">Retour à l'accueil</button>
+                </div>
+            `;
 
-    // Ajouter l'écouteur d'événement pour fermer la feuille de score
-    finalScoreElement.addEventListener('click', function() {
-        this.remove();
+            finalScoreElement.addEventListener('click', function() {
+                this.remove();
+            });
+
+            finalScoreElement.querySelector('.buttons').addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            document.body.appendChild(finalScoreElement);
+        });
     });
-
-    // Empêcher la propagation du clic sur les boutons
-    finalScoreElement.querySelector('.buttons').addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-
-    document.body.appendChild(finalScoreElement);
 }
 
 function retryLastSession() {
