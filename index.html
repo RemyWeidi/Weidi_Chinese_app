@@ -336,13 +336,18 @@
     color: #e6f0fa; /* Bleu très clair pour le texte du mode */
     opacity: 0.9;
 }
-        #final-score {
+    #final-score {
     position: fixed;  /* Changed from absolute to fixed */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
     color: white;
     display: flex;
     flex-direction: column;
@@ -374,6 +379,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: default;
     gap: 1rem;
     width: 100%;
     max-width: 300px; /* Largeur fixe pour le container des boutons */
@@ -387,6 +393,8 @@
     font-size: 1.1rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 #final-score button:first-of-type {
     background-color: var(--primary-color);
@@ -3027,10 +3035,12 @@ function endSession() {
                 </div>
             `;
 
+            // Ajouter l'écouteur d'événements pour fermer la feuille de score
             finalScoreElement.addEventListener('click', function() {
                 this.remove();
             });
 
+            // Empêcher la propagation du clic sur les boutons
             finalScoreElement.querySelector('.buttons').addEventListener('click', function(e) {
                 e.stopPropagation();
             });
