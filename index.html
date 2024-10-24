@@ -2452,6 +2452,7 @@
         let consecutiveCorrectAnswers = 0;
         let sessionSentences = [];
         let currentSentenceIndex = 0;
+        let lastSessionSentences = [];
         let usedSentences = new Set();
         let hintIndex = 0;
         let hintUsed = false;
@@ -2998,11 +2999,9 @@ function nextQuestion() {
 
 function endSession() {
     clearInterval(timerInterval);
-
-    // Désactiver les interactions
-    const submitButton = document.getElementById('submit-button');
-    submitButton.removeEventListener('click', submitAnswer);
-    submitButton.removeEventListener('click', nextQuestion);
+    
+    // Sauvegarder les phrases de la session courante
+    lastSessionSentences = [...sessionSentences];
 
     // Afficher la feuille de score
     const finalScoreElement = document.createElement('div');
@@ -3012,28 +3011,81 @@ function endSession() {
         <p class="mode">Mode : ${mode === 'questions' ? limit + ' questions' : getTimeString(parseInt(document.getElementById('time-select').value))}</p>
         <p class="score">${score}</p>
         <div class="buttons">
-            <button onclick="retrySession()">Réessayer</button>
-            <button onclick="returnHome()">Retour à l'accueil</button>
+            <button onclick="event.stopPropagation(); retryLastSession()">Réessayer</button>
+            <button onclick="event.stopPropagation(); startNewSession()" style="background-color: #4a90e2">Nouveau jeu</button>
+            <button onclick="event.stopPropagation(); returnHome()">Retour à l'accueil</button>
         </div>
     `;
+
+    // Ajouter l'écouteur d'événement pour fermer la feuille de score
+    finalScoreElement.addEventListener('click', function() {
+        this.remove();
+    });
+
+    // Empêcher la propagation du clic sur les boutons
+    finalScoreElement.querySelector('.buttons').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
     document.body.appendChild(finalScoreElement);
 }
 
-
-function retrySession() {
-    // Supprimer la feuille de score si elle existe
+function retryLastSession() {
+    // Supprimer la feuille de score
     const finalScoreElement = document.getElementById('final-score');
     if (finalScoreElement) {
         finalScoreElement.remove();
     }
 
-    // Initialiser la session (en gardant le même mode et la même difficulté)
-    initializeSession();
+    // Réinitialiser les variables d'état
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    currentSentenceIndex = 0;
+    hintIndex = 0;
+    hintUsed = false;
+
+    // Utiliser les mêmes phrases que la session précédente
+    sessionSentences = [...lastSessionSentences];
+
+    // Réinitialiser le timer si on est en mode temps
+    if (mode === 'time') {
+        timeLeft = parseInt(document.getElementById('time-select').value);
+        startTimer();
+    }
+
+    // Afficher le jeu et cacher l'accueil
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
 
     // Afficher la première phrase
     displayNewSentence();
 }
 
+function startNewSession() {
+    // Supprimer la feuille de score
+    const finalScoreElement = document.getElementById('final-score');
+    if (finalScoreElement) {
+        finalScoreElement.remove();
+    }
+
+    // Réinitialiser les variables d'état
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    currentSentenceIndex = 0;
+    hintIndex = 0;
+    hintUsed = false;
+    sessionSentences = [];
+
+    // Initialiser une nouvelle session avec le mode et la difficulté actuels
+    initializeSession();
+
+    // Afficher le jeu et cacher l'accueil
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    // Afficher la première phrase
+    displayNewSentence();
+}
 
 function getTimeString(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -3117,7 +3169,13 @@ function startTimer() {
         
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            endSession(); // Affiche la feuille de score quand le timer atteint zéro
+            // Modifier le bouton comme dans le mode questions
+            const submitButton = document.getElementById('submit-button');
+            submitButton.textContent = 'Voir le score';
+            submitButton.removeEventListener('click', submitAnswer);
+            submitButton.removeEventListener('click', nextQuestion);
+            submitButton.addEventListener('click', endSession);
+            endSession(); // Afficher la feuille de score
         } else {
             timeLeft--;
         }
