@@ -82,6 +82,48 @@
             display: block;
         }
         
+        #length-options {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+#length-options h3 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.length-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.length-option {
+    flex: 1;
+    padding: 0.8rem;
+    background-color: #e6f0fa;
+    color: #333;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.length-option.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.length-option:hover {
+    background-color: #d4e4f9;
+}
+
         select {
             background-color: #e6f0fa;
             color: #333;
@@ -495,6 +537,15 @@
                     <option value="difficult">Difficile</option>
                     <option value="expert">Expert</option>
                 </select>
+            </div>
+
+            <div id="length-options">
+                <h3>Longueur des phrases</h3>
+                <div class="length-buttons">
+                    <button id="length-short" class="length-option selected" data-length="short">Court</button>
+                    <button id="length-medium" class="length-option selected" data-length="medium">Moyen</button>
+                    <button id="length-long" class="length-option selected" data-length="long">Long</button>
+                </div>
             </div>
 
             <button id="start-button">Commencer l'exercice</button>
@@ -2770,6 +2821,530 @@
             "chinese": "独立 电影 导演 讲述 独特 的 故事"
         },
         {
+"english": "The vegan chef cooks well",
+"chinese": "素食 厨师 烹饪 好"
+},
+{
+"english": "Influencers share lifestyles",
+"chinese": "网红 分享 生活 圈"
+},
+{
+"english": "The street art amazes all",
+"chinese": "街头 艺术 很 惊人"
+},
+{
+"english": "Virtual reality expands fast",
+"chinese": "虚拟 现实 在 发展"
+},
+{
+"english": "Green energy saves Earth",
+"chinese": "绿色 能源 救 地球"
+},
+{
+"english": "Online shopping grows big",
+"chinese": "网上 购物 很 热闹"
+},
+{
+"english": "The bike delivery arrives",
+"chinese": "单车 快递 已 到达"
+},
+{
+"english": "Fresh sushi tastes great",
+"chinese": "新鲜 寿司 很 美味"
+},
+{
+"english": "Music streams worldwide",
+"chinese": "音乐 全球 在 流传"
+},
+{
+"english": "Travel blogs inspire us",
+"chinese": "旅行 博客 有 启发"
+},
+{
+"english": "The crypto market moves",
+"chinese": "加密 市场 在 波动"
+},
+{
+"english": "Urban gardens grow fresh",
+"chinese": "城市 花园 很 新鲜"
+},
+{
+"english": "She writes movie reviews",
+"chinese": "她 写 电影 评论"
+},
+{
+"english": "The concert streams live",
+"chinese": "音乐会 在线 直播"
+},
+{
+"english": "AI helps daily life",
+"chinese": "人工智能 助 生活"
+},
+{
+"english": "The robot learns to paint",
+"chinese": "机器人 学会 画画"
+},
+{
+"english": "She codes mobile games",
+"chinese": "她 开发 手机 游戏"
+},
+{
+"english": "The coffee shop is cozy",
+"chinese": "咖啡店 很 温馨"
+},
+{
+"english": "Digital art sells online",
+"chinese": "数字 艺术 在线 卖"
+},
+{
+"english": "Students learn remotely now",
+"chinese": "学生 现在 远程 学习"
+},
+{
+"english": "The drone films the city",
+"chinese": "无人机 拍摄 城市"
+},
+{
+"english": "Social media trends change",
+"chinese": "社交 媒体 趋势 变"
+},
+{
+"english": "Electric cars save energy",
+"chinese": "电动车 节省 能源"
+},
+{
+"english": "The podcast grows popular",
+"chinese": "播客 变得 很 流行"
+},
+{
+"english": "Smart homes bring comfort",
+"chinese": "智能 家居 很 舒适"
+},
+{
+"english": "She practices yoga daily",
+"chinese": "她 每天 练习 瑜伽"
+},
+{
+"english": "The jazz band plays live",
+"chinese": "爵士 乐队 在 演奏"
+},
+{
+"english": "Fresh bread smells good",
+"chinese": "新鲜 面包 很 香"
+},
+{
+"english": "The painter draws dreams",
+"chinese": "画家 描绘 着 梦想"
+},
+{
+"english": "Wild birds fly south",
+"chinese": "野鸟 往南 飞 走"
+},
+{
+"english": "Tea leaves steep slow",
+"chinese": "茶叶 慢慢 泡 开"
+},
+{
+"english": "The child plays chess",
+"chinese": "孩子 在下 象棋"
+},
+{
+"english": "Old books tell stories",
+"chinese": "旧书 讲述 故事"
+},
+{
+"english": "The wind blows soft",
+"chinese": "风儿 轻轻 地 吹"
+},
+{
+"english": "Beach waves roll in",
+"chinese": "海浪 轻轻 拍 岸"
+},
+{
+"english": "The cook makes soup",
+"chinese": "厨师 正在 煮 汤"
+},
+{
+"english": "Rain falls gently down",
+"chinese": "雨水 轻轻 落 下"
+},
+{
+"english": "The grass grows tall",
+"chinese": "青草 长得 很 高"
+},
+{
+"english": "Street food smells nice",
+"chinese": "街边 小吃 真 香"
+},
+{
+"english": "The dancer moves smooth",
+"chinese": "舞者 优雅 起舞"
+},
+{
+"english": "Fish swim upstream fast",
+"chinese": "鱼儿 逆流 而 上"
+},
+{
+"english": "The moon shines bright",
+"chinese": "月亮 照耀 夜 空"
+},
+{
+"english": "Forest trees grow strong",
+"chinese": "森林 树木 茂盛"
+},
+{
+"english": "The poet writes verse",
+"chinese": "诗人 写下 诗句"
+},
+{
+"english": "Mountain peaks rise high",
+"chinese": "山峰 耸立 云 天"
+},
+{
+"english": "The river flows calm",
+"chinese": "河水 平静 流淌"
+},
+{
+"english": "Students read books now",
+"chinese": "学生 正在 读书"
+},
+{
+"english": "The farmer grows rice",
+"chinese": "农民 种植 水稻"
+},
+{
+"english": "Dogs play in park",
+"chinese": "狗狗 公园 玩耍"
+},
+{
+"english": "The choir sings well",
+"chinese": "合唱团 唱得 好"
+},
+{
+"english": "Snow falls softly down",
+"chinese": "雪花 轻轻 飘 落"
+},
+{
+"english": "The runner trains hard",
+"chinese": "跑者 努力 训练"
+},
+{
+"english": "Cats sleep in sun",
+"chinese": "猫咪 晒太阳 睡"
+},
+{
+"english": "The baker makes bread",
+"chinese": "面包师 在 烤 面"
+},
+{
+"english": "Flowers bloom bright",
+"chinese": "鲜花 绽放 光彩"
+},
+{
+"english": "The sunset glows red",
+"chinese": "落日 发出 红光"
+},
+{
+"english": "Kids build sandcastles",
+"chinese": "儿童 建 沙堡 玩"
+},
+{
+"english": "The market sells fresh",
+"chinese": "市场 卖 新鲜 货"
+},
+{
+"english": "Birds sing morning songs",
+"chinese": "鸟儿 唱晨 歌声"
+},
+{
+"english": "The artist paints love",
+"chinese": "艺术家 画 爱情"
+},
+{
+"english": "Waves crash on rocks",
+"chinese": "海浪 拍打 礁石"
+},
+{
+"english": "The garden grows herbs",
+"chinese": "花园 种植 香草"
+},
+{
+"english": "Boots walk through snow",
+"chinese": "靴子 踏过 白雪"
+},
+{
+"english": "The fire burns warm",
+"chinese": "火焰 温暖 燃烧"
+},
+{
+"english": "Leaves fall in autumn",
+"chinese": "树叶 秋天 飘落"
+},
+{
+"english": "The boat sails far",
+"chinese": "帆船 远航 大海"
+},
+{
+"english": "Stars twinkle at night",
+"chinese": "星星 夜晚 闪烁"
+},
+{
+"english": "The circus brings joy",
+"chinese": "马戏团 带来 乐"
+},
+{
+"english": "Wind chimes sing soft",
+"chinese": "风铃 轻声 响起"
+},
+{
+"english": "The chef cooks spicy",
+"chinese": "厨师 烹饪 辣菜"
+},
+{
+"english": "Bees make sweet honey",
+"chinese": "蜜蜂 酿造 甜蜜"
+},
+{
+"english": "The drums beat loud",
+"chinese": "鼓声 响亮 传远"
+},
+{
+"english": "Ice cream melts slow",
+"chinese": "冰淇淋 慢慢 化"
+},
+{
+"english": "The plane flies high",
+"chinese": "飞机 飞向 高空"
+},
+{
+"english": "Yarn knits warm scarves",
+"chinese": "毛线 织 暖 围巾"
+},
+{
+"english": "The clock ticks time",
+"chinese": "时钟 滴答 响着"
+},
+{
+"english": "Fruits taste sweet fresh",
+"chinese": "水果 尝起来 甜"
+},
+{
+"english": "The stage lights shine",
+"chinese": "舞台 灯光 闪耀"
+},
+{
+"english": "The startup team works late",
+"chinese": "创业 团队 加班 忙"
+},
+{
+"english": "Cloud gaming changes fun",
+"chinese": "云 游戏 改变 娱乐"
+},
+{
+"english": "Digital wallet pays fast",
+"chinese": "数字 钱包 快 支付"
+},
+{
+"english": "The esports team wins",
+"chinese": "电竞 团队 获胜 了"
+},
+{
+"english": "Smart watch counts steps",
+"chinese": "智能 手表 数 步数"
+},
+{
+"english": "Online classes start soon",
+"chinese": "网课 即将 要 开始"
+},
+{
+"english": "The drone takes photos",
+"chinese": "无人机 拍摄 照片"
+},
+{
+"english": "Plant food sells well",
+"chinese": "素食 产品 很 畅销"
+},
+{
+"english": "3D printing creates art",
+"chinese": "3D 打印 制作 艺术"
+},
+{
+"english": "Weather app shows rain",
+"chinese": "天气 应用 显示 雨"
+},
+{
+"english": "Voice chat starts now",
+"chinese": "语音 聊天 要 开始"
+},
+{
+"english": "Fresh coffee wakes up",
+"chinese": "新鲜 咖啡 提神 醒"
+},
+{
+"english": "The selfie looks great",
+"chinese": "自拍 照片 很 棒"
+},
+{
+"english": "Health data shows trends",
+"chinese": "健康 数据 显 趋势"
+},
+{
+"english": "News spreads quickly now",
+"chinese": "新闻 传播 很 快"
+},
+{
+"english": "Remote work becomes norm",
+"chinese": "远程 工作 成 常态"
+},
+{
+"english": "The robot cleans house",
+"chinese": "机器人 打扫 房子"
+},
+{
+"english": "Solar panels save money",
+"chinese": "太阳能 板 省钱"
+},
+{
+"english": "Video calls connect all",
+"chinese": "视频 通话 连 世界"
+},
+{
+"english": "Food delivery arrives hot",
+"chinese": "外卖 送达 还 热"
+},
+{
+"english": "Virtual tour starts here",
+"chinese": "虚拟 旅游 开始 了"
+},
+{
+"english": "The movie streams now",
+"chinese": "电影 正在 线 播"
+},
+{
+"english": "Smart fridge orders food",
+"chinese": "智能 冰箱 订 食物"
+},
+{
+"english": "Digital books load fast",
+"chinese": "电子书 加载 真快"
+},
+{
+"english": "The chat bot helps us",
+"chinese": "聊天 机器人 帮忙"
+},
+{
+"english": "Online shopping saves time",
+"chinese": "网购 节省 很 多"
+},
+{
+"english": "The blog post trends",
+"chinese": "博客 文章 很 火"
+},
+{
+"english": "Digital art sells high",
+"chinese": "数字 艺术 价 高"
+},
+{
+"english": "Smart cars drive safe",
+"chinese": "智能 汽车 很 安全"
+},
+{
+"english": "The app update loads",
+"chinese": "应用 更新 在 加载"
+},
+{
+"english": "Green tech saves earth",
+"chinese": "环保 科技 救 地球"
+},
+{
+"english": "The code runs smooth",
+"chinese": "代码 运行 很 顺"
+},
+{
+"english": "Virtual pets need care",
+"chinese": "虚拟 宠物 需 爱"
+},
+{
+"english": "Online games bring joy",
+"chinese": "网络 游戏 带 乐"
+},
+{
+"english": "Digital maps guide us",
+"chinese": "电子 地图 导 航"
+},
+{
+"english": "The tweet goes viral",
+"chinese": "推文 传播 很 广"
+},
+{
+"english": "Smart home stays cool",
+"chinese": "智能 家居 很 酷"
+},
+{
+"english": "Tech support helps now",
+"chinese": "技术 支持 在 帮"
+},
+{
+"english": "Voice search works well",
+"chinese": "语音 搜索 很 准"
+},
+{
+"english": "The stream starts live",
+"chinese": "直播 开始 进行"
+},
+{
+"english": "Digital art sells fast",
+"chinese": "数字 艺术 快 卖"
+},
+{
+"english": "Urban farms grow food",
+"chinese": "城市 农场 种 菜"
+},
+{
+"english": "The podcast talks tech",
+"chinese": "播客 讨论 科技"
+},
+{
+"english": "Online trends change fast",
+"chinese": "网络 趋势 变 快"
+},
+{
+"english": "The wifi speeds up",
+"chinese": "网络 速度 提 升"
+},
+{
+"english": "Smart lens takes pics",
+"chinese": "智能 镜头 拍 照"
+},
+{
+"english": "The drone flies high",
+"chinese": "无人机 飞 很 高"
+},
+{
+"english": "Data flows worldwide",
+"chinese": "数据 流向 全球"
+},
+{
+"english": "Green energy powers up",
+"chinese": "绿色 能源 供 电"
+},
+{
+"english": "The screen shows clear",
+"chinese": "屏幕 显示 清晰"
+},
+{
+"english": "Cloud storage grows big",
+"chinese": "云 存储 在 增长"
+},
+{
+"english": "Web design looks fresh",
+"chinese": "网页 设计 很 新"
+},
+{
+"english": "The network runs fast",
+"chinese": "网络 运行 很 快"
+},
+        {
             "english": "Have you visited the new art gallery?",
             "chinese": "你 参观 过 新 的 艺术 画廊 吗"
         },
@@ -3862,6 +4437,86 @@
             "chinese": "为什么 我 不能 像 别人 一样 实现 梦想"
         },
         {
+"english": "The sunset over the mountain lake brings peace to travelers",
+"chinese": "山间 湖泊 上 的 夕阳 为 旅行者 带来 宁静 时刻"
+},
+{
+"english": "Traditional tea ceremony masters share ancient wisdom with students",
+"chinese": "传统 茶道 大师 正在 向 学生们 传授 古老 的 智慧"
+},
+{
+"english": "Street musicians play melodious songs in the autumn rain",
+"chinese": "街头 音乐家们 在 秋雨 中 演奏 着 动听 的 旋律"
+},
+{
+"english": "Children laugh and play in the newly fallen winter snow",
+"chinese": "孩子们 在 新 落下 的 冬季 白雪 中 欢笑 玩耍"
+},
+{
+"english": "The old bookstore keeper shares stories with young readers",
+"chinese": "老 书店 店主 正在 给 年轻 读者们 分享 有趣 的 故事"
+},
+{
+"english": "Fresh morning breeze carries the scent of blooming flowers",
+"chinese": "清晨 的 微风 带来 了 盛开 鲜花 的 芳香 气息"
+},
+{
+"english": "The night market food vendors prepare delicious local dishes",
+"chinese": "夜市 的 小贩们 正在 准备 美味 的 当地 特色 菜"
+},
+{
+"english": "Elderly couples dance together in the peaceful evening park",
+"chinese": "年长 的 夫妻们 在 宁静 的 夜晚 公园 里 跳舞"
+},
+{
+"english": "Skilled craftsmen create beautiful pottery in ancient style",
+"chinese": "熟练 的 工匠们 用 古老 的 方式 制作 精美 的 陶器"
+},
+{
+"english": "Young artists paint colorful murals on city walls",
+"chinese": "年轻 的 艺术家们 在 城市 墙壁 上 绘制 彩色 壁画"
+},
+{
+"english": "Local farmers harvest golden rice fields under autumn sun",
+"chinese": "当地 农民们 在 秋日 阳光 下 收获 金黄 的 稻田"
+},
+{
+"english": "The temple bells ring through misty mountain valleys",
+"chinese": "寺庙 的 钟声 在 云雾 缭绕 的 山谷 中 回荡"
+},
+{
+"english": "Fishermen prepare their boats for early morning catch",
+"chinese": "渔民们 正在 准备 他们 的 渔船 迎接 清晨 的 捕捞"
+},
+{
+"english": "Students practice traditional calligraphy with great focus",
+"chinese": "学生们 专心致志 地 练习 传统 的 书法 艺术"
+},
+{
+"english": "The village celebration brings together multiple generations",
+"chinese": "乡村 的 庆典 活动 将 多个 世代 的 人们 聚集在一起"
+},
+{
+"english": "Mountain climbers prepare equipment for challenging peaks",
+"chinese": "登山者们 正在 准备 装备 挑战 险峻 的 山峰"
+},
+{
+"english": "Chefs combine traditional and modern cooking techniques",
+"chinese": "厨师们 将 传统 和 现代 的 烹饪 技法 完美 结合"
+},
+{
+"english": "Grand theater performers rehearse for evening show",
+"chinese": "大剧院 的 表演者们 正在 为 晚上 的 演出 认真 排练"
+},
+{
+"english": "Photography enthusiasts capture sunrise over city skyline",
+"chinese": "摄影 爱好者们 捕捉 城市 天际线 上 的 日出 美景"
+},
+{
+"english": "Garden designers create peaceful spaces with flowing water",
+"chinese": "园林 设计师 用 流水 设计 创造 宁静 的 休闲 空间"
+},
+        {
             "english": "Sometimes I regret my career choices deeply",
             "chinese": "有时 我 深深 后悔 自己 的 职业 选择"
         },
@@ -3895,6 +4550,7 @@
         let draggedElement = null;
         let score = 0;
         let consecutiveCorrectAnswers = 0;
+        let selectedLengths = ['short', 'medium', 'long']; // Les longueurs sélectionnées par défaut
         let sessionSentences = [];
         let currentSentenceIndex = 0;
         let lastSessionSentences = [];
@@ -3925,24 +4581,47 @@
             const charCount = sentence.replace(/\s+/g, '').length;
             return Math.max(300, charCount * 30);
 }
-     
+
+// Gestion de la sélection de longueur
+document.querySelectorAll('.length-option').forEach(button => {
+    button.addEventListener('click', () => {
+        const length = button.getAttribute('data-length');
+        if (selectedLengths.includes(length)) {
+            // Si la longueur est déjà sélectionnée, la retirer
+            selectedLengths = selectedLengths.filter(l => l !== length);
+            button.classList.remove('selected');
+        } else {
+            // Sinon, l'ajouter
+            selectedLengths.push(length);
+            button.classList.add('selected');
+        }
+
+        // Vérification des longueurs sélectionnées après le clic
+        if (debugMode) {
+            console.log("Longueurs sélectionnées après clic :", selectedLengths);
+        }
+    });
+});
 
 function displayNewSentence() {
     currentSentence = sessionSentences[currentSentenceIndex];
+    console.log("Phrase courante affichée :", currentSentence.chinese); // Ajout du log
+    console.log("Index courant :", currentSentenceIndex); // Ajout du log
+
     document.getElementById('english-sentence').textContent = currentSentence.english;
-    
+
     const chineseWordsContainer = document.getElementById('chinese-words');
     const userSentenceContainer = document.getElementById('user-sentence');
     const userInput = document.getElementById('user-input');
     const hintButton = document.getElementById('hint-button');
     const resetButton = document.getElementById('reset-button');
     const submitButton = document.getElementById('submit-button');
-    
+
     // Réinitialiser les boutons
     if (hintButton) hintButton.disabled = false;
     if (resetButton) resetButton.disabled = false;
     if (userInput) userInput.disabled = false;
-    
+
     chineseWordsContainer.innerHTML = '';
     userSentenceContainer.innerHTML = '';
     userInput.value = '';
@@ -3956,13 +4635,14 @@ function displayNewSentence() {
         chineseWordsContainer.style.display = 'flex';
         userSentenceContainer.style.display = 'flex';
         userInput.style.display = 'none';
-        
-        const contentToSplit = difficulty === 'difficult' 
-            ? currentSentence.chinese.replace(/\s+/g, '').split('')
-            : currentSentence.chinese.split(' ').filter(word => word.trim() !== '');
-            
+
+        const contentToSplit =
+            difficulty === 'difficult'
+                ? currentSentence.chinese.replace(/\s+/g, '').split('')
+                : currentSentence.chinese.split(' ').filter(word => word.trim() !== '');
+
         const shuffledContent = shuffleArray([...contentToSplit]);
-        
+
         shuffledContent.forEach(item => {
             if (item.trim()) {
                 const wordElement = createWordElement(item);
@@ -3984,6 +4664,7 @@ function displayNewSentence() {
     resetHint();
     updateCounter();
 }
+
 
 function getRandomUnusedSentence() {
     // Créer un tableau des indices disponibles
@@ -4421,6 +5102,9 @@ function resetExercise() {
 
 function nextQuestion() {
     currentSentenceIndex++;
+    console.log("Index après question suivante :", currentSentenceIndex);
+    console.log("Phrase suivante dans sessionSentences :", sessionSentences[currentSentenceIndex]?.chinese);
+
     if (mode === 'questions') {
         if (currentSentenceIndex < limit) {
             displayNewSentence();
@@ -4428,9 +5112,7 @@ function nextQuestion() {
             endSession();
         }
     } else {
-        // Mode temps
         if (currentSentenceIndex >= sessionSentences.length) {
-            // Ajouter plus de phrases si nécessaire
             const newPhrases = Math.min(sentences.length - usedSentences.size, 10);
             for (let i = 0; i < newPhrases; i++) {
                 sessionSentences.push(getRandomUnusedSentence());
@@ -4439,6 +5121,8 @@ function nextQuestion() {
         displayNewSentence();
     }
 }
+
+
 
 
 function endSession() {
@@ -4563,6 +5247,8 @@ function restartGame() {
 }
 
 function initializeSession() {
+    console.log("Session Sentences juste avant le début :", sessionSentences.map(s => s.chinese));
+
     // Réinitialiser les variables d'état
     score = 0;
     consecutiveCorrectAnswers = 0;
@@ -4570,7 +5256,6 @@ function initializeSession() {
     currentSentenceIndex = 0;
     hintIndex = 0;
     hintUsed = false;
-    sessionSentences = [];
 
     // Réinitialiser les écouteurs d'événements du bouton "Valider"
     const submitButton = document.getElementById('submit-button');
@@ -4580,39 +5265,66 @@ function initializeSession() {
     submitButton.textContent = 'Valider';
     submitButton.addEventListener('click', submitAnswer);
 
-    // Configuration de l'exercice en fonction du mode
+    // Configuration de l'exercice
     if (mode === 'questions') {
         limit = parseInt(document.getElementById('questions-select').value);
-        for (let i = 0; i < limit; i++) {
-            sessionSentences.push(getRandomUnusedSentence());
-        }
         document.getElementById('timer').style.display = 'none';
         document.getElementById('question-counter').style.display = 'inline-block';
     } else {
         timeLeft = parseInt(document.getElementById('time-select').value);
-        const estimatedQuestions = Math.min(sentences.length, 50);
-        for (let i = 0; i < estimatedQuestions; i++) {
-            sessionSentences.push(getRandomUnusedSentence());
-        }
         document.getElementById('timer').style.display = 'inline-block';
         document.getElementById('question-counter').style.display = 'none';
         startTimer();
     }
 }
 
+
 function startGame() {
-    // Afficher l'application et cacher l'écran d'accueil
+    console.log("Filtrage actif avec selectedLengths :", selectedLengths);
+
+    // Étape 1 : Filtrer les phrases selon les longueurs sélectionnées
+    const filteredSentences = sentences.filter(sentence => {
+        const length = sentence.chinese.replace(/\s+/g, '').length;
+
+        // Vérifie si la phrase correspond à l'une des longueurs sélectionnées
+        const matchesShort = selectedLengths.includes('short') && length <= 7;
+        const matchesMedium = selectedLengths.includes('medium') && length >= 8 && length <= 14;
+        const matchesLong = selectedLengths.includes('long') && length >= 15;
+
+        // La phrase est incluse si elle correspond à au moins un critère
+        return matchesShort || matchesMedium || matchesLong;
+    });
+
+    // Étape 2 : Mélanger les phrases pour éviter l'ordre fixe
+    const shuffledSentences = shuffleArray(filteredSentences);
+
+    // Étape 3 : Vérifier si des phrases ont été sélectionnées après le filtrage
+    if (shuffledSentences.length === 0) {
+        alert("Aucune phrase ne correspond aux critères de longueur sélectionnés. Utilisation de toutes les phrases.");
+        sessionSentences = shuffleArray([...sentences]); // Mélanger toutes les phrases par défaut
+    } else {
+        sessionSentences = shuffledSentences.slice(0, limit); // Limiter au nombre de questions choisi
+    }
+
+    console.log("Phrases sélectionnées pour la session après filtrage :", sessionSentences.map(s => s.chinese));
+
+    // Étape 4 : Initialiser les variables de la session
+    currentSentenceIndex = 0;
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    hintIndex = 0;
+    hintUsed = false;
+
+    // Masquer l'écran d'accueil et afficher le jeu
     document.getElementById('home').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
-    // Récupérer le mode et la difficulté sélectionnés
+    // Configurer le mode et la difficulté
     mode = document.getElementById('mode-select').value;
     difficulty = document.getElementById('difficulty-select').value;
 
-    // Initialiser la session
+    // Initialiser la session et afficher la première phrase
     initializeSession();
-
-    // Afficher la première phrase
     displayNewSentence();
 }
 
