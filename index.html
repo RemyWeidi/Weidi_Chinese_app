@@ -4977,67 +4977,84 @@ function submitAnswer() {
 
 function updateScore(isCorrect) {
     let points = 0;
-    
+
     if (hintUsed) {
+        // Pas de points si un indice a été utilisé
         points = 0;
         consecutiveCorrectAnswers = 0;
+        window.comboScores = []; // Réinitialiser le tableau des scores du combo
     } else if (isCorrect) {
         // Calculer le score de base selon la difficulté
         if (difficulty === 'normal') {
-            // Nombre de mots (séparés par des espaces)
             points = currentSentence.chinese.split(' ').filter(word => word.trim() !== '').length;
         } else {
-            // Pour difficile et expert : nombre de caractères (sans les espaces)
             points = currentSentence.chinese.replace(/\s+/g, '').length;
-            
-            // Pour expert : doubler le score de base
             if (difficulty === 'expert') {
                 points *= 2;
             }
         }
-        
-        consecutiveCorrectAnswers++;
-        
-        // Appliquer les multiplicateurs selon le nombre de bonnes réponses consécutives
-        if (consecutiveCorrectAnswers > 1) {
-            points *= Math.min(consecutiveCorrectAnswers, 5);
+
+        // Initialisation du tableau des scores du combo si nécessaire
+        if (!window.comboScores) {
+            window.comboScores = [];
         }
+
+        // Ajouter les points au tableau des scores du combo
+        window.comboScores.push(points);
+
+        let comboTotal = 0;
+
+        // Calcul du score total pour le combo
+        if (consecutiveCorrectAnswers === 0) {
+            // Première bonne réponse ou réponse unique : pas de multiplication par 2
+            comboTotal = points;
+        } else {
+            // À partir de la deuxième réponse consécutive : additionner toutes les réponses et multiplier par 2
+            const sumOfCombo = window.comboScores.reduce((sum, value) => sum + value, 0);
+            comboTotal = sumOfCombo * 2;
+        }
+
+        // Mettre à jour le score total
+        score += comboTotal;
+
+        // Incrémenter le nombre de réponses consécutives correctes
+        consecutiveCorrectAnswers++;
     } else {
+        // Réinitialiser le combo en cas de mauvaise réponse
         points = 0;
         consecutiveCorrectAnswers = 0;
+        window.comboScores = []; // Réinitialiser le tableau des scores du combo
     }
-    
-    score += points;
 
+    // Mise à jour du popup de score
     const scorePopup = document.getElementById('score-popup');
     scorePopup.style.display = 'flex';
     scorePopup.style.visibility = 'visible';
     scorePopup.style.height = 'auto';
-    
-    // Nouvelle structure HTML pour le popup
+
+    // Mise à jour des informations dans le popup
     scorePopup.innerHTML = `
         <div class="points">${points > 0 ? '+' : ''}${points} points !</div>
         <div class="total">Score total : ${score}</div>
     `;
-    
+
     scorePopup.style.backgroundColor = isCorrect ? 'var(--secondary-color)' : 'var(--accent-color)';
-    
-    // Force un reflow pour réinitialiser l'animation
+
+    // Animation du popup
     void scorePopup.offsetWidth;
-    
-    // Réinitialiser les classes d'animation
     scorePopup.classList.remove('popup-disappear');
-    
+
     setTimeout(() => {
-        // Ajouter l'animation de disparition
         scorePopup.classList.add('popup-disappear');
         setTimeout(() => {
             scorePopup.style.display = 'none';
             scorePopup.style.visibility = 'hidden';
             scorePopup.style.height = '0';
-        }, 300); // Durée de l'animation
-    }, 1700); // Temps d'affichage légèrement réduit pour accommoder l'animation
+        }, 300);
+    }, 1700);
 }
+
+
 
 function showHint() {
     const userSentenceContainer = document.getElementById('user-sentence');
