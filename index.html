@@ -102,35 +102,49 @@
 }
 
 .length-option {
-    flex: 1;
-    padding: 0.8rem;
-    background-color: #e6f0fa;
-    color: #333;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+            flex: 1;
+            padding: 0.8rem;
+            background-color: #e6f0fa;
+            color: #333;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            -webkit-tap-highlight-color: transparent; /* Supprime le flash de highlight sur mobile */
+            user-select: none; /* Empêche la sélection du texte */
+            -webkit-touch-callout: none; /* Désactive le menu contextuel sur iOS */
+        }
 
-.length-option:active {
-    background-color: #d4e4f9; /* Couleur pour le clic actif */
-}
+        .length-option.selected {
+            background-color: var(--primary-color) !important; /* Force la priorité */
+            color: white !important; /* Force la priorité */
+        }
 
-.length-option.selected {
-    background-color: var(--primary-color);
-    color: white;
-}
+        .length-option:hover {
+            background-color: #d4e4f9;
+        }
 
-.length-option.selected:active {
-    background-color: var(--primary-color);
-}
+        .length-option.selected:active {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+        }
 
-.length-option:hover {
-    background-color: #d4e4f9;
-}
+        @media (hover: none) {
+            .length-option {
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .length-option:hover {
+                background-color: #e6f0fa; /* Retour à la couleur de base sur mobile */
+            }
+            
+            .length-option.selected:hover {
+                background-color: var(--primary-color) !important;
+            }
+        }
 
         select {
             background-color: #e6f0fa;
@@ -4590,19 +4604,6 @@
             return Math.max(300, charCount * 30);
 }
 
-function updateLengthOptionsVisuals() {
-    document.querySelectorAll('.length-option').forEach(option => {
-        const length = option.getAttribute('data-length');
-        if (selectedLengths.includes(length)) {
-            option.classList.add('selected');
-        } else {
-            option.classList.remove('selected');
-        }
-    });
-}
-
-updateLengthOptionsVisuals();
-
 // Gestion de la sélection de longueur
 document.querySelectorAll('.length-option').forEach(button => {
     button.addEventListener('click', () => {
@@ -4617,18 +4618,10 @@ document.querySelectorAll('.length-option').forEach(button => {
             button.classList.add('selected');
         }
 
-        // Mettre à jour l'état visuel après l'interaction
-        updateLengthOptionsVisuals();
-
         // Vérification des longueurs sélectionnées après le clic
         if (debugMode) {
             console.log("Longueurs sélectionnées après clic :", selectedLengths);
         }
-    });
-
-    button.addEventListener('touchstart', (event) => {
-        event.preventDefault(); // Empêcher le hover bizarre sur mobile
-        button.classList.add('selected'); // Ajouter une réponse immédiate
     });
 });
 
