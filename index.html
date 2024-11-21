@@ -5248,22 +5248,44 @@ function startNewSession() {
         finalScoreElement.remove();
     }
 
-    // Réinitialiser les variables d'état
+    // Réinitialiser toutes les variables d'état
     score = 0;
     consecutiveCorrectAnswers = 0;
     currentSentenceIndex = 0;
     hintIndex = 0;
     hintUsed = false;
     sessionSentences = [];
+    usedSentences.clear(); // Réinitialiser les phrases utilisées
+    questionCount = 0;
 
-    // Initialiser une nouvelle session avec le mode et la difficulté actuels
-    initializeSession();
+    // Filtrer et mélanger les phrases pour générer une nouvelle session
+    const filteredSentences = sentences.filter(sentence => {
+        const length = sentence.chinese.replace(/\s+/g, '').length;
+        const matchesShort = selectedLengths.includes('short') && length <= 7;
+        const matchesMedium = selectedLengths.includes('medium') && length >= 8 && length <= 14;
+        const matchesLong = selectedLengths.includes('long') && length >= 15;
+        return matchesShort || matchesMedium || matchesLong;
+    });
 
-    // Afficher le jeu et cacher l'accueil
+    const shuffledSentences = shuffleArray(filteredSentences);
+
+    if (shuffledSentences.length === 0) {
+        alert("Aucune phrase ne correspond aux critères de longueur sélectionnés. Utilisation de toutes les phrases.");
+        sessionSentences = shuffleArray([...sentences]);
+    } else {
+        sessionSentences = shuffledSentences.slice(0, limit);
+    }
+
+    // Configurer le mode et la difficulté
+    mode = document.getElementById('mode-select').value;
+    difficulty = document.getElementById('difficulty-select').value;
+
+    // Masquer l'écran d'accueil et afficher le jeu
     document.getElementById('home').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
-    // Afficher la première phrase
+    // Initialiser la session et afficher la première phrase
+    initializeSession();
     displayNewSentence();
 }
 
